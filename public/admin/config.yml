@@ -4,7 +4,7 @@
 
 backend:
   name: github
-  repo: YOUR-GITHUB-USERNAME/bartram-studio
+  repo: bartram-studio/bartramstudio-website
   branch: main
   base_url: https://bartram-studio-oauth.netlify.app
 
