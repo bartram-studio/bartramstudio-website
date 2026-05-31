@@ -7,4 +7,6 @@ status: available
 quantity: 1
 featured: false
 customOrderAvailable: false
+images:
+  - /images/products/img_7100.jpeg
 ---
