@@ -1,0 +1,114 @@
+# Decap CMS — Bartram Studio
+# Backend: GitHub (direct OAuth — works on Cloudflare Pages)
+# Docs: https://decapcms.org/docs/github-backend/
+
+backend:
+  name: github
+  repo: YOUR-GITHUB-USERNAME/bartram-studio
+  branch: main
+  base_url: https://bartram-studio-oauth.netlify.app
+
+media_folder: "public/images/products"
+public_folder: "/images/products"
+
+site_url: https://bartramstudio.com
+display_url: https://bartramstudio.com
+
+collections:
+  - name: "products"
+    label: "Products"
+    label_singular: "Product"
+    folder: "src/content/products"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    sortable_fields: ["title", "price", "status", "category"]
+    view_filters:
+      - label: "Available"
+        field: status
+        pattern: "available"
+      - label: "Pending"
+        field: status
+        pattern: "pending"
+      - label: "Sold"
+        field: status
+        pattern: "sold"
+      - label: "Featured"
+        field: featured
+        pattern: true
+    view_groups:
+      - label: "By Category"
+        field: category
+      - label: "By Status"
+        field: status
+    fields:
+      - label: "Title"
+        name: "title"
+        widget: "string"
+        hint: "The name of the piece as it appears on the site."
+
+      - label: "Category"
+        name: "category"
+        widget: "select"
+        options:
+          - "Resin Art"
+          - "Coastal Decor"
+          - "Seasonal Crafts"
+          - "Custom Pieces"
+
+      - label: "Description"
+        name: "description"
+        widget: "text"
+        hint: "A detailed description of the piece — materials, size, what makes it special."
+
+      - label: "Price (USD)"
+        name: "price"
+        widget: "number"
+        min: 1
+        value_type: "int"
+        hint: "Enter the price in whole dollars. Example: 85 means $85."
+
+      - label: "Status"
+        name: "status"
+        widget: "select"
+        options:
+          - { label: "Available — ready to purchase", value: "available" }
+          - { label: "Pending — sale in progress", value: "pending" }
+          - { label: "Sold — no longer available", value: "sold" }
+        default: "available"
+
+      - label: "Quantity Available"
+        name: "quantity"
+        widget: "number"
+        min: 0
+        default: 1
+        value_type: "int"
+        hint: "How many are available. Use 1 for one-of-a-kind pieces."
+
+      - label: "Featured on Homepage"
+        name: "featured"
+        widget: "boolean"
+        default: false
+        hint: "Turn on to show this piece in the Featured section on the homepage."
+
+      - label: "Custom Order Available"
+        name: "customOrderAvailable"
+        widget: "boolean"
+        default: false
+        hint: "Turn on if you can make a similar piece to order."
+
+      - label: "Photos"
+        name: "images"
+        widget: "list"
+        min: 0
+        max: 8
+        allow_add: true
+        collapsed: false
+        label_singular: "Photo"
+        hint: "Upload photos. The first photo is the thumbnail. Aim for at least 800x600px."
+        field:
+          label: "Photo"
+          name: "image"
+          widget: "image"

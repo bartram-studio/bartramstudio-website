@@ -1,0 +1,48 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Page Not Found">
+  <section class="not-found section">
+    <div class="container">
+      <div class="not-found__inner">
+        <p class="not-found__num">404</p>
+        <h1>Lost at Sea</h1>
+        <p>We couldn't find the page you were looking for. It may have moved, or the link might be incorrect.</p>
+        <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem;">
+          <a href="/" class="btn btn--primary">Back to Home</a>
+          <a href="/products" class="btn btn--outline">Browse the Shop</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+.not-found {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+}
+
+.not-found__inner {
+  text-align: center;
+  max-width: 500px;
+  margin-inline: auto;
+}
+
+.not-found__num {
+  font-family: var(--font-display);
+  font-size: 8rem;
+  font-weight: 300;
+  color: var(--tide-light);
+  line-height: 1;
+  margin-bottom: 0;
+  max-width: none;
+}
+
+h1 {
+  color: var(--driftwood-dk);
+  margin-bottom: 1rem;
+}
+</style>

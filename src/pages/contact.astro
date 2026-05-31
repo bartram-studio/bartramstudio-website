@@ -1,0 +1,355 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// Pre-fill from URL params (set by product pages)
+const url = Astro.url;
+const preSubject = url.searchParams.get('subject') || '';
+const preBody = url.searchParams.get('body') || '';
+---
+
+<Layout
+  title="Contact"
+  description="Get in touch with Amanda at Bartram Studio — inquire about a piece, request a custom order, or just say hello."
+>
+
+  <section class="page-hero">
+    <div class="container">
+      <p class="page-hero__eyebrow">Reach Out</p>
+      <h1>Let's Connect</h1>
+      <p>Questions, custom orders, or just want to say hello — I'd love to hear from you.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container contact-layout">
+
+      <!-- Form -->
+      <div class="contact-form-wrap">
+        <h2>Send a Message</h2>
+        <p style="margin-bottom: 2rem;">Fill out the form below and I'll get back to you as soon as I can — usually within a day or two.</p>
+
+        <form
+          class="contact-form"
+          name="contact"
+          method="POST"
+          data-netlify="true"
+          action="/contact/success"
+          id="contact-form"
+        >
+          <!-- Honeypot for spam -->
+          <input type="hidden" name="form-name" value="contact" />
+          <p class="hidden-field" aria-hidden="true">
+            <label>Don't fill this out: <input name="bot-field" /></label>
+          </p>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">Your Name <span class="req">*</span></label>
+              <input type="text" id="name" name="name" required placeholder="Jane Smith" />
+            </div>
+            <div class="form-group">
+              <label for="email">Email Address <span class="req">*</span></label>
+              <input type="email" id="email" name="email" required placeholder="jane@example.com" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="subject">Subject</label>
+            <input
+              type="text"
+              id="subject"
+              name="subject"
+              placeholder="What's on your mind?"
+              value={preSubject}
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="interest">I'm interested in…</label>
+            <select id="interest" name="interest">
+              <option value="">Select an option</option>
+              <option value="existing-piece">An existing piece I saw on the site</option>
+              <option value="custom-order">A custom order</option>
+              <option value="wholesale">Wholesale / local retail</option>
+              <option value="general">Just saying hello</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="message">Message <span class="req">*</span></label>
+            <textarea
+              id="message"
+              name="message"
+              required
+              placeholder="Tell me what you're looking for, or ask any questions you have…"
+            >{preBody}</textarea>
+          </div>
+
+          <button type="submit" class="btn btn--primary btn--submit">
+            Send Message
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+
+          <p class="form-note">* Required fields. I'll never share your information.</p>
+        </form>
+      </div>
+
+      <!-- Sidebar -->
+      <aside class="contact-sidebar">
+        <div class="sidebar-card">
+          <h3>Other ways to reach me</h3>
+
+          <div class="contact-methods">
+            <div class="contact-method">
+              <div class="contact-method__icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              </div>
+              <div>
+                <p class="contact-method__label">Email</p>
+                <a href="mailto:hello@bartramstudio.com" class="contact-method__value">hello@bartramstudio.com</a>
+              </div>
+            </div>
+
+            <div class="contact-method">
+              <div class="contact-method__icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+              </div>
+              <div>
+                <p class="contact-method__label">Instagram</p>
+                <a href="https://instagram.com/bartramstudio" target="_blank" rel="noopener" class="contact-method__value">@bartramstudio</a>
+              </div>
+            </div>
+
+            <div class="contact-method">
+              <div class="contact-method__icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              </div>
+              <div>
+                <p class="contact-method__label">Location</p>
+                <span class="contact-method__value">St. Johns, Florida</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar-card sidebar-card--accent">
+          <h3>Custom Orders</h3>
+          <p>
+            Love what you see but want something made just for you? Custom orders are one of my favorite projects.
+          </p>
+          <p>Share your vision — colors, size, occasion — and I'll tell you what's possible and give you a quote.</p>
+          <p class="sidebar-response">Typical response time: <strong>1–2 business days</strong></p>
+        </div>
+
+        <div class="sidebar-card">
+          <h3>Frequently Asked</h3>
+          <div class="faqs">
+            <details class="faq">
+              <summary>Do you ship?</summary>
+              <p>Yes! I ship across the United States. Shipping costs are calculated based on size and destination. Fragile pieces are packed with extra care.</p>
+            </details>
+            <details class="faq">
+              <summary>How long do custom orders take?</summary>
+              <p>Most custom pieces take 2–4 weeks depending on complexity and current workload. I'll give you a more specific timeline when we discuss your project.</p>
+            </details>
+            <details class="faq">
+              <summary>What if I'm local to St. Johns?</summary>
+              <p>Local pickup is available and free! Just mention in your message that you'd prefer to pick up locally.</p>
+            </details>
+            <details class="faq">
+              <summary>Do you take commissions for events?</summary>
+              <p>Yes — wedding favors, centerpieces, and event decor are all something I can discuss. Reach out early so we have plenty of lead time.</p>
+            </details>
+          </div>
+        </div>
+
+      </aside>
+    </div>
+  </section>
+
+</Layout>
+
+<style>
+.section-eyebrow {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--tide);
+  margin-bottom: 0.6rem;
+  max-width: none;
+}
+
+.contact-layout {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+/* ── Form ── */
+.contact-form-wrap h2 {
+  color: var(--driftwood-dk);
+  margin-bottom: 0.5rem;
+}
+
+.hidden-field { display: none; }
+
+.req { color: var(--coral); }
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.btn--submit {
+  align-self: flex-start;
+  gap: 0.6rem;
+}
+
+.form-note {
+  font-size: 0.75rem;
+  color: var(--driftwood);
+  max-width: none;
+  margin-top: -0.5rem;
+}
+
+/* ── Sidebar ── */
+.contact-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.sidebar-card {
+  background: var(--white);
+  padding: 1.75rem;
+  border: 1.5px solid var(--sand-dark);
+  border-radius: var(--radius);
+}
+
+.sidebar-card--accent {
+  background: var(--sand);
+  border-color: var(--tide-light);
+}
+
+.sidebar-card h3 {
+  font-size: 1.2rem;
+  color: var(--driftwood-dk);
+  margin-bottom: 1.1rem;
+}
+
+/* ── Contact Methods ── */
+.contact-methods {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.contact-method {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+}
+
+.contact-method__icon {
+  width: 36px;
+  height: 36px;
+  background: var(--sand);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--tide-dark);
+}
+
+.contact-method__label {
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--tide);
+  margin-bottom: 0.2rem;
+  max-width: none;
+}
+
+.contact-method__value {
+  font-size: 0.9rem;
+  color: var(--driftwood-dk);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+a.contact-method__value:hover { color: var(--tide-dark); }
+
+.sidebar-response {
+  margin-top: 1rem;
+  font-size: 0.82rem;
+  color: var(--driftwood);
+  max-width: none;
+}
+
+/* ── FAQs ── */
+.faqs {
+  display: flex;
+  flex-direction: column;
+}
+
+.faq {
+  border-bottom: 1px solid var(--sand-dark);
+}
+
+.faq:last-child { border-bottom: none; }
+
+.faq summary {
+  padding-block: 0.85rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--driftwood-dk);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+}
+
+.faq summary::-webkit-details-marker { display: none; }
+
+.faq summary::after {
+  content: '+';
+  font-size: 1.2rem;
+  font-weight: 300;
+  color: var(--tide);
+  transition: transform 0.2s;
+  flex-shrink: 0;
+  margin-left: 1rem;
+}
+
+.faq[open] summary::after {
+  transform: rotate(45deg);
+}
+
+.faq p {
+  padding-bottom: 1rem;
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+
+@media (max-width: 900px) {
+  .contact-layout {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  .form-row { grid-template-columns: 1fr; }
+}
+</style>

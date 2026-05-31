@@ -1,0 +1,219 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const allProducts = await getCollection('products');
+
+// Sort: available first, then pending, then sold
+const statusOrder = { available: 0, pending: 1, sold: 2 };
+const sorted = [...allProducts].sort((a, b) => {
+  const s = statusOrder[a.data.status] - statusOrder[b.data.status];
+  if (s !== 0) return s;
+  return a.data.title.localeCompare(b.data.title);
+});
+
+const categories = [...new Set(allProducts.map(p => p.data.category))].sort();
+---
+
+<Layout
+  title="Shop"
+  description="Browse handcrafted resin shell art, coastal decor, seasonal crafts, and custom pieces by Amanda at Bartram Studio."
+>
+
+  <section class="page-hero">
+    <div class="container">
+      <p class="page-hero__eyebrow">The Collection</p>
+      <h1>Shop All Pieces</h1>
+      <p>Every item is handcrafted — most are one-of-a-kind. If something catches your eye, don't wait.</p>
+    </div>
+  </section>
+
+  <section class="section section--sm">
+    <div class="container">
+
+      <!-- Filter Bar -->
+      <div class="filter-bar">
+        <div class="filter-bar__left">
+          <p class="filter-bar__label">Filter by:</p>
+          <div class="filter-pills" id="filter-pills">
+            <button class="pill pill--active" data-category="all">All</button>
+            {categories.map(cat => (
+              <button class="pill" data-category={cat}>{cat}</button>
+            ))}
+          </div>
+        </div>
+        <p class="filter-bar__count" id="count-label">{sorted.length} pieces</p>
+      </div>
+
+      <!-- Grid -->
+      <div class="grid-3 products-grid" id="products-grid" style="margin-top: 2.5rem;">
+        {sorted.map(product => (
+          <a
+            href={`/products/${product.slug}`}
+            class="product-card"
+            data-category={product.data.category}
+            style="text-decoration:none;"
+          >
+            <div class="product-card__img-wrap">
+              {product.data.images && product.data.images.length > 0 ? (
+                <img
+                  src={product.data.images[0]}
+                  alt={product.data.title}
+                  loading="lazy"
+                  onerror="this.parentElement.innerHTML='<div class=\'img-placeholder\'><svg viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'1\'><rect x=\'3\' y=\'3\' width=\'18\' height=\'18\' rx=\'2\'/><circle cx=\'8.5\' cy=\'8.5\' r=\'1.5\'/><polyline points=\'21 15 16 10 5 21\'/></svg></div>'"
+                />
+              ) : (
+                <div class="img-placeholder">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                </div>
+              )}
+              {product.data.featured && (
+                <span class="product-card__featured">Featured</span>
+              )}
+              <span class={`badge badge--${product.data.status} product-card__badge`}>
+                {product.data.status === 'available' ? 'Available' : product.data.status === 'pending' ? 'Pending' : 'Sold'}
+              </span>
+            </div>
+            <div class="product-card__body">
+              <p class="product-card__category">{product.data.category}</p>
+              <h2 class="product-card__title">{product.data.title}</h2>
+              <p class="product-card__price">${product.data.price}</p>
+            </div>
+            <div class="product-card__footer">
+              {product.data.status === 'available' ? (
+                <span class="btn btn--primary" style="width:100%;justify-content:center;">View Details</span>
+              ) : (
+                <span class="btn btn--ghost" style="width:100%;justify-content:center;">
+                  {product.data.status === 'pending' ? 'Pending Sale' : 'Sold'}
+                </span>
+              )}
+            </div>
+          </a>
+        ))}
+      </div>
+
+      <!-- Empty state -->
+      <div id="empty-state" style="display:none; text-align:center; padding: 4rem 0;">
+        <p style="font-family: var(--font-display); font-size: 1.5rem; font-style: italic; color: var(--driftwood);">No pieces in this category yet.</p>
+        <p style="margin-top: 0.5rem;">Check back soon, or <a href="/contact" style="color: var(--tide-dark);">inquire about a custom order</a>.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Custom CTA -->
+  <section class="section--sm" style="background: var(--sand); padding-block: 3rem;">
+    <div class="container" style="text-align:center;">
+      <p style="font-family: var(--font-display); font-size: 1.5rem; font-style: italic; color: var(--driftwood-dk); margin-bottom: 0.5rem;">Don't see exactly what you're looking for?</p>
+      <p style="margin-bottom: 1.5rem; margin-inline: auto;">Custom orders are always welcome. Reach out to start a conversation.</p>
+      <a href="/contact" class="btn btn--coral">Request a Custom Piece</a>
+    </div>
+  </section>
+
+</Layout>
+
+<style>
+.filter-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--sand-dark);
+}
+
+.filter-bar__left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.filter-bar__label {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--driftwood);
+  max-width: none;
+  white-space: nowrap;
+}
+
+.filter-bar__count {
+  font-size: 0.8rem;
+  color: var(--driftwood);
+  white-space: nowrap;
+  max-width: none;
+}
+
+.filter-pills {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.pill {
+  padding: 0.35rem 0.9rem;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  font-family: var(--font-body);
+  text-transform: uppercase;
+  border: 1.5px solid var(--sand-dark);
+  background: transparent;
+  color: var(--driftwood);
+  cursor: pointer;
+  border-radius: 20px;
+  transition: all 0.2s;
+}
+
+.pill:hover {
+  border-color: var(--tide);
+  color: var(--tide-dark);
+}
+
+.pill--active {
+  background: var(--tide-dark);
+  border-color: var(--tide-dark);
+  color: var(--white);
+}
+
+.product-card[data-hidden] {
+  display: none;
+}
+</style>
+
+<script>
+const pills = document.querySelectorAll<HTMLButtonElement>('.pill');
+const cards = document.querySelectorAll<HTMLElement>('.product-card');
+const emptyState = document.getElementById('empty-state');
+const countLabel = document.getElementById('count-label');
+
+// Activate category from URL param on load
+const urlCat = new URLSearchParams(window.location.search).get('category');
+if (urlCat) {
+  pills.forEach(p => {
+    if (p.dataset.category === urlCat) p.click();
+  });
+}
+
+pills.forEach(pill => {
+  pill.addEventListener('click', () => {
+    pills.forEach(p => p.classList.remove('pill--active'));
+    pill.classList.add('pill--active');
+
+    const cat = pill.dataset.category;
+    let visible = 0;
+
+    cards.forEach(card => {
+      const match = cat === 'all' || card.dataset.category === cat;
+      card.toggleAttribute('data-hidden', !match);
+      if (match) visible++;
+    });
+
+    if (countLabel) countLabel.textContent = `${visible} piece${visible !== 1 ? 's' : ''}`;
+    if (emptyState) emptyState.style.display = visible === 0 ? 'block' : 'none';
+  });
+});
+</script>

@@ -1,0 +1,363 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+}
+
+const {
+  title,
+  description = 'Handcrafted resin shell art, coastal decor, and custom pieces by Amanda in St. Johns, Florida.',
+  image = '/images/og-default.jpg',
+} = Astro.props;
+
+const fullTitle = title === 'Bartram Studio' ? title : `${title} — Bartram Studio`;
+const currentPath = Astro.url.pathname;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content={description} />
+  <meta property="og:title" content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={image} />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <title>{fullTitle}</title>
+</head>
+<body>
+
+  <!-- ── Navigation ── -->
+  <header class="site-header" id="site-header">
+    <div class="container header-inner">
+
+      <a href="/" class="logo" aria-label="Bartram Studio home">
+        <svg class="logo-mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="20" cy="20" r="19" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M12 26 Q20 10 28 26" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <path d="M14 22 Q20 16 26 22" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round" opacity="0.5"/>
+        </svg>
+        <span class="logo-text">Bartram Studio</span>
+      </a>
+
+      <nav class="site-nav" aria-label="Main navigation">
+        <ul>
+          <li><a href="/" class:list={[{ active: currentPath === '/' }]}>Home</a></li>
+          <li><a href="/products" class:list={[{ active: currentPath.startsWith('/products') }]}>Shop</a></li>
+          <li><a href="/about" class:list={[{ active: currentPath === '/about' }]}>About</a></li>
+          <li><a href="/contact" class:list={[{ active: currentPath === '/contact' }]}>Contact</a></li>
+        </ul>
+      </nav>
+
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+    </div>
+  </header>
+
+  <!-- ── Mobile Nav ── -->
+  <nav class="mobile-nav" id="mobile-nav" aria-hidden="true">
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/products">Shop</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <slot />
+  </main>
+
+  <!-- ── Footer ── -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <span class="logo-text">Bartram Studio</span>
+        <p>Handcrafted coastal art from<br>St. Johns, Florida.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Navigate</h4>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/products">Shop</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="mailto:hello@bartramstudio.com">hello@bartramstudio.com</a></li>
+          <li><a href="https://instagram.com/bartramstudio" target="_blank" rel="noopener">Instagram</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <p>&copy; {new Date().getFullYear()} Bartram Studio &mdash; All rights reserved.</p>
+        <p class="footer-tagline">Each piece made with love in Northeast Florida.</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
+
+<style>
+/* ── Header ── */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(250, 247, 242, 0.95);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--sand-dark);
+  transition: box-shadow 0.3s;
+}
+
+.site-header.scrolled {
+  box-shadow: 0 2px 20px rgba(0,0,0,0.07);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+  gap: 2rem;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+  color: var(--driftwood-dk);
+  flex-shrink: 0;
+}
+
+.logo-mark {
+  width: 32px;
+  height: 32px;
+  color: var(--tide-dark);
+}
+
+.logo-text {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--driftwood-dk);
+}
+
+.site-nav ul {
+  display: flex;
+  list-style: none;
+  gap: 2.5rem;
+}
+
+.site-nav a {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--driftwood);
+  transition: color 0.2s;
+  position: relative;
+  padding-bottom: 2px;
+}
+
+.site-nav a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1.5px;
+  background: var(--tide-dark);
+  transition: width 0.25s var(--ease);
+}
+
+.site-nav a:hover,
+.site-nav a.active {
+  color: var(--tide-dark);
+}
+
+.site-nav a:hover::after,
+.site-nav a.active::after {
+  width: 100%;
+}
+
+/* ── Mobile Toggle ── */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.nav-toggle span {
+  display: block;
+  width: 24px;
+  height: 1.5px;
+  background: var(--driftwood-dk);
+  transition: all 0.25s;
+}
+
+/* ── Mobile Nav ── */
+.mobile-nav {
+  display: none;
+  position: fixed;
+  top: 72px;
+  left: 0;
+  right: 0;
+  background: var(--shell);
+  border-bottom: 1px solid var(--sand-dark);
+  z-index: 99;
+  transform: translateY(-10px);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.25s var(--ease);
+}
+
+.mobile-nav.open {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.mobile-nav ul {
+  list-style: none;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.mobile-nav a {
+  display: block;
+  padding: 0.85rem 0;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--driftwood);
+  border-bottom: 1px solid var(--sand-dark);
+  transition: color 0.2s;
+}
+
+.mobile-nav a:hover { color: var(--tide-dark); }
+
+/* ── Footer ── */
+.site-footer {
+  background: var(--sand);
+  border-top: 1px solid var(--sand-dark);
+  margin-top: auto;
+}
+
+.footer-inner {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 3rem;
+  padding-block: 3rem 2.5rem;
+}
+
+.footer-brand p {
+  margin-top: 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.footer-links h4 {
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--tide-dark);
+  margin-bottom: 1rem;
+}
+
+.footer-links ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.footer-links a {
+  font-size: 0.875rem;
+  color: var(--driftwood);
+  transition: color 0.2s;
+}
+
+.footer-links a:hover { color: var(--tide-dark); }
+
+.footer-bottom {
+  border-top: 1px solid var(--sand-dark);
+  padding-block: 1.25rem;
+}
+
+.footer-bottom .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.footer-bottom p {
+  font-size: 0.78rem;
+  color: var(--driftwood);
+  max-width: none;
+}
+
+.footer-tagline {
+  font-family: var(--font-display);
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .site-nav { display: none; }
+  .nav-toggle { display: flex; }
+  .mobile-nav { display: block; }
+
+  .footer-inner {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .footer-bottom .container {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+</style>
+
+<script>
+// Sticky header shadow
+const header = document.getElementById('site-header');
+window.addEventListener('scroll', () => {
+  header?.classList.toggle('scrolled', window.scrollY > 10);
+});
+
+// Mobile nav toggle
+const toggle = document.getElementById('nav-toggle');
+const mobileNav = document.getElementById('mobile-nav');
+
+toggle?.addEventListener('click', () => {
+  const isOpen = mobileNav?.classList.toggle('open');
+  toggle.setAttribute('aria-expanded', String(isOpen));
+  mobileNav?.setAttribute('aria-hidden', String(!isOpen));
+});
+</script>
