@@ -7,6 +7,7 @@ backend:
   repo: bartram-studio/bartramstudio-website
   branch: main
   base_url: https://bartram-studio-oauth.netlify.app
+  auth_endpoint: auth
 
 media_folder: "public/images/products"
 public_folder: "/images/products"
