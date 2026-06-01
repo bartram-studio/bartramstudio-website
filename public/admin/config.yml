@@ -110,6 +110,23 @@ collections:
           name: "image"
           widget: "image"
 
+      - label: "Videos"
+        name: "videos"
+        widget: "list"
+        min: 0
+        max: 3
+        allow_add: true
+        collapsed: true
+        required: false
+        label_singular: "Video"
+        hint: "Optional. Upload short MP4 or MOV product videos. Keep clips short, ideally 5–15 seconds and under ~20 MB."
+        field:
+          label: "Video"
+          name: "video"
+          widget: "file"
+          media_folder: "/public/videos/products"
+          public_folder: "/videos/products"
+
   - name: "site"
     label: "Site Content"
     label_singular: "Page"

@@ -13,6 +13,7 @@ const products = defineCollection({
     featured: z.boolean().default(false),
     customOrderAvailable: z.boolean().default(false),
     images: z.array(z.string()).default([]),
+    videos: z.array(z.string()).default([]),
   }),
 });
 
