@@ -1,10 +1,18 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
 
-// Pre-fill from URL params (set by product pages)
+// Pre-fill from URL params (set by product pages) — unchanged
 const url = Astro.url;
 const preSubject = url.searchParams.get('subject') || '';
 const preBody = url.searchParams.get('body') || '';
+
+// Site content
+const siteEntries = await getCollection('site');
+const c = siteEntries.find(e => e.id === 'contact.md')!.data;
+
+const customParas = c.customOrdersParagraphs ?? [];
+const faqs = c.faqItems ?? [];
 ---
 
 <Layout
@@ -14,19 +22,19 @@ const preBody = url.searchParams.get('body') || '';
 
   <section class="page-hero">
     <div class="container">
-      <p class="page-hero__eyebrow">Reach Out</p>
-      <h1>Let's Connect</h1>
-      <p>Questions, custom orders, or just want to say hello — I'd love to hear from you.</p>
+      <p class="page-hero__eyebrow">{c.pageEyebrow}</p>
+      <h1>{c.pageTitle}</h1>
+      <p>{c.pageIntro}</p>
     </div>
   </section>
 
   <section class="section">
     <div class="container contact-layout">
 
-      <!-- Form -->
+      <!-- Form — Netlify attributes and URL-prefill behaviour unchanged -->
       <div class="contact-form-wrap">
-        <h2>Send a Message</h2>
-        <p style="margin-bottom: 2rem;">Fill out the form below and I'll get back to you as soon as I can — usually within a day or two.</p>
+        <h2>{c.formTitle}</h2>
+        <p style="margin-bottom: 2rem;">{c.formIntro}</p>
 
         <form
           class="contact-form"
@@ -36,7 +44,6 @@ const preBody = url.searchParams.get('body') || '';
           action="/contact/success"
           id="contact-form"
         >
-          <!-- Honeypot for spam -->
           <input type="hidden" name="form-name" value="contact" />
           <p class="hidden-field" aria-hidden="true">
             <label>Don't fill this out: <input name="bot-field" /></label>
@@ -107,7 +114,7 @@ const preBody = url.searchParams.get('body') || '';
               </div>
               <div>
                 <p class="contact-method__label">Email</p>
-                <a href="mailto:hello@bartramstudio.com" class="contact-method__value">hello@bartramstudio.com</a>
+                <a href={`mailto:${c.email}`} class="contact-method__value">{c.email}</a>
               </div>
             </div>
 
@@ -117,7 +124,7 @@ const preBody = url.searchParams.get('body') || '';
               </div>
               <div>
                 <p class="contact-method__label">Instagram</p>
-                <a href="https://instagram.com/bartramstudio" target="_blank" rel="noopener" class="contact-method__value">@bartramstudio</a>
+                <a href={c.instagramUrl} target="_blank" rel="noopener" class="contact-method__value">{c.instagramHandle}</a>
               </div>
             </div>
 
@@ -127,40 +134,27 @@ const preBody = url.searchParams.get('body') || '';
               </div>
               <div>
                 <p class="contact-method__label">Location</p>
-                <span class="contact-method__value">St. Johns, Florida</span>
+                <span class="contact-method__value">{c.location}</span>
               </div>
             </div>
           </div>
         </div>
 
         <div class="sidebar-card sidebar-card--accent">
-          <h3>Custom Orders</h3>
-          <p>
-            Love what you see but want something made just for you? Custom orders are one of my favorite projects.
-          </p>
-          <p>Share your vision — colors, size, occasion — and I'll tell you what's possible and give you a quote.</p>
-          <p class="sidebar-response">Typical response time: <strong>1–2 business days</strong></p>
+          <h3>{c.customOrdersTitle}</h3>
+          {customParas.map(para => <p>{para}</p>)}
+          <p class="sidebar-response">Typical response time: <strong>{c.responseTime}</strong></p>
         </div>
 
         <div class="sidebar-card">
           <h3>Frequently Asked</h3>
           <div class="faqs">
-            <details class="faq">
-              <summary>Do you ship?</summary>
-              <p>Yes! I ship across the United States. Shipping costs are calculated based on size and destination. Fragile pieces are packed with extra care.</p>
-            </details>
-            <details class="faq">
-              <summary>How long do custom orders take?</summary>
-              <p>Most custom pieces take 2–4 weeks depending on complexity and current workload. I'll give you a more specific timeline when we discuss your project.</p>
-            </details>
-            <details class="faq">
-              <summary>What if I'm local to St. Johns?</summary>
-              <p>Local pickup is available and free! Just mention in your message that you'd prefer to pick up locally.</p>
-            </details>
-            <details class="faq">
-              <summary>Do you take commissions for events?</summary>
-              <p>Yes — wedding favors, centerpieces, and event decor are all something I can discuss. Reach out early so we have plenty of lead time.</p>
-            </details>
+            {faqs.map(item => (
+              <details class="faq">
+                <summary>{item.question}</summary>
+                <p>{item.answer}</p>
+              </details>
+            ))}
           </div>
         </div>
 

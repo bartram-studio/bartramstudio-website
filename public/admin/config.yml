@@ -1,7 +1,3 @@
-# Decap CMS — Bartram Studio
-# Backend: GitHub (direct OAuth — works on Cloudflare Pages)
-# Docs: https://decapcms.org/docs/github-backend/
-
 backend:
   name: github
   repo: bartram-studio/bartramstudio-website
@@ -113,3 +109,100 @@ collections:
           label: "Photo"
           name: "image"
           widget: "image"
+
+  - name: "site"
+    label: "Site Content"
+    label_singular: "Page"
+    description: "Edit the wording on the Home, About, and Contact pages."
+    files:
+
+      - name: "home"
+        label: "Homepage"
+        file: "src/content/site/home.md"
+        fields:
+          - { label: "Hero — Eyebrow", name: "heroEyebrow", widget: "string", hint: "Small uppercase label above the main headline." }
+          - { label: "Hero — Title", name: "heroTitle", widget: "string", hint: "First line of the main headline." }
+          - { label: "Hero — Title Emphasis", name: "heroTitleEmphasis", widget: "string", hint: "Second line of the headline, shown in italic teal." }
+          - { label: "Hero — Lead Text", name: "heroLead", widget: "text", hint: "Paragraph below the headline." }
+          - { label: "Featured — Eyebrow", name: "featuredEyebrow", widget: "string" }
+          - { label: "Featured — Title", name: "featuredTitle", widget: "string" }
+          - { label: "Featured — Subtitle", name: "featuredText", widget: "string" }
+          - { label: "Categories — Eyebrow", name: "categoriesEyebrow", widget: "string" }
+          - { label: "Categories — Title", name: "categoriesTitle", widget: "string" }
+          - { label: "About Strip — Eyebrow", name: "aboutEyebrow", widget: "string" }
+          - { label: "About Strip — Title", name: "aboutTitle", widget: "string" }
+          - { label: "About Strip — Text", name: "aboutText", widget: "text" }
+          - { label: "CTA — Title", name: "ctaTitle", widget: "string", hint: "First line, plain text." }
+          - { label: "CTA — Title Emphasis", name: "ctaTitleEmphasis", widget: "string", hint: "Second line, shown in italic coral." }
+          - { label: "CTA — Body Text", name: "ctaText", widget: "text" }
+          - { label: "CTA — Button Text", name: "ctaButtonText", widget: "string" }
+
+      - name: "about"
+        label: "About Page"
+        file: "src/content/site/about.md"
+        fields:
+          - { label: "Page Hero — Eyebrow", name: "pageEyebrow", widget: "string" }
+          - { label: "Page Hero — Title", name: "pageTitle", widget: "string" }
+          - { label: "Page Hero — Intro", name: "pageIntro", widget: "string" }
+          - { label: "Intro Section — Eyebrow", name: "introEyebrow", widget: "string" }
+          - { label: "Intro Section — Title", name: "introTitle", widget: "string" }
+          - label: "Intro Section — Paragraphs"
+            name: "introParagraphs"
+            widget: "list"
+            allow_add: true
+            label_singular: "Paragraph"
+            field: { label: "Paragraph", name: "paragraph", widget: "text" }
+          - { label: "Craft Section — Eyebrow", name: "craftEyebrow", widget: "string" }
+          - { label: "Craft Section — Title", name: "craftTitle", widget: "string" }
+          - { label: "Craft Section — Subtitle", name: "craftText", widget: "string" }
+          - label: "Process Steps"
+            name: "processSteps"
+            widget: "list"
+            allow_add: true
+            label_singular: "Step"
+            fields:
+              - { label: "Step Title", name: "title", widget: "string" }
+              - { label: "Step Description", name: "body", widget: "text" }
+          - { label: "Values — Eyebrow", name: "valuesEyebrow", widget: "string" }
+          - { label: "Values — Title", name: "valuesTitle", widget: "string" }
+          - label: "Values — Paragraphs"
+            name: "valuesParagraphs"
+            widget: "list"
+            allow_add: true
+            label_singular: "Paragraph"
+            field: { label: "Paragraph", name: "paragraph", widget: "text" }
+          - { label: "Quote — Text", name: "quoteText", widget: "text", hint: "Do not include quotation marks — they are added automatically." }
+          - { label: "Quote — Citation", name: "quoteCitation", widget: "string" }
+          - { label: "Contact CTA — Title", name: "contactCtaTitle", widget: "string" }
+          - { label: "Contact CTA — Body Text", name: "contactCtaText", widget: "text" }
+          - { label: "Contact CTA — Button Text", name: "contactCtaButtonText", widget: "string" }
+
+      - name: "contact"
+        label: "Contact Page"
+        file: "src/content/site/contact.md"
+        fields:
+          - { label: "Page Hero — Eyebrow", name: "pageEyebrow", widget: "string" }
+          - { label: "Page Hero — Title", name: "pageTitle", widget: "string" }
+          - { label: "Page Hero — Intro", name: "pageIntro", widget: "string" }
+          - { label: "Form — Title", name: "formTitle", widget: "string" }
+          - { label: "Form — Intro", name: "formIntro", widget: "string" }
+          - { label: "Email Address", name: "email", widget: "string", hint: "Shown as a clickable mailto link in the sidebar." }
+          - { label: "Instagram Handle", name: "instagramHandle", widget: "string", hint: "Include the @ symbol, e.g. @bartramstudio" }
+          - { label: "Instagram URL", name: "instagramUrl", widget: "string" }
+          - { label: "Location", name: "location", widget: "string" }
+          - { label: "Custom Orders — Title", name: "customOrdersTitle", widget: "string" }
+          - label: "Custom Orders — Paragraphs"
+            name: "customOrdersParagraphs"
+            widget: "list"
+            allow_add: true
+            label_singular: "Paragraph"
+            field: { label: "Paragraph", name: "paragraph", widget: "text" }
+          - { label: "Response Time", name: "responseTime", widget: "string", hint: "e.g. 1–2 business days" }
+          - label: "FAQ Items"
+            name: "faqItems"
+            widget: "list"
+            allow_add: true
+            label_singular: "FAQ"
+            fields:
+              - { label: "Question", name: "question", widget: "string" }
+              - { label: "Answer", name: "answer", widget: "text" }

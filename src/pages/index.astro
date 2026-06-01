@@ -2,7 +2,11 @@
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 
-// Grab featured products
+// Site content
+const siteEntries = await getCollection('site');
+const h = siteEntries.find(e => e.id === 'home.md')!.data;
+
+// Featured products
 const allProducts = await getCollection('products');
 const featured = allProducts
   .filter(p => p.data.featured && p.data.status !== 'sold')
@@ -16,12 +20,9 @@ const featured = allProducts
     <div class="hero__bg-pattern" aria-hidden="true"></div>
     <div class="container hero__inner">
       <div class="hero__text">
-        <p class="hero__eyebrow">Handcrafted in St. Johns, Florida</p>
-        <h1>Art born<br><em>from the coast</em></h1>
-        <p class="hero__lead">
-          Resin shell art, coastal decor, and one-of-a-kind seasonal pieces — each made
-          with intention by Amanda at Bartram Studio.
-        </p>
+        <p class="hero__eyebrow">{h.heroEyebrow}</p>
+        <h1>{h.heroTitle}<br><em>{h.heroTitleEmphasis}</em></h1>
+        <p class="hero__lead">{h.heroLead}</p>
         <div class="hero__actions">
           <a href="/products" class="btn btn--primary">Browse the Shop</a>
           <a href="/about" class="btn btn--outline">Our Story</a>
@@ -89,9 +90,9 @@ const featured = allProducts
     <section class="section featured-section">
       <div class="container">
         <div class="section-head">
-          <p class="section-eyebrow">Selected Works</p>
-          <h2>Featured Pieces</h2>
-          <p>A few current favorites — each made by hand and ready to find a new home.</p>
+          <p class="section-eyebrow">{h.featuredEyebrow}</p>
+          <h2>{h.featuredTitle}</h2>
+          <p>{h.featuredText}</p>
         </div>
 
         <div class="grid-3" style="margin-top: 3rem;">
@@ -144,8 +145,8 @@ const featured = allProducts
   <section class="section categories-section">
     <div class="container">
       <div class="section-head">
-        <p class="section-eyebrow">What I Make</p>
-        <h2>Shop by Category</h2>
+        <p class="section-eyebrow">{h.categoriesEyebrow}</p>
+        <h2>{h.categoriesTitle}</h2>
       </div>
       <div class="categories-grid">
         <a href="/products?category=Resin+Art" class="cat-card cat-card--resin">
@@ -180,11 +181,9 @@ const featured = allProducts
   <section class="about-strip">
     <div class="container about-strip__inner">
       <div class="about-strip__text">
-        <p class="section-eyebrow">The Maker</p>
-        <h2>Hi, I'm Amanda</h2>
-        <p>
-          I've been collecting shells along Florida's coast since I was a child. Bartram Studio is where that lifelong love meets craft — turning natural treasures into art that lasts. Every piece is made in my home studio in St. Johns, and I put genuine care into each one.
-        </p>
+        <p class="section-eyebrow">{h.aboutEyebrow}</p>
+        <h2>{h.aboutTitle}</h2>
+        <p>{h.aboutText}</p>
         <a href="/about" class="btn btn--outline" style="margin-top: 1.5rem;">Read My Story</a>
       </div>
       <div class="about-strip__visual">
@@ -203,9 +202,9 @@ const featured = allProducts
     <div class="container">
       <div class="cta-box">
         <div class="cta-box__decor" aria-hidden="true">✦ ✦ ✦</div>
-        <h2>Looking for something<br><em>uniquely yours?</em></h2>
-        <p>Custom orders are one of my favorite parts of this work. Whether it's a personalized sign, a custom color palette, or a piece made to fit a specific space — reach out and let's make something together.</p>
-        <a href="/contact" class="btn btn--coral">Start a Custom Order</a>
+        <h2>{h.ctaTitle}<br><em>{h.ctaTitleEmphasis}</em></h2>
+        <p>{h.ctaText}</p>
+        <a href="/contact" class="btn btn--coral">{h.ctaButtonText}</a>
       </div>
     </div>
   </section>

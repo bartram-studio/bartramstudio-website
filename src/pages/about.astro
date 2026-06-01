@@ -1,5 +1,14 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const siteEntries = await getCollection('site');
+const a = siteEntries.find(e => e.id === 'about.md')!.data;
+
+// introParagraphs is the canonical field name
+const paragraphs = a.introParagraphs ?? [];
+const steps = a.processSteps ?? [];
+const values = a.valuesParagraphs ?? [];
 ---
 
 <Layout
@@ -9,9 +18,9 @@ import Layout from '../layouts/Layout.astro';
 
   <section class="page-hero">
     <div class="container">
-      <p class="page-hero__eyebrow">The Story</p>
-      <h1>About Bartram Studio</h1>
-      <p>Handcrafted with intention in Northeast Florida.</p>
+      <p class="page-hero__eyebrow">{a.pageEyebrow}</p>
+      <h1>{a.pageTitle}</h1>
+      <p>{a.pageIntro}</p>
     </div>
   </section>
 
@@ -29,17 +38,9 @@ import Layout from '../layouts/Layout.astro';
       </div>
 
       <div class="about-intro__text">
-        <p class="section-eyebrow">Hi there</p>
-        <h2>I'm Amanda, the maker behind Bartram Studio.</h2>
-        <p>
-          Growing up along the coast of Northeast Florida, I spent countless hours combing beaches for shells, sea glass, and the small beautiful things the ocean leaves behind. That habit never left me — it just grew into something more.
-        </p>
-        <p>
-          Bartram Studio started as a way to share that love. I work from my home studio in St. Johns, Florida, turning natural coastal materials into pieces that bring a little of that shoreline feeling into everyday spaces.
-        </p>
-        <p>
-          The name is a nod to William Bartram, the naturalist who explored Florida in the 1700s and documented its wild beauty with such reverence. That spirit of noticing, collecting, and honoring the natural world is at the heart of everything I make.
-        </p>
+        <p class="section-eyebrow">{a.introEyebrow}</p>
+        <h2>{a.introTitle}</h2>
+        {paragraphs.map(para => <p>{para}</p>)}
       </div>
     </div>
   </section>
@@ -48,32 +49,19 @@ import Layout from '../layouts/Layout.astro';
   <section class="section craft-section">
     <div class="container">
       <div class="section-head" style="text-align:center; max-width: 560px; margin-inline: auto; margin-bottom: 3rem;">
-        <p class="section-eyebrow">The Craft</p>
-        <h2>What goes into each piece</h2>
-        <p>Every item is made by hand — no mass production, no shortcuts.</p>
+        <p class="section-eyebrow">{a.craftEyebrow}</p>
+        <h2>{a.craftTitle}</h2>
+        <p>{a.craftText}</p>
       </div>
 
       <div class="process-grid">
-        <div class="process-step">
-          <div class="process-step__number">01</div>
-          <h3>Collecting</h3>
-          <p>I gather shells, sea glass, and natural materials from Florida beaches and waterways — each piece carrying its own story from the sea.</p>
-        </div>
-        <div class="process-step">
-          <div class="process-step__number">02</div>
-          <h3>Designing</h3>
-          <p>Each arrangement is composed by hand. No two pieces are identical — the natural variation of the materials is part of the beauty.</p>
-        </div>
-        <div class="process-step">
-          <div class="process-step__number">03</div>
-          <h3>Crafting</h3>
-          <p>Whether casting resin, building shadow boxes, or assembling seasonal wreaths, every piece is made with care from start to finish in my home studio.</p>
-        </div>
-        <div class="process-step">
-          <div class="process-step__number">04</div>
-          <h3>Finishing</h3>
-          <p>Each piece is inspected, sealed where needed, and finished to be both beautiful and durable. Functional art that's meant to be lived with.</p>
-        </div>
+        {steps.map((step, i) => (
+          <div class="process-step">
+            <div class="process-step__number">{String(i + 1).padStart(2, '0')}</div>
+            <h3>{step.title}</h3>
+            <p>{step.body}</p>
+          </div>
+        ))}
       </div>
     </div>
   </section>
@@ -82,20 +70,15 @@ import Layout from '../layouts/Layout.astro';
   <section class="section values-section">
     <div class="container values-inner">
       <div class="values-text">
-        <p class="section-eyebrow">What I believe</p>
-        <h2>Art should be honest about where it comes from.</h2>
-        <p>
-          I'm not interested in making things that look handmade but aren't. Every piece I sell was made by my hands, with materials I chose intentionally. That matters to me, and I think it shows.
-        </p>
-        <p>
-          I also care about the environment that inspires this work. I collect responsibly — never taking from protected areas, never taking more than the beach can spare.
-        </p>
+        <p class="section-eyebrow">{a.valuesEyebrow}</p>
+        <h2>{a.valuesTitle}</h2>
+        {values.map(para => <p>{para}</p>)}
         <a href="/products" class="btn btn--outline" style="margin-top: 1.5rem;">Browse the Shop</a>
       </div>
       <div class="values-quote">
         <blockquote>
-          <p>"The naturalist who goes to Florida expecting to find it a land of mere vegetation and torpid animal life, will find he has much to learn."</p>
-          <cite>— William Bartram, <em>Travels</em>, 1791</cite>
+          <p>"{a.quoteText}"</p>
+          <cite>{a.quoteCitation}</cite>
         </blockquote>
       </div>
     </div>
@@ -106,10 +89,10 @@ import Layout from '../layouts/Layout.astro';
     <div class="container">
       <div class="contact-strip__inner">
         <div>
-          <h3>Have a question or a custom idea?</h3>
-          <p>I love hearing from people. Don't hesitate to reach out — about a piece you saw, a custom project, or just to say hello.</p>
+          <h3>{a.contactCtaTitle}</h3>
+          <p>{a.contactCtaText}</p>
         </div>
-        <a href="/contact" class="btn btn--coral">Get in Touch</a>
+        <a href="/contact" class="btn btn--coral">{a.contactCtaButtonText}</a>
       </div>
     </div>
   </section>
