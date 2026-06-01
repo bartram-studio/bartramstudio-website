@@ -1,5 +1,5 @@
 ---
-heroEyebrow: Handcrafted in St. Johns, FL
+heroEyebrow: Handcrafted in St. Johns, Florida
 heroTitle: Art born
 heroTitleEmphasis: from the coast
 heroLead: Resin shell art, coastal decor, and one-of-a-kind seasonal pieces —
