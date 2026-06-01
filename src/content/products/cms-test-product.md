@@ -9,4 +9,6 @@ featured: false
 customOrderAvailable: false
 images:
   - /images/products/img_7100.jpeg
+videos:
+  - /videos/products/img_7102.mov
 ---
