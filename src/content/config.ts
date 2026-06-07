@@ -75,4 +75,16 @@ const site = defineCollection({
   }),
 });
 
-export const collections = { products, site };
+// ── Brand settings ──────────────────────────────────────────────────────────
+const brand = defineCollection({
+  type: 'content',
+  schema: z.object({
+    typographyTheme: z.enum([
+      'coastal-serif',
+      'clean-modern',
+      'soft-handmade',
+    ]).default('coastal-serif'),
+  }),
+});
+
+export const collections = { products, site, brand };

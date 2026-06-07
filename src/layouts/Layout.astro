@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { getCollection } from 'astro:content';
 
 interface Props {
   title: string;
@@ -15,6 +16,38 @@ const {
 
 const fullTitle = title === 'Bartram Studio' ? title : `${title} — Bartram Studio`;
 const currentPath = Astro.url.pathname;
+
+// ── Typography theme ────────────────────────────────────────────────────────
+const brandEntries = await getCollection('brand');
+const brandSettings = brandEntries.find(e => e.id === 'settings.md')?.data;
+const typographyTheme = brandSettings?.typographyTheme ?? 'coastal-serif';
+
+// Each theme defines:
+//   fontsUrl   — Google Fonts @import URL (the part inside url('...'))
+//   fontDisplay — value for --font-display CSS custom property
+//   fontBody    — value for --font-body CSS custom property
+//
+// coastal-serif: values are IDENTICAL to global.css defaults, so the page
+// looks exactly the same as before this feature existed.
+const THEMES: Record<string, { fontsUrl: string; fontDisplay: string; fontBody: string }> = {
+  'coastal-serif': {
+    fontsUrl:    'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap',
+    fontDisplay: "'Cormorant Garamond', Georgia, serif",
+    fontBody:    "'Jost', 'Gill Sans', sans-serif",
+  },
+  'clean-modern': {
+    fontsUrl:    'https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap',
+    fontDisplay: "'DM Serif Display', Georgia, serif",
+    fontBody:    "'DM Sans', system-ui, sans-serif",
+  },
+  'soft-handmade': {
+    fontsUrl:    'https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Lato:wght@300;400;700&display=swap',
+    fontDisplay: "'Playfair Display', Georgia, serif",
+    fontBody:    "'Lato', 'Helvetica Neue', sans-serif",
+  },
+};
+
+const theme = THEMES[typographyTheme] ?? THEMES['coastal-serif'];
 ---
 
 <!DOCTYPE html>
@@ -29,6 +62,16 @@ const currentPath = Astro.url.pathname;
   <meta property="og:type" content="website" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <title>{fullTitle}</title>
+  {/* Typography theme — overrides --font-display and --font-body set in global.css */}
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href={theme.fontsUrl} />
+  <style define:vars={{ fontDisplay: theme.fontDisplay, fontBody: theme.fontBody }}>
+    :root {
+      --font-display: var(--fontDisplay);
+      --font-body:    var(--fontBody);
+    }
+  </style>
 </head>
 <body>
 

@@ -223,3 +223,22 @@ collections:
             fields:
               - { label: "Question", name: "question", widget: "string" }
               - { label: "Answer", name: "answer", widget: "text" }
+
+  - name: "brand"
+    label: "Brand Settings"
+    description: "Control the overall typography style of the site."
+    files:
+
+      - name: "settings"
+        label: "Typography Theme"
+        file: "src/content/brand/settings.md"
+        fields:
+          - label: "Typography Theme"
+            name: "typographyTheme"
+            widget: "select"
+            hint: "Choose the font style for the whole site. Changes take effect after publishing."
+            options:
+              - { label: "Coastal Serif (current look — elegant & airy)", value: "coastal-serif" }
+              - { label: "Clean Modern (crisper & editorial)", value: "clean-modern" }
+              - { label: "Soft Handmade (rounder & classic artisan)", value: "soft-handmade" }
+            default: "coastal-serif"

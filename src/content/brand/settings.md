@@ -1,0 +1,3 @@
+---
+typographyTheme: "coastal-serif"
+---
