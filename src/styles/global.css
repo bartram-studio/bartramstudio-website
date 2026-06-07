@@ -6,19 +6,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap');
 
 :root {
-  /* Palette — sea glass, sand, driftwood */
-  --sand:        #f5f0e8;
-  --sand-dark:   #e8dfd0;
-  --shell:       #faf7f2;
-  --driftwood:   #8b7355;
-  --driftwood-dk:#5c4d38;
-  --tide:        #7fa8a8;
-  --tide-light:  #a8c5c5;
-  --tide-dark:   #4d7f80;
-  --coral:       #c97b5a;
-  --coral-light: #e8a882;
-  --ink:         #2a2420;
-  --mist:        #b8c8c8;
+  /* Palette C — Coastal Natural */
+  --sand:        #EDE8E0;
+  --sand-dark:   #D9C3A3;
+  --shell:       #F7F4EF;
+  --driftwood:   #B7B1A6;
+  --driftwood-dk:#3C3F41;
+  --tide:        #AFC8C0;
+  --tide-light:  #CDE0DB;
+  --tide-dark:   #4A7A70;
+  --coral:       #E8D7D0;
+  --coral-light: #F2E8E4;
+  --ink:         #3C3F41;
+  --mist:        #B7B1A6;
   --white:       #ffffff;
 
   /* Type */
@@ -161,7 +161,7 @@ img {
 
 .btn--coral {
   background: var(--coral);
-  color: var(--white);
+  color: var(--ink);   /* charcoal on shell-pink: 7.61 contrast — passes AAA */
 }
 
 .btn--coral:hover {
