@@ -223,6 +223,13 @@ collections:
             fields:
               - { label: "Question", name: "question", widget: "string" }
               - { label: "Answer", name: "answer", widget: "text" }
+      - name: "shop"
+        label: "Shop Page"
+        file: "src/content/site/shop.md"
+        fields:
+          - { label: "Page Hero — Eyebrow", name: "pageEyebrow", widget: "string" }
+          - { label: "Page Hero — Title", name: "pageTitle", widget: "string" }
+          - { label: "Page Hero — Intro", name: "pageIntro", widget: "string" }
 
   - name: "brand"
     label: "Brand Settings"

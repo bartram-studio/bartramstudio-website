@@ -2,6 +2,9 @@
 import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 
+const siteEntries = await getCollection('site');
+const shop = siteEntries.find(e => e.id === 'shop.md')!.data;
+
 const allProducts = await getCollection('products');
 
 // Sort: available first, then pending, then sold
@@ -22,9 +25,9 @@ const categories = [...new Set(allProducts.map(p => p.data.category))].sort();
 
   <section class="page-hero">
     <div class="container">
-      <p class="page-hero__eyebrow">The Collection</p>
-      <h1>Shop All Pieces</h1>
-      <p>Every item is handcrafted — most are one-of-a-kind. If something catches your eye, don't wait.</p>
+      <p class="page-hero__eyebrow">{shop.pageEyebrow}</p>
+      <h1>{shop.pageTitle}</h1>
+      <p>{shop.pageIntro}</p>
     </div>
   </section>
 
