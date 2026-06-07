@@ -154,6 +154,32 @@ collections:
           - { label: "CTA — Body Text", name: "ctaText", widget: "text" }
           - { label: "CTA — Button Text", name: "ctaButtonText", widget: "string" }
 
+          # ── Homepage background colours ──
+          - label: "Hero Background Colour"
+            name: "heroBg"
+            widget: "select"
+            required: false
+            hint: "Background colour of the page header/hero section."
+            default: "soft-shell"
+            options:
+              - { label: "Soft Shell White (default)", value: "soft-shell" }
+              - { label: "Sea Glass Green", value: "sea-glass" }
+              - { label: "Resin Amber", value: "resin-amber" }
+              - { label: "Shell Pink", value: "shell-pink" }
+              - { label: "Driftwood Gray", value: "driftwood" }
+          - label: "CTA Box Background Colour"
+            name: "ctaBg"
+            widget: "select"
+            required: false
+            hint: 'Background colour of the custom order call-to-action box.'
+            default: "soft-shell"
+            options:
+              - { label: "Soft Shell White (default)", value: "soft-shell" }
+              - { label: "Sea Glass Green", value: "sea-glass" }
+              - { label: "Resin Amber", value: "resin-amber" }
+              - { label: "Shell Pink", value: "shell-pink" }
+              - { label: "Driftwood Gray", value: "driftwood" }
+
       - name: "about"
         label: "About Page"
         file: "src/content/site/about.md"
@@ -194,6 +220,20 @@ collections:
           - { label: "Contact CTA — Body Text", name: "contactCtaText", widget: "text" }
           - { label: "Contact CTA — Button Text", name: "contactCtaButtonText", widget: "string" }
 
+          # ── About page background colour ──
+          - label: "Hero Background Colour"
+            name: "heroBg"
+            widget: "select"
+            required: false
+            hint: "Background colour of the page header/hero section."
+            default: "soft-shell"
+            options:
+              - { label: "Soft Shell White (default)", value: "soft-shell" }
+              - { label: "Sea Glass Green", value: "sea-glass" }
+              - { label: "Resin Amber", value: "resin-amber" }
+              - { label: "Shell Pink", value: "shell-pink" }
+              - { label: "Driftwood Gray", value: "driftwood" }
+
       - name: "contact"
         label: "Contact Page"
         file: "src/content/site/contact.md"
@@ -223,6 +263,20 @@ collections:
             fields:
               - { label: "Question", name: "question", widget: "string" }
               - { label: "Answer", name: "answer", widget: "text" }
+
+          # ── Contact page background colour ──
+          - label: "Hero Background Colour"
+            name: "heroBg"
+            widget: "select"
+            required: false
+            hint: "Background colour of the page header/hero section."
+            default: "soft-shell"
+            options:
+              - { label: "Soft Shell White (default)", value: "soft-shell" }
+              - { label: "Sea Glass Green", value: "sea-glass" }
+              - { label: "Resin Amber", value: "resin-amber" }
+              - { label: "Shell Pink", value: "shell-pink" }
+              - { label: "Driftwood Gray", value: "driftwood" }
       - name: "shop"
         label: "Shop Page"
         file: "src/content/site/shop.md"
@@ -230,6 +284,20 @@ collections:
           - { label: "Page Hero — Eyebrow", name: "pageEyebrow", widget: "string" }
           - { label: "Page Hero — Title", name: "pageTitle", widget: "string" }
           - { label: "Page Hero — Intro", name: "pageIntro", widget: "string" }
+
+          # ── Shop page background colour ──
+          - label: "Hero Background Colour"
+            name: "heroBg"
+            widget: "select"
+            required: false
+            hint: "Background colour of the page header/hero section."
+            default: "soft-shell"
+            options:
+              - { label: "Soft Shell White (default)", value: "soft-shell" }
+              - { label: "Sea Glass Green", value: "sea-glass" }
+              - { label: "Resin Amber", value: "resin-amber" }
+              - { label: "Shell Pink", value: "shell-pink" }
+              - { label: "Driftwood Gray", value: "driftwood" }
 
   - name: "brand"
     label: "Brand Settings"

@@ -5,6 +5,8 @@ import { getCollection } from 'astro:content';
 // Site content
 const siteEntries = await getCollection('site');
 const h = siteEntries.find(e => e.id === 'home.md')!.data;
+const heroBgClass = h.heroBg ? `bg-${h.heroBg}` : '';
+const ctaBgClass  = h.ctaBg  ? `bg-${h.ctaBg}`  : '';
 
 // Featured products
 const allProducts = await getCollection('products');
@@ -16,7 +18,7 @@ const featured = allProducts
 <Layout title="Bartram Studio">
 
   <!-- ── Hero ── -->
-  <section class="hero">
+  <section class={`hero ${heroBgClass}`}>
     <div class="hero__bg-pattern" aria-hidden="true"></div>
     <div class="container hero__inner">
       <div class="hero__text">
@@ -198,7 +200,7 @@ const featured = allProducts
   </section>
 
   <!-- ── Custom CTA ── -->
-  <section class="cta-section section">
+  <section class={`cta-section section ${ctaBgClass}`}>
     <div class="container">
       <div class="cta-box">
         <div class="cta-box__decor" aria-hidden="true">✦ ✦ ✦</div>

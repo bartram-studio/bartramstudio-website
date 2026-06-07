@@ -1,5 +1,14 @@
 import { defineCollection, z } from 'astro:content';
 
+// Reusable: the five CMS-selectable background values
+const bgEnum = z.enum([
+  'soft-shell',
+  'sea-glass',
+  'resin-amber',
+  'shell-pink',
+  'driftwood',
+]).optional();
+
 // ── Products ────────────────────────────────────────────────────────────────
 const products = defineCollection({
   type: 'content',
@@ -17,12 +26,12 @@ const products = defineCollection({
   }),
 });
 
-// ── Site content (home / about / contact wording) ───────────────────────────
+// ── Site content (home / about / contact / shop wording + backgrounds) ───────
 const site = defineCollection({
   type: 'content',
   schema: z.object({
 
-    // ── Home ──
+    // ── Home wording ──
     heroEyebrow:        z.string().optional(),
     heroTitle:          z.string().optional(),
     heroTitleEmphasis:  z.string().optional(),
@@ -40,12 +49,13 @@ const site = defineCollection({
     ctaText:            z.string().optional(),
     ctaButtonText:      z.string().optional(),
 
-    // ── About ──
+    // ── About wording ──
     pageEyebrow:            z.string().optional(),
     pageTitle:              z.string().optional(),
     pageIntro:              z.string().optional(),
     introEyebrow:           z.string().optional(),
     introTitle:             z.string().optional(),
+    intraParagraphs:        z.array(z.string()).optional(),
     introParagraphs:        z.array(z.string()).optional(),
     craftEyebrow:           z.string().optional(),
     craftTitle:             z.string().optional(),
@@ -60,7 +70,7 @@ const site = defineCollection({
     contactCtaText:         z.string().optional(),
     contactCtaButtonText:   z.string().optional(),
 
-    // ── Contact ──
+    // ── Contact wording ──
     formTitle:              z.string().optional(),
     formIntro:              z.string().optional(),
     email:                  z.string().optional(),
@@ -71,6 +81,11 @@ const site = defineCollection({
     customOrdersParagraphs: z.array(z.string()).optional(),
     responseTime:           z.string().optional(),
     faqItems:               z.array(z.object({ question: z.string(), answer: z.string() })).optional(),
+
+    // ── Background colour controls (shared across all site/* files) ──
+    // Each page only uses the fields relevant to it; others are simply absent.
+    heroBg: bgEnum,   // home, about, contact, shop
+    ctaBg:  bgEnum,   // home CTA box
 
   }),
 });

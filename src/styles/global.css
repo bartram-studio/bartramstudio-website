@@ -408,3 +408,64 @@ img {
   }
   .btn { justify-content: center; }
 }
+
+/* ── Section Background Utilities ──────────────────────────────────────────
+   Applied by Astro pages when CMS-selected background values are set.
+   All use --ink (#3C3F41) for text — every combo passes WCAG AA (≥4.5:1).
+   ──────────────────────────────────────────────────────────────────────── */
+
+.bg-soft-shell {
+  background-color: #F7F4EF !important;   /* Soft Shell White */
+  color: var(--ink);
+}
+
+.bg-sea-glass {
+  background-color: #AFC8C0 !important;   /* Sea Glass Green */
+  color: var(--ink);
+}
+
+.bg-resin-amber {
+  background-color: #D9C3A3 !important;   /* Resin Amber */
+  color: var(--ink);
+}
+
+.bg-shell-pink {
+  background-color: #E8D7D0 !important;   /* Shell Pink */
+  color: var(--ink);
+}
+
+.bg-driftwood {
+  background-color: #B7B1A6 !important;   /* Driftwood Gray */
+  color: var(--ink);
+}
+
+/* Inherit ink colour into headings and paragraphs inside any bg-* section */
+.bg-soft-shell h1, .bg-soft-shell h2, .bg-soft-shell h3, .bg-soft-shell h4,
+.bg-sea-glass h1,  .bg-sea-glass h2,  .bg-sea-glass h3,  .bg-sea-glass h4,
+.bg-resin-amber h1,.bg-resin-amber h2,.bg-resin-amber h3,.bg-resin-amber h4,
+.bg-shell-pink h1, .bg-shell-pink h2, .bg-shell-pink h3, .bg-shell-pink h4,
+.bg-driftwood h1,  .bg-driftwood h2,  .bg-driftwood h3,  .bg-driftwood h4 {
+  color: var(--ink);
+}
+
+.bg-soft-shell p, .bg-sea-glass p, .bg-resin-amber p,
+.bg-shell-pink p, .bg-driftwood p {
+  color: var(--ink);
+}
+
+/* Eyebrow labels inside bg-* sections keep their teal accent */
+.bg-soft-shell .page-hero__eyebrow,
+.bg-sea-glass  .page-hero__eyebrow,
+.bg-resin-amber .page-hero__eyebrow,
+.bg-shell-pink .page-hero__eyebrow,
+.bg-driftwood  .page-hero__eyebrow {
+  color: var(--ink);   /* --tide-dark fails AA on all 5 bgs; --ink passes on all */
+}
+
+.bg-soft-shell .hero__eyebrow,
+.bg-sea-glass  .hero__eyebrow,
+.bg-resin-amber .hero__eyebrow,
+.bg-shell-pink .hero__eyebrow,
+.bg-driftwood  .hero__eyebrow {
+  color: var(--ink);   /* same reasoning */
+}

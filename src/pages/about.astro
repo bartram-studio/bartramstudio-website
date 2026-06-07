@@ -4,6 +4,7 @@ import { getCollection } from 'astro:content';
 
 const siteEntries = await getCollection('site');
 const a = siteEntries.find(e => e.id === 'about.md')!.data;
+const heroBgClass = a.heroBg ? `bg-${a.heroBg}` : '';
 
 // introParagraphs is the canonical field name
 const paragraphs = a.introParagraphs ?? [];
@@ -16,7 +17,7 @@ const values = a.valuesParagraphs ?? [];
   description="Learn about Amanda and the story behind Bartram Studio — handcrafted coastal art from St. Johns, Florida."
 >
 
-  <section class="page-hero">
+  <section class={`page-hero ${heroBgClass}`}>
     <div class="container">
       <p class="page-hero__eyebrow">{a.pageEyebrow}</p>
       <h1>{a.pageTitle}</h1>

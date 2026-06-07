@@ -4,6 +4,7 @@ import { getCollection } from 'astro:content';
 
 const siteEntries = await getCollection('site');
 const shop = siteEntries.find(e => e.id === 'shop.md')!.data;
+const heroBgClass = shop.heroBg ? `bg-${shop.heroBg}` : '';
 
 const allProducts = await getCollection('products');
 
@@ -23,7 +24,7 @@ const categories = [...new Set(allProducts.map(p => p.data.category))].sort();
   description="Browse handcrafted resin shell art, coastal decor, seasonal crafts, and custom pieces by Amanda at Bartram Studio."
 >
 
-  <section class="page-hero">
+  <section class={`page-hero ${heroBgClass}`}>
     <div class="container">
       <p class="page-hero__eyebrow">{shop.pageEyebrow}</p>
       <h1>{shop.pageTitle}</h1>
