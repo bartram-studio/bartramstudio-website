@@ -1,7 +1,7 @@
 ---
 heroEyebrow: Handcrafted in St. Johns, Florida
 heroTitle: Art shaped
-heroTitleEmphasis: from the coast
+heroTitleEmphasis: by the shoreline
 heroLead: Shell art, coastal decor, resin and one‑of‑a‑kind seasonal pieces —
   all shaped by shoreline walks, found materials, and a deep love for the
   natural world.
