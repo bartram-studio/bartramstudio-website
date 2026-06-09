@@ -1,8 +1,8 @@
 ---
-// This page exists solely so Astro's dev server serves the CMS at /admin.
-// In production (Cloudflare Pages), public/admin/index.html is served directly.
-// We set prerender = false so Astro passes through rather than competing with
-// the static file, but we also export a static version for the build.
+// Canonical Decap CMS admin entry point.
+// Cloudflare Pages has been verified to serve /admin from this Astro page.
+// public/admin/config.yml remains the Decap CMS configuration file.
+// Do not create public/admin/index.html; it causes ambiguity with this route.
 ---
 <!DOCTYPE html>
 <html>
