@@ -10,9 +10,52 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bartram Studio — Content Manager</title>
-  <script src="https://unpkg.com/decap-cms@3/dist/decap-cms.js"></script>
 </head>
 <body>
   <!-- Decap CMS mounts here automatically -->
+  <script src="https://unpkg.com/decap-cms@3/dist/decap-cms.js"></script>
+
+  <!-- Diagnostic inline preview proof-of-concept — Attempt #3 -->
+  <!-- Targets: Site Content > About Page, field: pageTitle -->
+  <!-- Safe: wrapped in try/catch; logs globals; does not throw on failure -->
+  <script>
+    (function () {
+      // Step 1: Log availability of required Decap globals
+      console.log('[preview-poc] typeof window.CMS:', typeof window.CMS);
+      console.log('[preview-poc] typeof window.createClass:', typeof window.createClass);
+      console.log('[preview-poc] typeof window.h:', typeof window.h);
+
+      // Step 2: Guard — abort cleanly if CMS is not available
+      if (typeof window.CMS === 'undefined') {
+        console.error('[preview-poc] window.CMS is undefined. Decap may not have loaded. Aborting preview registration.');
+        return;
+      }
+
+      if (typeof window.createClass === 'undefined') {
+        console.error('[preview-poc] window.createClass is undefined. Cannot build preview component. Aborting.');
+        return;
+      }
+
+      if (typeof window.h === 'undefined') {
+        console.error('[preview-poc] window.h is undefined. Cannot build preview component. Aborting.');
+        return;
+      }
+
+      // Step 3: Attempt preview registration inside try/catch
+      try {
+        var AboutPreview = window.createClass({
+          render: function () {
+            var title = this.props.entry.getIn(['data', 'pageTitle']);
+            return window.h('h1', {}, title || '(no title yet)');
+          }
+        });
+
+        window.CMS.registerPreviewTemplate('about', AboutPreview);
+        console.log('[preview-poc] registerPreviewTemplate("about") succeeded.');
+      } catch (err) {
+        console.error('[preview-poc] registerPreviewTemplate failed:', err);
+      }
+    }());
+  </script>
 </body>
 </html>
