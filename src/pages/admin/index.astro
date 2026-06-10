@@ -15,46 +15,256 @@
   <!-- Decap CMS mounts here automatically -->
   <script src="https://unpkg.com/decap-cms@3/dist/decap-cms.js"></script>
 
-  <!-- Diagnostic inline preview proof-of-concept — Attempt #3 -->
-  <!-- Targets: Site Content > About Page, field: pageTitle -->
-  <!-- Safe: wrapped in try/catch; logs globals; does not throw on failure -->
+  <!-- Inline preview — Attempt #4 -->
+  <!-- Targets: Site Content > About Page -->
+  <!-- Renders: hero, intro, craft section, contact CTA -->
+  <!-- Safe: try/catch preserved; diagnostic logging preserved; guards preserved -->
   <script>
     (function () {
-      // Step 1: Log availability of required Decap globals
+      // ── Diagnostic logging ────────────────────────────────────────────────
       console.log('[preview-poc] typeof window.CMS:', typeof window.CMS);
       console.log('[preview-poc] typeof window.createClass:', typeof window.createClass);
       console.log('[preview-poc] typeof window.h:', typeof window.h);
 
-      // Step 2: Guard — abort cleanly if CMS is not available
+      // ── Guards ────────────────────────────────────────────────────────────
       if (typeof window.CMS === 'undefined') {
-        console.error('[preview-poc] window.CMS is undefined. Decap may not have loaded. Aborting preview registration.');
+        console.error('[preview-poc] window.CMS is undefined. Aborting.');
         return;
       }
-
       if (typeof window.createClass === 'undefined') {
-        console.error('[preview-poc] window.createClass is undefined. Cannot build preview component. Aborting.');
+        console.error('[preview-poc] window.createClass is undefined. Aborting.');
         return;
       }
-
       if (typeof window.h === 'undefined') {
-        console.error('[preview-poc] window.h is undefined. Cannot build preview component. Aborting.');
+        console.error('[preview-poc] window.h is undefined. Aborting.');
         return;
       }
 
-      // Step 3: Attempt preview registration inside try/catch
+      // ── Inline style tokens (mirrors global.css Palette C) ────────────────
+      var c = {
+        shell:       '#F7F4EF',
+        sand:        '#EDE8E0',
+        sandDark:    '#D9C3A3',
+        ink:         '#3C3F41',
+        driftwood:   '#B7B1A6',
+        driftwoodDk: '#3C3F41',
+        tide:        '#AFC8C0',
+        tideDark:    '#4A7A70',
+        coral:       '#E8D7D0',
+        white:       '#ffffff',
+      };
+
+      var fonts = {
+        display: "'Cormorant Garamond', Georgia, serif",
+        body:    "'Jost', 'Gill Sans', sans-serif",
+      };
+
+      // ── Helper: safe ImmutableJS list → JS array ──────────────────────────
+      function toArr(val) {
+        if (!val) return [];
+        if (typeof val.toArray === 'function') return val.toArray();
+        if (Array.isArray(val)) return val;
+        return [];
+      }
+
+      // ── Helper: safe ImmutableJS map field get ────────────────────────────
+      function getField(item, key) {
+        if (!item) return '';
+        if (typeof item.get === 'function') return item.get(key) || '';
+        return item[key] || '';
+      }
+
+      // ── Preview component ─────────────────────────────────────────────────
       try {
         var AboutPreview = window.createClass({
           render: function () {
-            var title = this.props.entry.getIn(['data', 'pageTitle']);
-            return window.h('h1', {}, title || '(no title yet)');
+            var entry  = this.props.entry;
+            var get    = function (key) { return entry.getIn(['data', key]) || ''; };
+
+            var intraParagraphs = toArr(entry.getIn(['data', 'introParagraphs']));
+            var processSteps    = toArr(entry.getIn(['data', 'processSteps']));
+
+            var h = window.h;
+
+            // ── Shared style objects ────────────────────────────────────────
+            var wrap = {
+              fontFamily: fonts.body,
+              background: c.shell,
+              color:      c.ink,
+              minHeight:  '100vh',
+              lineHeight: '1.7',
+              fontSize:   '16px',
+            };
+
+            var eyebrowStyle = {
+              fontFamily:    fonts.body,
+              fontSize:      '0.68rem',
+              letterSpacing: '0.2em',
+              textTransform: 'uppercase',
+              color:         c.tideDark,
+              marginBottom:  '0.6rem',
+            };
+
+            var h1Style = {
+              fontFamily:   fonts.display,
+              fontWeight:   '400',
+              fontSize:     'clamp(2rem, 5vw, 3.5rem)',
+              color:        c.driftwoodDk,
+              lineHeight:   '1.15',
+              marginBottom: '0.5rem',
+            };
+
+            var h2Style = {
+              fontFamily:   fonts.display,
+              fontWeight:   '400',
+              fontSize:     'clamp(1.4rem, 3vw, 2.2rem)',
+              color:        c.driftwoodDk,
+              lineHeight:   '1.15',
+              marginBottom: '0.75rem',
+              marginTop:    '0.25rem',
+            };
+
+            var pStyle = {
+              fontSize:    '0.95rem',
+              color:       c.driftwoodDk,
+              maxWidth:    '62ch',
+              marginBottom:'0.6rem',
+            };
+
+            var sectionStyle = {
+              padding:   '3rem 2rem',
+              maxWidth:  '900px',
+              margin:    '0 auto',
+            };
+
+            // ── Hero ────────────────────────────────────────────────────────
+            var hero = h('section', {
+              style: {
+                background:  c.sand,
+                padding:     '3.5rem 2rem',
+                textAlign:   'center',
+              }
+            },
+              h('p',  { style: eyebrowStyle }, get('pageEyebrow')),
+              h('h1', { style: Object.assign({}, h1Style, { marginBottom: '0.75rem' }) }, get('pageTitle')),
+              h('p',  { style: {
+                fontFamily: fonts.display,
+                fontStyle:  'italic',
+                fontSize:   '1.1rem',
+                color:      c.driftwood,
+              }}, get('pageIntro'))
+            );
+
+            // ── Intro section ───────────────────────────────────────────────
+            var introParaNodes = intraParagraphs.map(function (para, i) {
+              var text = typeof para === 'string' ? para : getField(para, 'paragraph');
+              return h('p', { style: pStyle, key: i }, text);
+            });
+
+            var intro = h('section', { style: sectionStyle },
+              h('p',  { style: eyebrowStyle }, get('introEyebrow')),
+              h('h2', { style: h2Style },      get('introTitle')),
+              introParaNodes.length > 0
+                ? introParaNodes
+                : h('p', { style: Object.assign({}, pStyle, { color: c.driftwood, fontStyle: 'italic' }) }, '(No intro paragraphs yet)')
+            );
+
+            // ── Craft / Process steps ───────────────────────────────────────
+            var stepNodes = processSteps.map(function (step, i) {
+              var title = getField(step, 'title');
+              var body  = getField(step, 'body');
+              return h('div', {
+                key: i,
+                style: {
+                  borderLeft:  '3px solid ' + c.tide,
+                  paddingLeft: '1rem',
+                  marginBottom:'1.25rem',
+                }
+              },
+                h('p', { style: {
+                  fontFamily:    fonts.display,
+                  fontSize:      '1.8rem',
+                  fontWeight:    '300',
+                  color:         c.tide,
+                  lineHeight:    '1',
+                  marginBottom:  '0.2rem',
+                }}, String(i + 1).padStart(2, '0')),
+                h('h3', { style: {
+                  fontFamily:   fonts.display,
+                  fontSize:     '1.2rem',
+                  fontWeight:   '400',
+                  color:        c.driftwoodDk,
+                  marginBottom: '0.3rem',
+                }}, title),
+                h('p', { style: pStyle }, body)
+              );
+            });
+
+            var craft = h('section', {
+              style: Object.assign({}, sectionStyle, { background: c.sand, maxWidth: '100%', padding: '3rem 2rem' })
+            },
+              h('div', { style: { maxWidth: '900px', margin: '0 auto' } },
+                h('p',  { style: eyebrowStyle }, get('craftEyebrow')),
+                h('h2', { style: h2Style },      get('craftTitle')),
+                h('p',  { style: Object.assign({}, pStyle, { marginBottom: '2rem' }) }, get('craftText')),
+                stepNodes.length > 0
+                  ? h('div', { style: {
+                      display:             'grid',
+                      gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+                      gap:                 '1.5rem',
+                    }}, stepNodes)
+                  : h('p', { style: Object.assign({}, pStyle, { color: c.driftwood, fontStyle: 'italic' }) }, '(No process steps yet)')
+              )
+            );
+
+            // ── Contact CTA strip ───────────────────────────────────────────
+            var cta = h('section', {
+              style: {
+                background: c.tideDark,
+                padding:    '2.5rem 2rem',
+                display:    'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap:        '1.5rem',
+                flexWrap:   'wrap',
+              }
+            },
+              h('div', {},
+                h('h3', { style: {
+                  fontFamily:   fonts.display,
+                  fontSize:     '1.4rem',
+                  fontWeight:   '400',
+                  color:        c.white,
+                  marginBottom: '0.4rem',
+                }}, get('contactCtaTitle')),
+                h('p', { style: Object.assign({}, pStyle, { color: c.tide, maxWidth: '50ch' }) },
+                  get('contactCtaText'))
+              ),
+              h('span', { style: {
+                display:       'inline-block',
+                padding:       '0.75rem 2rem',
+                background:    c.white,
+                color:         c.tideDark,
+                fontFamily:    fonts.body,
+                fontSize:      '0.78rem',
+                fontWeight:    '500',
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase',
+              }}, get('contactCtaButtonText') || 'Get in Touch')
+            );
+
+            // ── Assemble ────────────────────────────────────────────────────
+            return h('div', { style: wrap }, hero, intro, craft, cta);
           }
         });
 
         window.CMS.registerPreviewTemplate('about', AboutPreview);
         console.log('[preview-poc] registerPreviewTemplate("about") succeeded.');
+
       } catch (err) {
         console.error('[preview-poc] registerPreviewTemplate failed:', err);
       }
+
     }());
   </script>
 </body>
