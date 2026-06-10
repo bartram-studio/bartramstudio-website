@@ -1031,7 +1031,7 @@
       // Phase 1 scope:
       //   Renders: title, category, description, price, status, quantity,
       //            featured, customOrderAvailable
-      //   Gallery: static placeholder only — no getAsset, no images[], no videos[]
+      //   Gallery: first image via getAsset() with 6-step defensive fallback to placeholder
       //
       // Defensive rules applied:
       //   - All field reads guarded with || fallback
@@ -1090,12 +1090,80 @@
               marginBottom: '0.5rem',
             };
 
-            // ── Gallery placeholder (Phase 1 — no image access) ────────────
+            // ── Gallery — Phase 2: first image with full defensive fallback ──
+            //
+            // Six checks must all pass before an <img> is rendered.
+            // Any falsy result at any step sets useImage = false and the
+            // Phase 1 "Photos coming soon" placeholder is shown instead.
+            // Nothing in this block can throw during render.
+            //
+            // Check 1: images list exists and has at least one entry
+            var imagesList  = entry.getIn(['data', 'images']);
+            var imagesOk    = imagesList && (
+                                typeof imagesList.size  === 'number' ? imagesList.size  > 0 :
+                                typeof imagesList.length === 'number' ? imagesList.length > 0 :
+                                false
+                              );
+
+            // Check 2: first item exists
+            var firstItem   = imagesOk ? entry.getIn(['data', 'images', 0]) : null;
+
+            // Check 3: first item has an image value
+            var rawImgVal   = firstItem ? entry.getIn(['data', 'images', 0, 'image']) : null;
+            var imgPathOk   = rawImgVal && typeof rawImgVal === 'string' && rawImgVal.length > 0;
+
+            // Check 4: getAsset prop exists and is a function
+            var getAssetFn  = (typeof this.props.getAsset === 'function') ? this.props.getAsset : null;
+
+            // Check 5: getAsset returns a truthy asset
+            var asset       = (imgPathOk && getAssetFn) ? getAssetFn(rawImgVal) : null;
+            var assetOk     = asset && asset.toString && asset.toString().length > 0;
+
+            // Final gate
+            var useImage    = !!(imagesOk && imgPathOk && getAssetFn && assetOk);
+
+            // ── Gallery content: image or placeholder ─────────────────────
+            var galleryContent = useImage
+              ? h('img', {
+                  src:   asset,
+                  alt:   title || 'Product image',
+                  style: {
+                    width:      '100%',
+                    height:     '100%',
+                    objectFit:  'cover',
+                    display:    'block',
+                  },
+                })
+              : [
+                  // SVG icon
+                  h('svg', { key: 'svg',
+                    width: '56', height: '56', viewBox: '0 0 24 24',
+                    fill: 'none', stroke: c.driftwood, strokeWidth: '1',
+                    style: { opacity: '0.5' }
+                  },
+                    h('rect',     { x: '3', y: '3', width: '18', height: '18', rx: '2' }),
+                    h('circle',   { cx: '8.5', cy: '8.5', r: '1.5' }),
+                    h('polyline', { points: '21 15 16 10 5 21' })
+                  ),
+                  // Label
+                  h('p', { key: 'lbl', style: {
+                    fontFamily:    fonts.body,
+                    fontSize:      '0.8rem',
+                    letterSpacing: '0.06em',
+                    color:         c.driftwood,
+                    opacity:       '0.7',
+                  }}, 'Photos coming soon'),
+                ];
+
+            // ── Outer gallery wrapper (same dimensions and badge as Phase 1) ──
             var galleryPlaceholder = h('div', {
               style: {
                 aspectRatio:    '1',
-                background:     'linear-gradient(135deg, ' + c.sand + ' 0%, ' + c.sandDark + ' 100%)',
+                background:     useImage
+                                  ? 'transparent'
+                                  : 'linear-gradient(135deg, ' + c.sand + ' 0%, ' + c.sandDark + ' 100%)',
                 borderRadius:   '2px',
+                overflow:       'hidden',
                 display:        'flex',
                 flexDirection:  'column',
                 alignItems:     'center',
@@ -1105,7 +1173,7 @@
                 position:       'relative',
               }
             },
-              // Featured badge — overlaid on placeholder
+              // Featured badge — always overlaid regardless of image state
               featured && h('div', {
                 style: {
                   position:      'absolute',
@@ -1119,25 +1187,11 @@
                   padding:       '0.2rem 0.6rem',
                   fontWeight:    '500',
                   fontFamily:    fonts.body,
+                  zIndex:        '1',
                 }
               }, 'Featured'),
-              // Image icon SVG
-              h('svg', {
-                width: '56', height: '56', viewBox: '0 0 24 24',
-                fill: 'none', stroke: c.driftwood, strokeWidth: '1',
-                style: { opacity: '0.5' }
-              },
-                h('rect', { x: '3', y: '3', width: '18', height: '18', rx: '2' }),
-                h('circle', { cx: '8.5', cy: '8.5', r: '1.5' }),
-                h('polyline', { points: '21 15 16 10 5 21' })
-              ),
-              h('p', { style: {
-                fontFamily:    fonts.body,
-                fontSize:      '0.8rem',
-                letterSpacing: '0.06em',
-                color:         c.driftwood,
-                opacity:       '0.7',
-              }}, 'Photos coming soon')            );
+              galleryContent
+            );
 
             // ── Product info column ─────────────────────────────────────────
 
