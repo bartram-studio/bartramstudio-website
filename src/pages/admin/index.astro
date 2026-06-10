@@ -1031,7 +1031,7 @@
       // Phase 1 scope:
       //   Renders: title, category, description, price, status, quantity,
       //            featured, customOrderAvailable
-      //   Gallery: first image via getAsset() with 6-step defensive fallback to placeholder
+      //   Gallery: first image via getAsset(), dual-shape (string or object), defensive fallback
       //
       // Defensive rules applied:
       //   - All field reads guarded with || fallback
@@ -1090,37 +1090,44 @@
               marginBottom: '0.5rem',
             };
 
-            // ── Gallery — Phase 2: first image with full defensive fallback ──
+            // ── Gallery — Phase 2: first image with dual-shape defensive fallback
             //
-            // Six checks must all pass before an <img> is rendered.
-            // Any falsy result at any step sets useImage = false and the
-            // Phase 1 "Photos coming soon" placeholder is shown instead.
+            // Decap list+single-field stores items as plain strings, not objects.
+            // Primary path:  imagesArr[0] used directly if it is a non-empty string.
+            // Fallback path: getField(firstItem, 'image') used if firstItem is an
+            //                object or ImmutableJS Map (handles any future shape change).
+            // If any step fails, useImage = false and placeholder is shown.
             // Nothing in this block can throw during render.
-            //
-            // Check 1: images list exists and has at least one entry
-            var imagesList  = entry.getIn(['data', 'images']);
-            var imagesOk    = imagesList && (
-                                typeof imagesList.size  === 'number' ? imagesList.size  > 0 :
-                                typeof imagesList.length === 'number' ? imagesList.length > 0 :
-                                false
-                              );
 
-            // Check 2: first item exists
-            var firstItem   = imagesOk ? entry.getIn(['data', 'images', 0]) : null;
+            // Step 1: normalise the ImmutableJS List to a plain JS array
+            var imagesArr  = toArr(entry.getIn(['data', 'images']));
 
-            // Check 3: first item has an image value
-            var rawImgVal   = firstItem ? entry.getIn(['data', 'images', 0, 'image']) : null;
-            var imgPathOk   = rawImgVal && typeof rawImgVal === 'string' && rawImgVal.length > 0;
+            // Step 2: get first item — may be a string or object/Map
+            var firstItem  = imagesArr.length > 0 ? imagesArr[0] : null;
 
-            // Check 4: getAsset prop exists and is a function
-            var getAssetFn  = (typeof this.props.getAsset === 'function') ? this.props.getAsset : null;
+            // Step 3: resolve the image path, supporting both storage shapes
+            //   Shape A — plain string:  imagesArr[0] === "/images/products/foo.jpg"
+            //   Shape B — object/Map:    imagesArr[0].image === "/images/products/foo.jpg"
+            var rawImgVal  = null;
+            if (firstItem && typeof firstItem === 'string' && firstItem.length > 0) {
+              rawImgVal = firstItem;                        // Shape A
+            } else if (firstItem && typeof firstItem !== 'string') {
+              var _fromObj = getField(firstItem, 'image'); // Shape B
+              if (_fromObj && typeof _fromObj === 'string' && _fromObj.length > 0) {
+                rawImgVal = _fromObj;
+              }
+            }
 
-            // Check 5: getAsset returns a truthy asset
-            var asset       = (imgPathOk && getAssetFn) ? getAssetFn(rawImgVal) : null;
-            var assetOk     = asset && asset.toString && asset.toString().length > 0;
+            // Step 4: getAsset prop must exist and be a function
+            var getAssetFn = (typeof this.props.getAsset === 'function')
+                             ? this.props.getAsset : null;
+
+            // Step 5: call getAsset only if we have a valid path
+            var asset      = (rawImgVal && getAssetFn) ? getAssetFn(rawImgVal) : null;
+            var assetOk    = asset && asset.toString && asset.toString().length > 0;
 
             // Final gate
-            var useImage    = !!(imagesOk && imgPathOk && getAssetFn && assetOk);
+            var useImage   = !!(rawImgVal && getAssetFn && assetOk);
 
             // ── Gallery content: image or placeholder ─────────────────────
             var galleryContent = useImage
