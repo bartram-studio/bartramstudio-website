@@ -160,9 +160,9 @@ collections:
             widget: "select"
             required: false
             hint: "Background colour of the page header/hero section."
-            default: "soft-shell"
             options:
-              - { label: "Soft Shell White (default)", value: "soft-shell" }
+              - { label: "Site Default (Sand)", value: "" }
+              - { label: "Soft Shell White", value: "soft-shell" }
               - { label: "Sea Glass Green", value: "sea-glass" }
               - { label: "Resin Amber", value: "resin-amber" }
               - { label: "Shell Pink", value: "shell-pink" }
@@ -226,9 +226,9 @@ collections:
             widget: "select"
             required: false
             hint: "Background colour of the page header/hero section."
-            default: "soft-shell"
             options:
-              - { label: "Soft Shell White (default)", value: "soft-shell" }
+              - { label: "Site Default (Sand)", value: "" }
+              - { label: "Soft Shell White", value: "soft-shell" }
               - { label: "Sea Glass Green", value: "sea-glass" }
               - { label: "Resin Amber", value: "resin-amber" }
               - { label: "Shell Pink", value: "shell-pink" }
@@ -270,9 +270,9 @@ collections:
             widget: "select"
             required: false
             hint: "Background colour of the page header/hero section."
-            default: "soft-shell"
             options:
-              - { label: "Soft Shell White (default)", value: "soft-shell" }
+              - { label: "Site Default (Sand)", value: "" }
+              - { label: "Soft Shell White", value: "soft-shell" }
               - { label: "Sea Glass Green", value: "sea-glass" }
               - { label: "Resin Amber", value: "resin-amber" }
               - { label: "Shell Pink", value: "shell-pink" }
@@ -291,9 +291,9 @@ collections:
             widget: "select"
             required: false
             hint: "Background colour of the page header/hero section."
-            default: "soft-shell"
             options:
-              - { label: "Soft Shell White (default)", value: "soft-shell" }
+              - { label: "Site Default (Sand)", value: "" }
+              - { label: "Soft Shell White", value: "soft-shell" }
               - { label: "Sea Glass Green", value: "sea-glass" }
               - { label: "Resin Amber", value: "resin-amber" }
               - { label: "Shell Pink", value: "shell-pink" }

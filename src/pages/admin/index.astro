@@ -63,13 +63,14 @@
       // Keys are the exact CMS option values from public/admin/config.yml.
       // Fallback is --sand (#EDE8E0), matching the live page-hero default.
       var heroBgMap = {
+        '':            '#EDE8E0', // "Site Default (Sand)" — empty value → --sand fallback
         'soft-shell':  '#F7F4EF',
         'sea-glass':   '#AFC8C0',
         'resin-amber': '#D9C3A3',
         'shell-pink':  '#E8D7D0',
         'driftwood':   '#B7B1A6',
       };
-      var heroBgFallback = '#EDE8E0'; // --sand
+      var heroBgFallback = '#EDE8E0'; // --sand (also used for any unrecognised value)
 
       // ── Helper: safe ImmutableJS list → JS array ──────────────────────────
       function toArr(val) {
