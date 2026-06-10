@@ -519,13 +519,15 @@
         console.error('[preview-poc] registerPreviewTemplate("contact") failed:', err);
       }
 
-      // ── Homepage preview — Phase 1 ──────────────────────────────────────
-      // Sections: Hero, About Strip, Custom Order CTA
+      // ── Homepage preview — Complete (Phase 1 + Phase 2) ─────────────────
+      // Sections: Hero, Featured Products, Categories, About Strip, CTA
       // Fields:   heroEyebrow, heroTitle, heroTitleEmphasis, heroLead, heroBg,
+      //           featuredEyebrow, featuredTitle, featuredText,
+      //           categoriesEyebrow, categoriesTitle,
       //           aboutEyebrow, aboutTitle, aboutText,
       //           ctaTitle, ctaTitleEmphasis, ctaText, ctaButtonText, ctaBg
-      // Skipped:  Featured Products (requires live product data — Phase 2)
-      //           Categories (dynamic product-derived list — Phase 2)
+      // Note:     Featured product cards and category pills use placeholders —
+      //           live data requires Astro content collections unavailable here.
       try {
         var HomePreview = window.createClass({
           render: function () {
@@ -605,24 +607,141 @@
               }}, get('heroLead'))
             );
 
-            // ── Skipped sections notice ───────────────────────────────────
-            // Featured Products and Categories sections are not rendered in
-            // Phase 1 because they require live product collection data.
-            var skippedNotice = h('section', {
+            // ── Featured Products section ─────────────────────────────────
+            // Renders the editable heading/subtitle then three placeholder cards.
+            // Real product cards are driven by product entries with featured:true —
+            // they cannot be accessed from inside the CMS preview iframe.
+            var featuredSection = h('section', {
               style: {
-                background:  c.sand,
-                padding:     '1.5rem 2rem',
-                textAlign:   'center',
-                borderTop:   '1px dashed ' + c.sandDark,
-                borderBottom:'1px dashed ' + c.sandDark,
+                background: c.sand,
+                padding:    '3.5rem 2rem',
               }
             },
-              h('p', { style: {
-                fontSize:   '0.75rem',
-                fontFamily: fonts.body,
-                color:      c.driftwood,
-                fontStyle:  'italic',
-              }}, 'Featured Products and Categories sections are not shown in this preview.')
+              h('div', { style: { maxWidth: '1100px', margin: '0 auto' } },
+                // Section heading
+                h('div', { style: { marginBottom: '2rem' } },
+                  h('p', { style: eyebrowStyle }, get('featuredEyebrow')),
+                  h('h2', { style: {
+                    fontFamily:   fonts.display,
+                    fontWeight:   '400',
+                    fontSize:     'clamp(1.5rem, 3vw, 2.4rem)',
+                    color:        c.driftwoodDk,
+                    lineHeight:   '1.15',
+                    marginBottom: '0.35rem',
+                    marginTop:    '0.25rem',
+                  }}, get('featuredTitle')),
+                  h('p', { style: pStyle }, get('featuredText'))
+                ),
+                // Placeholder product card grid — three cards
+                h('div', { style: {
+                  display:             'grid',
+                  gridTemplateColumns: 'repeat(3, 1fr)',
+                  gap:                 '1.5rem',
+                }},
+                  [0, 1, 2].map(function (i) {
+                    return h('div', { key: i, style: {
+                      background:    c.white,
+                      borderRadius:  '2px',
+                      overflow:      'hidden',
+                      boxShadow:     '0 1px 4px rgba(0,0,0,0.06)',
+                    }},
+                      // Image area placeholder
+                      h('div', { style: {
+                        aspectRatio:    '4/3',
+                        background:     'linear-gradient(135deg, ' + c.sand + ' 0%, ' + c.sandDark + ' 100%)',
+                        display:        'flex',
+                        alignItems:     'center',
+                        justifyContent: 'center',
+                      }},
+                        h('svg', { width: '40', height: '40', viewBox: '0 0 24 24', fill: 'none',
+                                   stroke: c.driftwood, strokeWidth: '1' },
+                          h('rect', { x: '3', y: '3', width: '18', height: '18', rx: '2' }),
+                          h('circle', { cx: '8.5', cy: '8.5', r: '1.5' }),
+                          h('polyline', { points: '21 15 16 10 5 21' })
+                        )
+                      ),
+                      // Card body
+                      h('div', { style: { padding: '1rem 1.25rem 1.5rem' } },
+                        h('p', { style: {
+                          fontSize:      '0.62rem',
+                          letterSpacing: '0.15em',
+                          textTransform: 'uppercase',
+                          color:         c.tide,
+                          fontWeight:    '500',
+                          marginBottom:  '0.3rem',
+                        }}, 'Coastal Decor'),
+                        h('p', { style: {
+                          fontFamily:   fonts.display,
+                          fontSize:     '1.2rem',
+                          color:        c.driftwoodDk,
+                          marginBottom: '0.3rem',
+                        }}, 'Featured piece'),
+                        h('p', { style: {
+                          fontSize:   '0.72rem',
+                          color:      c.driftwood,
+                          fontStyle:  'italic',
+                          marginTop:  '0.5rem',
+                        }}, 'Featured products appear here')
+                      )
+                    );
+                  })
+                )
+              )
+            );
+
+            // ── Categories section ─────────────────────────────────────────
+            // Renders the editable heading then four fixed category pills.
+            // The live site derives categories dynamically from product entries —
+            // these four match the fixed options in config.yml.
+            var knownCategories = ['Resin Art', 'Coastal Decor', 'Seasonal Crafts', 'Custom Pieces'];
+
+            var categoriesSection = h('section', {
+              style: {
+                background: c.shell,
+                padding:    '3.5rem 2rem',
+              }
+            },
+              h('div', { style: { maxWidth: '1100px', margin: '0 auto' } },
+                h('div', { style: { marginBottom: '2rem' } },
+                  h('p', { style: eyebrowStyle }, get('categoriesEyebrow')),
+                  h('h2', { style: {
+                    fontFamily:   fonts.display,
+                    fontWeight:   '400',
+                    fontSize:     'clamp(1.5rem, 3vw, 2.4rem)',
+                    color:        c.driftwoodDk,
+                    lineHeight:   '1.15',
+                    marginBottom: '0.35rem',
+                    marginTop:    '0.25rem',
+                  }}, get('categoriesTitle'))
+                ),
+                // Category pill row
+                h('div', { style: {
+                  display:  'flex',
+                  gap:      '0.75rem',
+                  flexWrap: 'wrap',
+                }},
+                  knownCategories.map(function (cat, i) {
+                    return h('span', { key: i, style: {
+                      padding:       '0.5rem 1.25rem',
+                      border:        '1.5px solid ' + c.sandDark,
+                      borderRadius:  '20px',
+                      fontFamily:    fonts.body,
+                      fontSize:      '0.72rem',
+                      fontWeight:    '500',
+                      letterSpacing: '0.08em',
+                      textTransform: 'uppercase',
+                      color:         c.driftwoodDk,
+                      background:    c.white,
+                    }}, cat);
+                  })
+                ),
+                h('p', { style: {
+                  marginTop:  '1rem',
+                  fontSize:   '0.72rem',
+                  color:      c.driftwood,
+                  fontStyle:  'italic',
+                }}, 'Categories are generated from product listings')
+              )
             );
 
             // ── About Strip ───────────────────────────────────────────────
@@ -745,7 +864,8 @@
             // ── Assemble ──────────────────────────────────────────────────
             return h('div', { style: wrap },
               hero,
-              skippedNotice,
+              featuredSection,
+              categoriesSection,
               aboutStrip,
               ctaSection
             );
