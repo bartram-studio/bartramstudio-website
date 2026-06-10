@@ -519,6 +519,246 @@
         console.error('[preview-poc] registerPreviewTemplate("contact") failed:', err);
       }
 
+      // ── Homepage preview — Phase 1 ──────────────────────────────────────
+      // Sections: Hero, About Strip, Custom Order CTA
+      // Fields:   heroEyebrow, heroTitle, heroTitleEmphasis, heroLead, heroBg,
+      //           aboutEyebrow, aboutTitle, aboutText,
+      //           ctaTitle, ctaTitleEmphasis, ctaText, ctaButtonText, ctaBg
+      // Skipped:  Featured Products (requires live product data — Phase 2)
+      //           Categories (dynamic product-derived list — Phase 2)
+      try {
+        var HomePreview = window.createClass({
+          render: function () {
+            var entry = this.props.entry;
+            var get   = function (key) { return entry.getIn(['data', key]) || ''; };
+            var h     = window.h;
+
+            // Reuse shared tokens: c, fonts, heroBgMap, heroBgFallback
+
+            // ── Shared styles (local to this render) ─────────────────────
+            var wrap = {
+              fontFamily: fonts.body,
+              background: c.shell,
+              color:      c.ink,
+              minHeight:  '100vh',
+              lineHeight: '1.7',
+              fontSize:   '16px',
+            };
+
+            var eyebrowStyle = {
+              fontFamily:    fonts.body,
+              fontSize:      '0.68rem',
+              letterSpacing: '0.2em',
+              textTransform: 'uppercase',
+              color:         c.tideDark,
+              marginBottom:  '0.5rem',
+            };
+
+            var pStyle = {
+              fontSize:     '0.95rem',
+              color:        c.driftwoodDk,
+              maxWidth:     '62ch',
+              marginBottom: '0.6rem',
+            };
+
+            // ── Hero ──────────────────────────────────────────────────────
+            // heroTitleEmphasis: rendered as italic teal second line inside h1,
+            // matching the live site's emphasis treatment.
+            var heroBgValue = entry.getIn(['data', 'heroBg']) || '';
+            var heroBgColor = heroBgMap[heroBgValue] || heroBgFallback;
+
+            var titleEmphasis = get('heroTitleEmphasis');
+            var h1Content = titleEmphasis
+              ? [
+                  get('heroTitle'),
+                  h('span', { key: 'em', style: {
+                    display:    'block',
+                    fontStyle:  'italic',
+                    color:      c.tideDark,
+                  }}, titleEmphasis),
+                ]
+              : get('heroTitle');
+
+            var hero = h('section', {
+              style: {
+                background: heroBgColor,
+                padding:    '4rem 2rem',
+                textAlign:  'center',
+              }
+            },
+              h('p', { style: eyebrowStyle }, get('heroEyebrow')),
+              h('h1', { style: {
+                fontFamily:   fonts.display,
+                fontWeight:   '400',
+                fontSize:     'clamp(2.2rem, 5vw, 4rem)',
+                color:        c.driftwoodDk,
+                lineHeight:   '1.15',
+                marginBottom: '1rem',
+              }}, h1Content),
+              h('p', { style: {
+                fontFamily:   fonts.display,
+                fontStyle:    'italic',
+                fontSize:     'clamp(1rem, 1.8vw, 1.2rem)',
+                color:        c.driftwood,
+                marginInline: 'auto',
+                maxWidth:     '60ch',
+              }}, get('heroLead'))
+            );
+
+            // ── Skipped sections notice ───────────────────────────────────
+            // Featured Products and Categories sections are not rendered in
+            // Phase 1 because they require live product collection data.
+            var skippedNotice = h('section', {
+              style: {
+                background:  c.sand,
+                padding:     '1.5rem 2rem',
+                textAlign:   'center',
+                borderTop:   '1px dashed ' + c.sandDark,
+                borderBottom:'1px dashed ' + c.sandDark,
+              }
+            },
+              h('p', { style: {
+                fontSize:   '0.75rem',
+                fontFamily: fonts.body,
+                color:      c.driftwood,
+                fontStyle:  'italic',
+              }}, 'Featured Products and Categories sections are not shown in this preview.')
+            );
+
+            // ── About Strip ───────────────────────────────────────────────
+            // Dark teal background, two-column: text left, image placeholder right.
+            var aboutStrip = h('section', {
+              style: {
+                background: c.tideDark,
+                padding:    '3.5rem 2rem',
+              }
+            },
+              h('div', { style: {
+                maxWidth:   '1100px',
+                margin:     '0 auto',
+                display:    'flex',
+                gap:        '3rem',
+                alignItems: 'center',
+                flexWrap:   'wrap',
+              }},
+                // Text column
+                h('div', { style: { flex: '1', minWidth: '260px' } },
+                  h('p', { style: Object.assign({}, eyebrowStyle, { color: c.tide, opacity: '0.85' }) },
+                    get('aboutEyebrow')),
+                  h('h2', { style: {
+                    fontFamily:   fonts.display,
+                    fontWeight:   '400',
+                    fontSize:     'clamp(1.5rem, 3vw, 2.4rem)',
+                    color:        c.white,
+                    lineHeight:   '1.15',
+                    marginBottom: '1rem',
+                    marginTop:    '0.25rem',
+                  }}, get('aboutTitle')),
+                  h('p', { style: Object.assign({}, pStyle, { color: c.tide, maxWidth: '52ch' }) },
+                    get('aboutText')),
+                  h('span', { style: {
+                    display:       'inline-block',
+                    marginTop:     '1.25rem',
+                    padding:       '0.7rem 1.75rem',
+                    border:        '1.5px solid ' + c.tide,
+                    color:         c.white,
+                    fontFamily:    fonts.body,
+                    fontSize:      '0.78rem',
+                    fontWeight:    '500',
+                    letterSpacing: '0.12em',
+                    textTransform: 'uppercase',
+                  }}, 'Learn More')
+                ),
+                // Image placeholder column
+                h('div', { style: {
+                  flex:           '1',
+                  minWidth:       '220px',
+                  aspectRatio:    '4/3',
+                  background:     'rgba(255,255,255,0.08)',
+                  display:        'flex',
+                  alignItems:     'center',
+                  justifyContent: 'center',
+                  color:          'rgba(255,255,255,0.25)',
+                  fontSize:       '0.75rem',
+                  letterSpacing:  '0.1em',
+                  textTransform:  'uppercase',
+                }}, 'Studio photo')
+              )
+            );
+
+            // ── Custom Order CTA ──────────────────────────────────────────
+            // ctaTitleEmphasis: italic coral second line inside h2,
+            // matching the live site's CTA emphasis treatment.
+            var ctaBgValue = entry.getIn(['data', 'ctaBg']) || '';
+            var ctaBgColor = heroBgMap[ctaBgValue] || heroBgFallback;
+
+            var ctaEmphasis = get('ctaTitleEmphasis');
+            var ctaH2Content = ctaEmphasis
+              ? [
+                  get('ctaTitle'),
+                  h('span', { key: 'em', style: {
+                    display:   'block',
+                    fontStyle: 'italic',
+                    color:     c.coral,
+                  }}, ctaEmphasis),
+                ]
+              : get('ctaTitle');
+
+            var ctaSection = h('section', {
+              style: {
+                background: ctaBgColor,
+                padding:    '3.5rem 2rem',
+                textAlign:  'center',
+              }
+            },
+              h('div', { style: {
+                maxWidth:     '640px',
+                margin:       '0 auto',
+                border:       '1.5px solid ' + c.sandDark,
+                padding:      '2.5rem',
+                background:   ctaBgColor,
+              }},
+                h('h2', { style: {
+                  fontFamily:   fonts.display,
+                  fontWeight:   '400',
+                  fontSize:     'clamp(1.5rem, 3vw, 2.4rem)',
+                  color:        c.driftwoodDk,
+                  lineHeight:   '1.2',
+                  marginBottom: '0.75rem',
+                }}, ctaH2Content),
+                h('p', { style: Object.assign({}, pStyle, { marginInline: 'auto', marginBottom: '1.5rem' }) },
+                  get('ctaText')),
+                h('span', { style: {
+                  display:       'inline-block',
+                  padding:       '0.75rem 2rem',
+                  background:    c.tideDark,
+                  color:         c.white,
+                  fontFamily:    fonts.body,
+                  fontSize:      '0.78rem',
+                  fontWeight:    '500',
+                  letterSpacing: '0.12em',
+                  textTransform: 'uppercase',
+                }}, get('ctaButtonText') || 'Get in Touch')
+              )
+            );
+
+            // ── Assemble ──────────────────────────────────────────────────
+            return h('div', { style: wrap },
+              hero,
+              skippedNotice,
+              aboutStrip,
+              ctaSection
+            );
+          }
+        });
+
+        window.CMS.registerPreviewTemplate('home', HomePreview);
+        console.log('[preview-poc] registerPreviewTemplate("home") succeeded.');
+
+      } catch (err) {
+        console.error('[preview-poc] registerPreviewTemplate("home") failed:', err);
+      }
+
     }());
   </script>
 </body>
