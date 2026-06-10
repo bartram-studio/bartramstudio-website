@@ -14,6 +14,5 @@ status: available
 featured: true
 customOrderAvailable: true
 images:
-  - /images/products/custom-sign-1.jpg
-  - /images/products/custom-sign-2.jpg
+  - /images/products/test1.jpg
 ---
