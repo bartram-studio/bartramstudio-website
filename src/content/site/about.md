@@ -63,4 +63,5 @@ contactCtaText: I love hearing from people. Whether you’re curious about a
   piece, dreaming up something custom, or just want to say hello, I’m always
   happy to connect.
 contactCtaButtonText: Get in Touch
+heroBg: soft-shell
 ---
