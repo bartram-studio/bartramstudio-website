@@ -24,4 +24,6 @@ ctaText: Custom orders are one of my favorite parts of this work. Whether you’
   imagining a personalized sign, a custom color palette, or a piece made to fit
   a specific space, I’d love to create something just for you.
 ctaButtonText: Start a Custom Order
+heroBg: soft-shell
+ctaBg: soft-shell
 ---
