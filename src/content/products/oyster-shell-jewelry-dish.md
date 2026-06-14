@@ -1,16 +1,28 @@
 ---
-title: Oyster Shell Jewelry Dish
+title: Coastal Bloom Jewelry Organizer
 category: Coastal Decor
-description: A real Florida oyster shell transformed into a delicate jewelry or
-  trinket dish. The interior is hand-painted in soft gold leaf that shimmers
-  against the natural nacre of the shell. A tiny sprig of dried baby's breath is
-  embedded at the base and sealed under clear resin for an ethereal finishing
-  touch. Each shell measures approximately 3–4 inches — a perfect nightstand or
-  vanity accent, and a thoughtful gift.
-price: 28
+description: >-
+  Bring the beauty of the shore and the elegance of a blooming garden to your
+  vanity. This handcrafted jewelry organizer features genuine seashell elements,
+  a sculpted starfish display, gold-accented shell dishes, and preserved floral
+  artwork sealed beneath a glossy finish. Designed to beautifully display
+  necklaces, rings, bracelets, and earrings while serving as a decorative
+  coastal centerpiece, each piece is uniquely handcrafted and one of a kind.
+
+
+  Perfect for:
+
+  Jewelry storage
+
+  Coastal home décor
+
+  Vanity organization
+
+  Thoughtful gifts for beach lovers
+price: 85
 quantity: 1
 slug: oyster-shell-jewelry-dish
-status: pending
+status: available
 featured: false
 customOrderAvailable: false
 images:
