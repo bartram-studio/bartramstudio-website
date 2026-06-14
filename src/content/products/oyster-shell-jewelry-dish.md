@@ -13,5 +13,8 @@ category: Coastal Decor
 status: pending
 featured: false
 customOrderAvailable: false
-images: []
+images:
+  - /images/products/chatgpt-image-jun-14-2026-at-04_07_51-pm.png
+  - /images/products/chatgpt-image-jun-14-2026-at-04_11_28-pm.png
+  - /images/products/chatgpt-image-jun-14-2026-at-04_11_28-pm.png
 ---
