@@ -520,11 +520,12 @@
       }
 
       // ── Homepage preview — Complete (Phase 1 + Phase 2) ─────────────────
-      // Sections: Hero, Featured Products, Categories, About Strip, CTA
+      // Sections: Hero, Band, Featured Products, Categories, About Strip, CTA
       // Fields:   heroEyebrow, heroTitle, heroTitleEmphasis, heroLead, heroBg,
-      //           featuredEyebrow, featuredTitle, featuredText,
-      //           categoriesEyebrow, categoriesTitle,
-      //           aboutEyebrow, aboutTitle, aboutText,
+      //           bandBg,
+      //           featuredEyebrow, featuredTitle, featuredText, featuredBg,
+      //           categoriesEyebrow, categoriesTitle, categoriesBg,
+      //           aboutEyebrow, aboutTitle, aboutText, aboutBg,
       //           ctaTitle, ctaTitleEmphasis, ctaText, ctaButtonText, ctaBg
       // Note:     Featured product cards and category pills use placeholders —
       //           live data requires Astro content collections unavailable here.
@@ -611,9 +612,11 @@
             // Renders the editable heading/subtitle then three placeholder cards.
             // Real product cards are driven by product entries with featured:true —
             // they cannot be accessed from inside the CMS preview iframe.
+            var featuredBgValue = entry.getIn(['data', 'featuredBg']) || '';
+            var featuredBgColor = heroBgMap[featuredBgValue] || c.sand;
             var featuredSection = h('section', {
               style: {
-                background: c.sand,
+                background: featuredBgColor,
                 padding:    '3.5rem 2rem',
               }
             },
@@ -695,9 +698,11 @@
             // these four match the fixed options in config.yml.
             var knownCategories = ['Resin Art', 'Coastal Decor', 'Seasonal Crafts', 'Custom Pieces'];
 
+            var categoriesBgValue = entry.getIn(['data', 'categoriesBg']) || '';
+            var categoriesBgColor = heroBgMap[categoriesBgValue] || c.shell;
             var categoriesSection = h('section', {
               style: {
-                background: c.shell,
+                background: categoriesBgColor,
                 padding:    '3.5rem 2rem',
               }
             },
@@ -745,10 +750,13 @@
             );
 
             // ── About Strip ───────────────────────────────────────────────
-            // Dark teal background, two-column: text left, image placeholder right.
+            // Default: sand (#EDE8E0), matching live .about-strip { background: var(--sand) }.
+            // When aboutBg is set, that palette colour is used instead.
+            var aboutBgValue = entry.getIn(['data', 'aboutBg']) || '';
+            var aboutBgColor = heroBgMap[aboutBgValue] || c.sand;
             var aboutStrip = h('section', {
               style: {
-                background: c.tideDark,
+                background: aboutBgColor,
                 padding:    '3.5rem 2rem',
               }
             },
@@ -762,25 +770,25 @@
               }},
                 // Text column
                 h('div', { style: { flex: '1', minWidth: '260px' } },
-                  h('p', { style: Object.assign({}, eyebrowStyle, { color: c.tide, opacity: '0.85' }) },
+                  h('p', { style: eyebrowStyle },
                     get('aboutEyebrow')),
                   h('h2', { style: {
                     fontFamily:   fonts.display,
                     fontWeight:   '400',
                     fontSize:     'clamp(1.5rem, 3vw, 2.4rem)',
-                    color:        c.white,
+                    color:        c.driftwoodDk,
                     lineHeight:   '1.15',
                     marginBottom: '1rem',
                     marginTop:    '0.25rem',
                   }}, get('aboutTitle')),
-                  h('p', { style: Object.assign({}, pStyle, { color: c.tide, maxWidth: '52ch' }) },
+                  h('p', { style: Object.assign({}, pStyle, { maxWidth: '52ch' }) },
                     get('aboutText')),
                   h('span', { style: {
                     display:       'inline-block',
                     marginTop:     '1.25rem',
                     padding:       '0.7rem 1.75rem',
-                    border:        '1.5px solid ' + c.tide,
-                    color:         c.white,
+                    border:        '1.5px solid ' + c.tideDark,
+                    color:         c.tideDark,
                     fontFamily:    fonts.body,
                     fontSize:      '0.78rem',
                     fontWeight:    '500',
@@ -793,15 +801,32 @@
                   flex:           '1',
                   minWidth:       '220px',
                   aspectRatio:    '4/3',
-                  background:     'rgba(255,255,255,0.08)',
+                  background:     c.sandDark,
                   display:        'flex',
                   alignItems:     'center',
                   justifyContent: 'center',
-                  color:          'rgba(255,255,255,0.25)',
+                  color:          c.driftwood,
                   fontSize:       '0.75rem',
                   letterSpacing:  '0.1em',
                   textTransform:  'uppercase',
                 }}, 'Studio photo')
+              )
+            );
+
+            // ── Band ─────────────────────────────────────────────────────
+            // Default: dark teal. When bandBg set, use palette colour with ink text.
+            var bandBgValue   = entry.getIn(['data', 'bandBg']) || '';
+            var bandBgColor   = heroBgMap[bandBgValue] || c.tideDark;
+            var bandTextColor = bandBgValue ? c.ink : c.white;
+            var bandDivColor  = bandBgValue ? c.ink : c.tide;
+            var bandLabels = ['Handmade with love', 'One-of-a-kind pieces', 'St. Johns, Florida', 'Custom orders welcome'];
+            var bandSection = h('section', { style: { background: bandBgColor, padding: '1.25rem 2rem' } },
+              h('div', { style: { maxWidth: '1100px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '2rem', flexWrap: 'wrap' } },
+                bandLabels.reduce(function (acc, label, i) {
+                  acc.push(h('span', { key: 'b' + i, style: { fontFamily: fonts.body, fontSize: '0.75rem', fontWeight: '500', letterSpacing: '0.08em', textTransform: 'uppercase', color: bandTextColor } }, label));
+                  if (i < bandLabels.length - 1) acc.push(h('span', { key: 'd' + i, style: { color: bandDivColor, opacity: '0.6', fontSize: '0.6rem' } }, '✦'));
+                  return acc;
+                }, [])
               )
             );
 
@@ -864,6 +889,7 @@
             // ── Assemble ──────────────────────────────────────────────────
             return h('div', { style: wrap },
               hero,
+              bandSection,
               featuredSection,
               categoriesSection,
               aboutStrip,

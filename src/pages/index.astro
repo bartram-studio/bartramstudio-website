@@ -5,8 +5,12 @@ import { getCollection } from 'astro:content';
 // Site content
 const siteEntries = await getCollection('site');
 const h = siteEntries.find(e => e.id === 'home.md')!.data;
-const heroBgClass = h.heroBg ? `bg-${h.heroBg}` : '';
-const ctaBgClass  = h.ctaBg  ? `bg-${h.ctaBg}`  : '';
+const heroBgClass      = h.heroBg       ? `bg-${h.heroBg}`       : '';
+const bandBgClass      = h.bandBg       ? `bg-${h.bandBg}`       : '';
+const featuredBgClass  = h.featuredBg   ? `bg-${h.featuredBg}`   : '';
+const categoriesBgClass= h.categoriesBg ? `bg-${h.categoriesBg}` : '';
+const aboutBgClass     = h.aboutBg      ? `bg-${h.aboutBg}`      : '';
+const ctaBgClass       = h.ctaBg        ? `bg-${h.ctaBg}`        : '';
 
 // Featured products
 const allProducts = await getCollection('products');
@@ -63,7 +67,7 @@ const featured = allProducts
   </section>
 
   <!-- ── Band ── -->
-  <section class="band">
+  <section class={`band ${bandBgClass}`}>
     <div class="container band__inner">
       <div class="band__item">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
@@ -89,7 +93,7 @@ const featured = allProducts
 
   <!-- ── Featured Products ── -->
   {featured.length > 0 && (
-    <section class="section featured-section">
+    <section class={`section featured-section ${featuredBgClass}`}>
       <div class="container">
         <div class="section-head">
           <p class="section-eyebrow">{h.featuredEyebrow}</p>
@@ -144,7 +148,7 @@ const featured = allProducts
   )}
 
   <!-- ── Categories ── -->
-  <section class="section categories-section">
+  <section class={`section categories-section ${categoriesBgClass}`}>
     <div class="container">
       <div class="section-head">
         <p class="section-eyebrow">{h.categoriesEyebrow}</p>
@@ -180,7 +184,7 @@ const featured = allProducts
   </section>
 
   <!-- ── About Strip ── -->
-  <section class="about-strip">
+  <section class={`about-strip ${aboutBgClass}`}>
     <div class="container about-strip__inner">
       <div class="about-strip__text">
         <p class="section-eyebrow">{h.aboutEyebrow}</p>
@@ -307,26 +311,26 @@ const featured = allProducts
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-  opacity: 0.45;
+  opacity: 0.65;
 }
 
 .hero__scroll-hint span {
   font-size: 0.65rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--driftwood);
+  color: var(--ink);
 }
 
 .hero__scroll-line {
   width: 1px;
   height: 40px;
-  background: var(--driftwood);
+  background: var(--ink);
   animation: scrollPulse 2s ease-in-out infinite;
 }
 
 @keyframes scrollPulse {
-  0%, 100% { transform: scaleY(1); opacity: 0.45; }
-  50%       { transform: scaleY(0.5); opacity: 0.2; }
+  0%, 100% { transform: scaleY(1); opacity: 0.65; }
+  50%       { transform: scaleY(0.5); opacity: 0.3; }
 }
 
 /* ── Band ── */
@@ -361,6 +365,34 @@ const featured = allProducts
   color: var(--tide-light);
   font-size: 0.6rem;
   opacity: 0.6;
+}
+
+/* ── Band adaptive text — when a bg-* class overrides the dark teal default ──
+   bg-* sets color: var(--ink) on the section; these rules ensure child
+   elements inherit that ink colour rather than the white/teal defaults. */
+.band.bg-soft-shell,
+.band.bg-sea-glass,
+.band.bg-resin-amber,
+.band.bg-shell-pink,
+.band.bg-driftwood {
+  color: var(--ink);
+}
+
+.band.bg-soft-shell .band__item,
+.band.bg-sea-glass  .band__item,
+.band.bg-resin-amber .band__item,
+.band.bg-shell-pink .band__item,
+.band.bg-driftwood  .band__item {
+  color: var(--ink);
+}
+
+.band.bg-soft-shell .band__divider,
+.band.bg-sea-glass  .band__divider,
+.band.bg-resin-amber .band__divider,
+.band.bg-shell-pink .band__divider,
+.band.bg-driftwood  .band__divider {
+  color: var(--ink);
+  opacity: 0.4;
 }
 
 /* ── Section Headers ── */
