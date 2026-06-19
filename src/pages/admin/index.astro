@@ -18,6 +18,7 @@
   <!-- Inline preview — Attempt #5 -->
   <!-- Targets: Site Content > About Page -->
   <!-- Renders: hero (with live heroBg colour), intro, craft section, contact CTA -->
+  <!-- Fields:  heroBg, aboutIntroBg, aboutCraftBg, aboutCtaBg              -->
   <!-- Safe: try/catch preserved; diagnostic logging preserved; guards preserved -->
   <script>
     (function () {
@@ -178,7 +179,7 @@
               return h('p', { style: pStyle, key: i }, text);
             });
 
-            var intro = h('section', { style: sectionStyle },
+            var intro = h('section', { style: Object.assign({}, sectionStyle, { background: heroBgMap[entry.getIn(['data', 'aboutIntroBg']) || ''] || c.shell }) },
               h('p',  { style: eyebrowStyle }, get('introEyebrow')),
               h('h2', { style: h2Style },      get('introTitle')),
               introParaNodes.length > 0
@@ -218,7 +219,7 @@
             });
 
             var craft = h('section', {
-              style: Object.assign({}, sectionStyle, { background: c.sand, maxWidth: '100%', padding: '3rem 2rem' })
+              style: Object.assign({}, sectionStyle, { background: heroBgMap[entry.getIn(['data', 'aboutCraftBg']) || ''] || c.sand, maxWidth: '100%', padding: '3rem 2rem' })
             },
               h('div', { style: { maxWidth: '900px', margin: '0 auto' } },
                 h('p',  { style: eyebrowStyle }, get('craftEyebrow')),
@@ -235,9 +236,12 @@
             );
 
             // ── Contact CTA strip ───────────────────────────────────────────
+            var ctaBgResolved = heroBgMap[entry.getIn(['data', 'aboutCtaBg']) || ''];
+            var ctaBgColor    = ctaBgResolved || c.tideDark;
+            var ctaIsLight    = !!ctaBgResolved;
             var cta = h('section', {
               style: {
-                background: c.tideDark,
+                background: ctaBgColor,
                 padding:    '2.5rem 2rem',
                 display:    'flex',
                 alignItems: 'center',
@@ -251,17 +255,17 @@
                   fontFamily:   fonts.display,
                   fontSize:     '1.4rem',
                   fontWeight:   '400',
-                  color:        c.white,
+                  color:        ctaIsLight ? c.ink : c.white,
                   marginBottom: '0.4rem',
                 }}, get('contactCtaTitle')),
-                h('p', { style: Object.assign({}, pStyle, { color: c.tide, maxWidth: '50ch' }) },
+                h('p', { style: Object.assign({}, pStyle, { color: ctaIsLight ? c.driftwoodDk : c.tide, maxWidth: '50ch' }) },
                   get('contactCtaText'))
               ),
               h('span', { style: {
                 display:       'inline-block',
                 padding:       '0.75rem 2rem',
-                background:    c.white,
-                color:         c.tideDark,
+                background:    ctaIsLight ? c.tideDark : c.white,
+                color:         ctaIsLight ? c.white    : c.tideDark,
                 fontFamily:    fonts.body,
                 fontSize:      '0.78rem',
                 fontWeight:    '500',
@@ -463,7 +467,8 @@
             );
 
             // Sidebar — custom orders card
-            var customCard = h('div', { style: Object.assign({}, cardStyle, { background: c.sand, borderColor: c.tide }) },
+            var accentBg = heroBgMap[entry.getIn(['data', 'contactAccentBg']) || ''] || c.sand;
+            var customCard = h('div', { style: Object.assign({}, cardStyle, { background: accentBg, borderColor: c.tide }) },
               h('h3', { style: Object.assign({}, h2Style, { fontSize: '1.05rem', marginBottom: '0.75rem' }) },
                 get('customOrdersTitle')),
               customParas.map(function (p, i) {
@@ -495,7 +500,7 @@
               contactCard, customCard, faqCard
             );
 
-            var mainContent = h('section', { style: { padding: '3rem 2rem', maxWidth: '1100px', margin: '0 auto' } },
+            var mainContent = h('section', { style: { padding: '3rem 2rem', maxWidth: '1100px', margin: '0 auto', background: heroBgMap[entry.getIn(['data', 'contactMainBg']) || ''] || c.shell } },
               h('div', { style: { display: 'flex', gap: '3rem', alignItems: 'flex-start', flexWrap: 'wrap' } },
                 formCol, sidebar
               )
@@ -907,7 +912,7 @@
 
       // ── Shop Page preview ───────────────────────────────────────────────
       // Collection: site  |  File entry: shop
-      // Fields: pageEyebrow, pageTitle, pageIntro, heroBg
+      // Fields: pageEyebrow, pageTitle, pageIntro, heroBg, shopGridBg, shopCtaBg
       // The Shop page's product grid and filter bar are dynamic — they are
       // driven by product entries, not by site content fields, so they are
       // not renderable in the preview. Only the hero section has editable copy.
@@ -964,7 +969,7 @@
             var gridNotice = h('section', {
               style: {
                 padding:    '3rem 2rem',
-                background: c.shell,
+                background: heroBgMap[entry.getIn(['data', 'shopGridBg']) || ''] || c.shell,
               }
             },
               h('div', { style: {
@@ -1032,6 +1037,36 @@
               )
             );
 
+            // ── Custom order CTA ──────────────────────────────────────────
+            var shopCtaSection = h('section', {
+              style: {
+                background: heroBgMap[entry.getIn(['data', 'shopCtaBg']) || ''] || c.sand,
+                padding:    '3rem 2rem',
+                textAlign:  'center',
+              }
+            },
+              h('p', { style: {
+                fontFamily:   fonts.display,
+                fontStyle:    'italic',
+                fontSize:     '1.5rem',
+                color:        c.driftwoodDk,
+                marginBottom: '0.5rem',
+              }}, "Don't see exactly what you're looking for?"),
+              h('p', { style: Object.assign({}, { fontSize: '0.95rem', color: c.driftwoodDk, marginBottom: '1.5rem', fontFamily: fonts.body }) },
+                'Custom orders are always welcome.'),
+              h('span', { style: {
+                display:       'inline-block',
+                padding:       '0.75rem 2rem',
+                background:    c.coral,
+                color:         c.ink,
+                fontFamily:    fonts.body,
+                fontSize:      '0.78rem',
+                fontWeight:    '500',
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase',
+              }}, 'Request a Custom Piece')
+            );
+
             return h('div', { style: {
               fontFamily: fonts.body,
               background: c.shell,
@@ -1039,7 +1074,7 @@
               minHeight:  '100vh',
               lineHeight: '1.7',
               fontSize:   '16px',
-            }}, hero, gridNotice);
+            }}, hero, gridNotice, shopCtaSection);
           }
         });
 

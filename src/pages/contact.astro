@@ -10,7 +10,9 @@ const preBody = url.searchParams.get('body') || '';
 // Site content
 const siteEntries = await getCollection('site');
 const c = siteEntries.find(e => e.id === 'contact.md')!.data;
-const heroBgClass = c.heroBg ? `bg-${c.heroBg}` : '';
+const heroBgClass      = c.heroBg         ? `bg-${c.heroBg}`         : '';
+const mainBgClass      = c.contactMainBg  ? `bg-${c.contactMainBg}`  : '';
+const accentBgClass    = c.contactAccentBg? `bg-${c.contactAccentBg}`: '';
 
 const customParas = c.customOrdersParagraphs ?? [];
 const faqs = c.faqItems ?? [];
@@ -29,7 +31,7 @@ const faqs = c.faqItems ?? [];
     </div>
   </section>
 
-  <section class="section">
+  <section class={`section ${mainBgClass}`}>
     <div class="container contact-layout">
 
       <!-- Form — Netlify attributes and URL-prefill behaviour unchanged -->
@@ -141,7 +143,7 @@ const faqs = c.faqItems ?? [];
           </div>
         </div>
 
-        <div class="sidebar-card sidebar-card--accent">
+        <div class={`sidebar-card sidebar-card--accent ${accentBgClass}`}>
           <h3>{c.customOrdersTitle}</h3>
           {customParas.map(para => <p>{para}</p>)}
           <p class="sidebar-response">Typical response time: <strong>{c.responseTime}</strong></p>
