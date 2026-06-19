@@ -167,6 +167,54 @@ collections:
               - { label: "Resin Amber", value: "resin-amber" }
               - { label: "Shell Pink", value: "shell-pink" }
               - { label: "Driftwood Gray", value: "driftwood" }
+          - label: "Band Background Colour"
+            name: "bandBg"
+            widget: "select"
+            required: false
+            hint: "Background of the strip below the hero. Default is dark teal with white text."
+            options:
+              - { label: "Site Default (Dark Teal)", value: "" }
+              - { label: "Soft Shell White", value: "soft-shell" }
+              - { label: "Sea Glass Green", value: "sea-glass" }
+              - { label: "Resin Amber", value: "resin-amber" }
+              - { label: "Shell Pink", value: "shell-pink" }
+              - { label: "Driftwood Gray", value: "driftwood" }
+          - label: "Featured Products Background Colour"
+            name: "featuredBg"
+            widget: "select"
+            required: false
+            hint: "Background colour of the Featured Products section."
+            options:
+              - { label: "Site Default (Sand)", value: "" }
+              - { label: "Soft Shell White", value: "soft-shell" }
+              - { label: "Sea Glass Green", value: "sea-glass" }
+              - { label: "Resin Amber", value: "resin-amber" }
+              - { label: "Shell Pink", value: "shell-pink" }
+              - { label: "Driftwood Gray", value: "driftwood" }
+          - label: "Categories Background Colour"
+            name: "categoriesBg"
+            widget: "select"
+            required: false
+            hint: "Background colour of the Shop by Category section."
+            options:
+              - { label: "Site Default (Shell White)", value: "" }
+              - { label: "Soft Shell White", value: "soft-shell" }
+              - { label: "Sea Glass Green", value: "sea-glass" }
+              - { label: "Resin Amber", value: "resin-amber" }
+              - { label: "Shell Pink", value: "shell-pink" }
+              - { label: "Driftwood Gray", value: "driftwood" }
+          - label: "About Strip Background Colour"
+            name: "aboutBg"
+            widget: "select"
+            required: false
+            hint: "Background colour of the About Strip section."
+            options:
+              - { label: "Site Default (Sand)", value: "" }
+              - { label: "Soft Shell White", value: "soft-shell" }
+              - { label: "Sea Glass Green", value: "sea-glass" }
+              - { label: "Resin Amber", value: "resin-amber" }
+              - { label: "Shell Pink", value: "shell-pink" }
+              - { label: "Driftwood Gray", value: "driftwood" }
           - label: "CTA Box Background Colour"
             name: "ctaBg"
             widget: "select"
@@ -220,7 +268,7 @@ collections:
           - { label: "Contact CTA — Body Text", name: "contactCtaText", widget: "text" }
           - { label: "Contact CTA — Button Text", name: "contactCtaButtonText", widget: "string" }
 
-          # ── About page background colour ──
+          # ── About page background colours ──
           - label: "Hero Background Colour"
             name: "heroBg"
             widget: "select"
@@ -228,6 +276,54 @@ collections:
             hint: "Background colour of the page header/hero section."
             options:
               - { label: "Site Default (Sand)", value: "" }
+              - { label: "Soft Shell White", value: "soft-shell" }
+              - { label: "Sea Glass Green", value: "sea-glass" }
+              - { label: "Resin Amber", value: "resin-amber" }
+              - { label: "Shell Pink", value: "shell-pink" }
+              - { label: "Driftwood Gray", value: "driftwood" }
+          - label: "Intro Section Background Colour"
+            name: "aboutIntroBg"
+            widget: "select"
+            required: false
+            hint: "Background colour of the intro section below the hero."
+            options:
+              - { label: "Site Default (Shell White)", value: "" }
+              - { label: "Soft Shell White", value: "soft-shell" }
+              - { label: "Sea Glass Green", value: "sea-glass" }
+              - { label: "Resin Amber", value: "resin-amber" }
+              - { label: "Shell Pink", value: "shell-pink" }
+              - { label: "Driftwood Gray", value: "driftwood" }
+          - label: "Craft Section Background Colour"
+            name: "aboutCraftBg"
+            widget: "select"
+            required: false
+            hint: "Background colour of the What I Make / process steps section."
+            options:
+              - { label: "Site Default (Sand)", value: "" }
+              - { label: "Soft Shell White", value: "soft-shell" }
+              - { label: "Sea Glass Green", value: "sea-glass" }
+              - { label: "Resin Amber", value: "resin-amber" }
+              - { label: "Shell Pink", value: "shell-pink" }
+              - { label: "Driftwood Gray", value: "driftwood" }
+          - label: "Values Section Background Colour"
+            name: "aboutValuesBg"
+            widget: "select"
+            required: false
+            hint: "Background colour of the Values section."
+            options:
+              - { label: "Site Default (Shell White)", value: "" }
+              - { label: "Soft Shell White", value: "soft-shell" }
+              - { label: "Sea Glass Green", value: "sea-glass" }
+              - { label: "Resin Amber", value: "resin-amber" }
+              - { label: "Shell Pink", value: "shell-pink" }
+              - { label: "Driftwood Gray", value: "driftwood" }
+          - label: "CTA Strip Background Colour"
+            name: "aboutCtaBg"
+            widget: "select"
+            required: false
+            hint: "Background colour of the contact CTA strip. Default is dark teal."
+            options:
+              - { label: "Site Default (Dark Teal)", value: "" }
               - { label: "Soft Shell White", value: "soft-shell" }
               - { label: "Sea Glass Green", value: "sea-glass" }
               - { label: "Resin Amber", value: "resin-amber" }
@@ -264,7 +360,7 @@ collections:
               - { label: "Question", name: "question", widget: "string" }
               - { label: "Answer", name: "answer", widget: "text" }
 
-          # ── Contact page background colour ──
+          # ── Contact page background colours ──
           - label: "Hero Background Colour"
             name: "heroBg"
             widget: "select"
@@ -272,6 +368,54 @@ collections:
             hint: "Background colour of the page header/hero section."
             options:
               - { label: "Site Default (Sand)", value: "" }
+              - { label: "Soft Shell White", value: "soft-shell" }
+              - { label: "Sea Glass Green", value: "sea-glass" }
+              - { label: "Resin Amber", value: "resin-amber" }
+              - { label: "Shell Pink", value: "shell-pink" }
+              - { label: "Driftwood Gray", value: "driftwood" }
+          - label: "Main Section Background Colour"
+            name: "contactMainBg"
+            widget: "select"
+            required: false
+            hint: "Background colour of the form and sidebar section."
+            options:
+              - { label: "Site Default (Shell White)", value: "" }
+              - { label: "Soft Shell White", value: "soft-shell" }
+              - { label: "Sea Glass Green", value: "sea-glass" }
+              - { label: "Resin Amber", value: "resin-amber" }
+              - { label: "Shell Pink", value: "shell-pink" }
+              - { label: "Driftwood Gray", value: "driftwood" }
+          - label: "Custom Orders Card Background Colour"
+            name: "contactAccentBg"
+            widget: "select"
+            required: false
+            hint: "Background colour of the Custom Orders sidebar card."
+            options:
+              - { label: "Site Default (Sand)", value: "" }
+              - { label: "Soft Shell White", value: "soft-shell" }
+              - { label: "Sea Glass Green", value: "sea-glass" }
+              - { label: "Resin Amber", value: "resin-amber" }
+              - { label: "Shell Pink", value: "shell-pink" }
+              - { label: "Driftwood Gray", value: "driftwood" }
+          - label: "Contact Methods Card Background Colour"
+            name: "contactMethodsBg"
+            widget: "select"
+            required: false
+            hint: "Background colour of the \"Other ways to reach me\" sidebar card."
+            options:
+              - { label: "Site Default (White)", value: "" }
+              - { label: "Soft Shell White", value: "soft-shell" }
+              - { label: "Sea Glass Green", value: "sea-glass" }
+              - { label: "Resin Amber", value: "resin-amber" }
+              - { label: "Shell Pink", value: "shell-pink" }
+              - { label: "Driftwood Gray", value: "driftwood" }
+          - label: "FAQ Card Background Colour"
+            name: "contactFaqBg"
+            widget: "select"
+            required: false
+            hint: "Background colour of the Frequently Asked sidebar card."
+            options:
+              - { label: "Site Default (White)", value: "" }
               - { label: "Soft Shell White", value: "soft-shell" }
               - { label: "Sea Glass Green", value: "sea-glass" }
               - { label: "Resin Amber", value: "resin-amber" }
@@ -285,12 +429,36 @@ collections:
           - { label: "Page Hero — Title", name: "pageTitle", widget: "string" }
           - { label: "Page Hero — Intro", name: "pageIntro", widget: "string" }
 
-          # ── Shop page background colour ──
+          # ── Shop page background colours ──
           - label: "Hero Background Colour"
             name: "heroBg"
             widget: "select"
             required: false
             hint: "Background colour of the page header/hero section."
+            options:
+              - { label: "Site Default (Sand)", value: "" }
+              - { label: "Soft Shell White", value: "soft-shell" }
+              - { label: "Sea Glass Green", value: "sea-glass" }
+              - { label: "Resin Amber", value: "resin-amber" }
+              - { label: "Shell Pink", value: "shell-pink" }
+              - { label: "Driftwood Gray", value: "driftwood" }
+          - label: "Product Grid Background Colour"
+            name: "shopGridBg"
+            widget: "select"
+            required: false
+            hint: "Background colour of the product grid and filter bar section."
+            options:
+              - { label: "Site Default (Shell White)", value: "" }
+              - { label: "Soft Shell White", value: "soft-shell" }
+              - { label: "Sea Glass Green", value: "sea-glass" }
+              - { label: "Resin Amber", value: "resin-amber" }
+              - { label: "Shell Pink", value: "shell-pink" }
+              - { label: "Driftwood Gray", value: "driftwood" }
+          - label: "Custom Order CTA Background Colour"
+            name: "shopCtaBg"
+            widget: "select"
+            required: false
+            hint: "Background colour of the custom order prompt at the bottom of the shop."
             options:
               - { label: "Site Default (Sand)", value: "" }
               - { label: "Soft Shell White", value: "soft-shell" }

@@ -4,7 +4,11 @@ import { getCollection } from 'astro:content';
 
 const siteEntries = await getCollection('site');
 const a = siteEntries.find(e => e.id === 'about.md')!.data;
-const heroBgClass = a.heroBg ? `bg-${a.heroBg}` : '';
+const heroBgClass   = a.heroBg       ? `bg-${a.heroBg}`       : '';
+const introBgClass  = a.aboutIntroBg ? `bg-${a.aboutIntroBg}` : '';
+const craftBgClass  = a.aboutCraftBg ? `bg-${a.aboutCraftBg}` : '';
+const valuesBgClass = a.aboutValuesBg? `bg-${a.aboutValuesBg}`: '';
+const ctaBgClass    = a.aboutCtaBg   ? `bg-${a.aboutCtaBg}`   : '';
 
 // introParagraphs is the canonical field name
 const paragraphs = a.introParagraphs ?? [];
@@ -26,7 +30,7 @@ const values = a.valuesParagraphs ?? [];
   </section>
 
   <!-- Intro -->
-  <section class="section">
+  <section class={`section ${introBgClass}`}>
     <div class="container about-intro">
       <div class="about-intro__image">
         <div class="about-frame">
@@ -47,7 +51,7 @@ const values = a.valuesParagraphs ?? [];
   </section>
 
   <!-- What I make -->
-  <section class="section craft-section">
+  <section class={`section craft-section ${craftBgClass}`}>
     <div class="container">
       <div class="section-head" style="text-align:center; max-width: 560px; margin-inline: auto; margin-bottom: 3rem;">
         <p class="section-eyebrow">{a.craftEyebrow}</p>
@@ -68,7 +72,7 @@ const values = a.valuesParagraphs ?? [];
   </section>
 
   <!-- Values -->
-  <section class="section values-section">
+  <section class={`section values-section ${valuesBgClass}`}>
     <div class="container values-inner">
       <div class="values-text">
         <p class="section-eyebrow">{a.valuesEyebrow}</p>
@@ -86,7 +90,7 @@ const values = a.valuesParagraphs ?? [];
   </section>
 
   <!-- CTA -->
-  <section class="section--sm contact-strip">
+  <section class={`section--sm contact-strip ${ctaBgClass}`}>
     <div class="container">
       <div class="contact-strip__inner">
         <div>
@@ -307,5 +311,51 @@ const values = a.valuesParagraphs ?? [];
   }
   .about-intro__image { display: none; }
   .contact-strip__inner { flex-direction: column; align-items: flex-start; }
+}
+
+/* ── Contact strip bg-* overrides ──────────────────────────────────────────
+   When Amanda selects a light palette colour for the CTA strip, the default
+   white/teal text is no longer readable. These rules adapt text to ink and
+   reset the button to the standard coral style.
+   Selector specificity matches .contact-strip child rules above.          */
+.contact-strip.bg-soft-shell,
+.contact-strip.bg-sea-glass,
+.contact-strip.bg-resin-amber,
+.contact-strip.bg-shell-pink,
+.contact-strip.bg-driftwood {
+  color: var(--ink);
+}
+
+.contact-strip.bg-soft-shell h3,
+.contact-strip.bg-sea-glass  h3,
+.contact-strip.bg-resin-amber h3,
+.contact-strip.bg-shell-pink  h3,
+.contact-strip.bg-driftwood   h3 {
+  color: var(--ink);
+}
+
+.contact-strip.bg-soft-shell p,
+.contact-strip.bg-sea-glass  p,
+.contact-strip.bg-resin-amber p,
+.contact-strip.bg-shell-pink  p,
+.contact-strip.bg-driftwood   p {
+  color: var(--ink);
+}
+
+.contact-strip.bg-soft-shell .btn--coral,
+.contact-strip.bg-sea-glass  .btn--coral,
+.contact-strip.bg-resin-amber .btn--coral,
+.contact-strip.bg-shell-pink  .btn--coral,
+.contact-strip.bg-driftwood   .btn--coral {
+  background: var(--tide-dark);
+  color: var(--white);
+}
+
+.contact-strip.bg-soft-shell .btn--coral:hover,
+.contact-strip.bg-sea-glass  .btn--coral:hover,
+.contact-strip.bg-resin-amber .btn--coral:hover,
+.contact-strip.bg-shell-pink  .btn--coral:hover,
+.contact-strip.bg-driftwood   .btn--coral:hover {
+  background: var(--driftwood-dk);
 }
 </style>

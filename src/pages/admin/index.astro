@@ -18,6 +18,7 @@
   <!-- Inline preview — Attempt #5 -->
   <!-- Targets: Site Content > About Page -->
   <!-- Renders: hero (with live heroBg colour), intro, craft section, contact CTA -->
+  <!-- Fields:  heroBg, aboutIntroBg, aboutCraftBg, aboutCtaBg              -->
   <!-- Safe: try/catch preserved; diagnostic logging preserved; guards preserved -->
   <script>
     (function () {
@@ -178,7 +179,7 @@
               return h('p', { style: pStyle, key: i }, text);
             });
 
-            var intro = h('section', { style: sectionStyle },
+            var intro = h('section', { style: Object.assign({}, sectionStyle, { background: heroBgMap[entry.getIn(['data', 'aboutIntroBg']) || ''] || c.shell }) },
               h('p',  { style: eyebrowStyle }, get('introEyebrow')),
               h('h2', { style: h2Style },      get('introTitle')),
               introParaNodes.length > 0
@@ -218,7 +219,7 @@
             });
 
             var craft = h('section', {
-              style: Object.assign({}, sectionStyle, { background: c.sand, maxWidth: '100%', padding: '3rem 2rem' })
+              style: Object.assign({}, sectionStyle, { background: heroBgMap[entry.getIn(['data', 'aboutCraftBg']) || ''] || c.sand, maxWidth: '100%', padding: '3rem 2rem' })
             },
               h('div', { style: { maxWidth: '900px', margin: '0 auto' } },
                 h('p',  { style: eyebrowStyle }, get('craftEyebrow')),
@@ -235,9 +236,12 @@
             );
 
             // ── Contact CTA strip ───────────────────────────────────────────
+            var ctaBgResolved = heroBgMap[entry.getIn(['data', 'aboutCtaBg']) || ''];
+            var ctaBgColor    = ctaBgResolved || c.tideDark;
+            var ctaIsLight    = !!ctaBgResolved;
             var cta = h('section', {
               style: {
-                background: c.tideDark,
+                background: ctaBgColor,
                 padding:    '2.5rem 2rem',
                 display:    'flex',
                 alignItems: 'center',
@@ -251,17 +255,17 @@
                   fontFamily:   fonts.display,
                   fontSize:     '1.4rem',
                   fontWeight:   '400',
-                  color:        c.white,
+                  color:        ctaIsLight ? c.ink : c.white,
                   marginBottom: '0.4rem',
                 }}, get('contactCtaTitle')),
-                h('p', { style: Object.assign({}, pStyle, { color: c.tide, maxWidth: '50ch' }) },
+                h('p', { style: Object.assign({}, pStyle, { color: ctaIsLight ? c.driftwoodDk : c.tide, maxWidth: '50ch' }) },
                   get('contactCtaText'))
               ),
               h('span', { style: {
                 display:       'inline-block',
                 padding:       '0.75rem 2rem',
-                background:    c.white,
-                color:         c.tideDark,
+                background:    ctaIsLight ? c.tideDark : c.white,
+                color:         ctaIsLight ? c.white    : c.tideDark,
                 fontFamily:    fonts.body,
                 fontSize:      '0.78rem',
                 fontWeight:    '500',
@@ -443,7 +447,7 @@
               );
             };
 
-            var contactCard = h('div', { style: cardStyle },
+            var contactCard = h('div', { style: Object.assign({}, cardStyle, { background: heroBgMap[entry.getIn(['data', 'contactMethodsBg']) || ''] || c.white }) },
               h('h3', { style: Object.assign({}, h2Style, { fontSize: '1.05rem', marginBottom: '1rem' }) }, 'Other ways to reach me'),
               contactMethodRow(
                 'M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z M22,6 12,13 2,6',
@@ -463,7 +467,8 @@
             );
 
             // Sidebar — custom orders card
-            var customCard = h('div', { style: Object.assign({}, cardStyle, { background: c.sand, borderColor: c.tide }) },
+            var accentBg = heroBgMap[entry.getIn(['data', 'contactAccentBg']) || ''] || c.sand;
+            var customCard = h('div', { style: Object.assign({}, cardStyle, { background: accentBg, borderColor: c.tide }) },
               h('h3', { style: Object.assign({}, h2Style, { fontSize: '1.05rem', marginBottom: '0.75rem' }) },
                 get('customOrdersTitle')),
               customParas.map(function (p, i) {
@@ -478,7 +483,7 @@
 
             // Sidebar — FAQ card
             var faqCard = faqItems.length > 0
-              ? h('div', { style: cardStyle },
+              ? h('div', { style: Object.assign({}, cardStyle, { background: heroBgMap[entry.getIn(['data', 'contactFaqBg']) || ''] || c.white }) },
                   h('h3', { style: Object.assign({}, h2Style, { fontSize: '1.05rem', marginBottom: '0.75rem' }) }, 'Frequently Asked'),
                   faqItems.map(function (item, i) {
                     var q = getField(item, 'question');
@@ -495,7 +500,7 @@
               contactCard, customCard, faqCard
             );
 
-            var mainContent = h('section', { style: { padding: '3rem 2rem', maxWidth: '1100px', margin: '0 auto' } },
+            var mainContent = h('section', { style: { padding: '3rem 2rem', maxWidth: '1100px', margin: '0 auto', background: heroBgMap[entry.getIn(['data', 'contactMainBg']) || ''] || c.shell } },
               h('div', { style: { display: 'flex', gap: '3rem', alignItems: 'flex-start', flexWrap: 'wrap' } },
                 formCol, sidebar
               )
@@ -520,11 +525,12 @@
       }
 
       // ── Homepage preview — Complete (Phase 1 + Phase 2) ─────────────────
-      // Sections: Hero, Featured Products, Categories, About Strip, CTA
+      // Sections: Hero, Band, Featured Products, Categories, About Strip, CTA
       // Fields:   heroEyebrow, heroTitle, heroTitleEmphasis, heroLead, heroBg,
-      //           featuredEyebrow, featuredTitle, featuredText,
-      //           categoriesEyebrow, categoriesTitle,
-      //           aboutEyebrow, aboutTitle, aboutText,
+      //           bandBg,
+      //           featuredEyebrow, featuredTitle, featuredText, featuredBg,
+      //           categoriesEyebrow, categoriesTitle, categoriesBg,
+      //           aboutEyebrow, aboutTitle, aboutText, aboutBg,
       //           ctaTitle, ctaTitleEmphasis, ctaText, ctaButtonText, ctaBg
       // Note:     Featured product cards and category pills use placeholders —
       //           live data requires Astro content collections unavailable here.
@@ -611,9 +617,11 @@
             // Renders the editable heading/subtitle then three placeholder cards.
             // Real product cards are driven by product entries with featured:true —
             // they cannot be accessed from inside the CMS preview iframe.
+            var featuredBgValue = entry.getIn(['data', 'featuredBg']) || '';
+            var featuredBgColor = heroBgMap[featuredBgValue] || c.sand;
             var featuredSection = h('section', {
               style: {
-                background: c.sand,
+                background: featuredBgColor,
                 padding:    '3.5rem 2rem',
               }
             },
@@ -695,9 +703,11 @@
             // these four match the fixed options in config.yml.
             var knownCategories = ['Resin Art', 'Coastal Decor', 'Seasonal Crafts', 'Custom Pieces'];
 
+            var categoriesBgValue = entry.getIn(['data', 'categoriesBg']) || '';
+            var categoriesBgColor = heroBgMap[categoriesBgValue] || c.shell;
             var categoriesSection = h('section', {
               style: {
-                background: c.shell,
+                background: categoriesBgColor,
                 padding:    '3.5rem 2rem',
               }
             },
@@ -745,10 +755,13 @@
             );
 
             // ── About Strip ───────────────────────────────────────────────
-            // Dark teal background, two-column: text left, image placeholder right.
+            // Default: sand (#EDE8E0), matching live .about-strip { background: var(--sand) }.
+            // When aboutBg is set, that palette colour is used instead.
+            var aboutBgValue = entry.getIn(['data', 'aboutBg']) || '';
+            var aboutBgColor = heroBgMap[aboutBgValue] || c.sand;
             var aboutStrip = h('section', {
               style: {
-                background: c.tideDark,
+                background: aboutBgColor,
                 padding:    '3.5rem 2rem',
               }
             },
@@ -762,25 +775,25 @@
               }},
                 // Text column
                 h('div', { style: { flex: '1', minWidth: '260px' } },
-                  h('p', { style: Object.assign({}, eyebrowStyle, { color: c.tide, opacity: '0.85' }) },
+                  h('p', { style: eyebrowStyle },
                     get('aboutEyebrow')),
                   h('h2', { style: {
                     fontFamily:   fonts.display,
                     fontWeight:   '400',
                     fontSize:     'clamp(1.5rem, 3vw, 2.4rem)',
-                    color:        c.white,
+                    color:        c.driftwoodDk,
                     lineHeight:   '1.15',
                     marginBottom: '1rem',
                     marginTop:    '0.25rem',
                   }}, get('aboutTitle')),
-                  h('p', { style: Object.assign({}, pStyle, { color: c.tide, maxWidth: '52ch' }) },
+                  h('p', { style: Object.assign({}, pStyle, { maxWidth: '52ch' }) },
                     get('aboutText')),
                   h('span', { style: {
                     display:       'inline-block',
                     marginTop:     '1.25rem',
                     padding:       '0.7rem 1.75rem',
-                    border:        '1.5px solid ' + c.tide,
-                    color:         c.white,
+                    border:        '1.5px solid ' + c.tideDark,
+                    color:         c.tideDark,
                     fontFamily:    fonts.body,
                     fontSize:      '0.78rem',
                     fontWeight:    '500',
@@ -793,15 +806,32 @@
                   flex:           '1',
                   minWidth:       '220px',
                   aspectRatio:    '4/3',
-                  background:     'rgba(255,255,255,0.08)',
+                  background:     c.sandDark,
                   display:        'flex',
                   alignItems:     'center',
                   justifyContent: 'center',
-                  color:          'rgba(255,255,255,0.25)',
+                  color:          c.driftwood,
                   fontSize:       '0.75rem',
                   letterSpacing:  '0.1em',
                   textTransform:  'uppercase',
                 }}, 'Studio photo')
+              )
+            );
+
+            // ── Band ─────────────────────────────────────────────────────
+            // Default: dark teal. When bandBg set, use palette colour with ink text.
+            var bandBgValue   = entry.getIn(['data', 'bandBg']) || '';
+            var bandBgColor   = heroBgMap[bandBgValue] || c.tideDark;
+            var bandTextColor = bandBgValue ? c.ink : c.white;
+            var bandDivColor  = bandBgValue ? c.ink : c.tide;
+            var bandLabels = ['Handmade with love', 'One-of-a-kind pieces', 'St. Johns, Florida', 'Custom orders welcome'];
+            var bandSection = h('section', { style: { background: bandBgColor, padding: '1.25rem 2rem' } },
+              h('div', { style: { maxWidth: '1100px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '2rem', flexWrap: 'wrap' } },
+                bandLabels.reduce(function (acc, label, i) {
+                  acc.push(h('span', { key: 'b' + i, style: { fontFamily: fonts.body, fontSize: '0.75rem', fontWeight: '500', letterSpacing: '0.08em', textTransform: 'uppercase', color: bandTextColor } }, label));
+                  if (i < bandLabels.length - 1) acc.push(h('span', { key: 'd' + i, style: { color: bandDivColor, opacity: '0.6', fontSize: '0.6rem' } }, '✦'));
+                  return acc;
+                }, [])
               )
             );
 
@@ -864,6 +894,7 @@
             // ── Assemble ──────────────────────────────────────────────────
             return h('div', { style: wrap },
               hero,
+              bandSection,
               featuredSection,
               categoriesSection,
               aboutStrip,
@@ -881,7 +912,7 @@
 
       // ── Shop Page preview ───────────────────────────────────────────────
       // Collection: site  |  File entry: shop
-      // Fields: pageEyebrow, pageTitle, pageIntro, heroBg
+      // Fields: pageEyebrow, pageTitle, pageIntro, heroBg, shopGridBg, shopCtaBg
       // The Shop page's product grid and filter bar are dynamic — they are
       // driven by product entries, not by site content fields, so they are
       // not renderable in the preview. Only the hero section has editable copy.
@@ -938,7 +969,7 @@
             var gridNotice = h('section', {
               style: {
                 padding:    '3rem 2rem',
-                background: c.shell,
+                background: heroBgMap[entry.getIn(['data', 'shopGridBg']) || ''] || c.shell,
               }
             },
               h('div', { style: {
@@ -1006,6 +1037,36 @@
               )
             );
 
+            // ── Custom order CTA ──────────────────────────────────────────
+            var shopCtaSection = h('section', {
+              style: {
+                background: heroBgMap[entry.getIn(['data', 'shopCtaBg']) || ''] || c.sand,
+                padding:    '3rem 2rem',
+                textAlign:  'center',
+              }
+            },
+              h('p', { style: {
+                fontFamily:   fonts.display,
+                fontStyle:    'italic',
+                fontSize:     '1.5rem',
+                color:        c.driftwoodDk,
+                marginBottom: '0.5rem',
+              }}, "Don't see exactly what you're looking for?"),
+              h('p', { style: Object.assign({}, { fontSize: '0.95rem', color: c.driftwoodDk, marginBottom: '1.5rem', fontFamily: fonts.body }) },
+                'Custom orders are always welcome.'),
+              h('span', { style: {
+                display:       'inline-block',
+                padding:       '0.75rem 2rem',
+                background:    c.coral,
+                color:         c.ink,
+                fontFamily:    fonts.body,
+                fontSize:      '0.78rem',
+                fontWeight:    '500',
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase',
+              }}, 'Request a Custom Piece')
+            );
+
             return h('div', { style: {
               fontFamily: fonts.body,
               background: c.shell,
@@ -1013,7 +1074,7 @@
               minHeight:  '100vh',
               lineHeight: '1.7',
               fontSize:   '16px',
-            }}, hero, gridNotice);
+            }}, hero, gridNotice, shopCtaSection);
           }
         });
 

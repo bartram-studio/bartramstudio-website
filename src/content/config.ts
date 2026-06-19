@@ -84,8 +84,22 @@ const site = defineCollection({
 
     // ── Background colour controls (shared across all site/* files) ──
     // Each page only uses the fields relevant to it; others are simply absent.
-    heroBg: bgEnum,   // home, about, contact, shop
-    ctaBg:  bgEnum,   // home CTA box
+    heroBg:          bgEnum,   // home, about, contact, shop
+    bandBg:          bgEnum,   // home band strip
+    featuredBg:      bgEnum,   // home featured products section
+    categoriesBg:    bgEnum,   // home categories section
+    aboutBg:         bgEnum,   // home about strip
+    ctaBg:           bgEnum,   // home CTA box
+    aboutIntroBg:    bgEnum,   // about intro section
+    aboutCraftBg:    bgEnum,   // about craft/process section
+    aboutValuesBg:   bgEnum,   // about values section
+    aboutCtaBg:      bgEnum,   // about contact CTA strip
+    contactMainBg:   bgEnum,   // contact main section
+    contactAccentBg: bgEnum,   // contact custom orders sidebar card
+    contactMethodsBg:bgEnum,   // contact methods sidebar card
+    contactFaqBg:    bgEnum,   // contact FAQ sidebar card
+    shopGridBg:      bgEnum,   // shop product grid section
+    shopCtaBg:       bgEnum,   // shop custom order CTA section
 
   }),
 });
