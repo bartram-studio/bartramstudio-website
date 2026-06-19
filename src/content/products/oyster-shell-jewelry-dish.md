@@ -29,5 +29,4 @@ images:
   - /images/products/chatgpt-image-jun-14-2026-at-04_07_51-pm.png
   - /images/products/chatgpt-image-jun-14-2026-at-04_11_28-pm.png
 videos:
-  - /videos/products/copy_7b4a0faf-6fc6-4a20-a016-c7afd1cc67ef.mov
 ---
