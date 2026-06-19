@@ -13,6 +13,8 @@ const c = siteEntries.find(e => e.id === 'contact.md')!.data;
 const heroBgClass      = c.heroBg         ? `bg-${c.heroBg}`         : '';
 const mainBgClass      = c.contactMainBg  ? `bg-${c.contactMainBg}`  : '';
 const accentBgClass    = c.contactAccentBg? `bg-${c.contactAccentBg}`: '';
+const methodsBgClass   = c.contactMethodsBg?`bg-${c.contactMethodsBg}`: '';
+const faqBgClass       = c.contactFaqBg  ? `bg-${c.contactFaqBg}`   : '';
 
 const customParas = c.customOrdersParagraphs ?? [];
 const faqs = c.faqItems ?? [];
@@ -107,7 +109,7 @@ const faqs = c.faqItems ?? [];
 
       <!-- Sidebar -->
       <aside class="contact-sidebar">
-        <div class="sidebar-card">
+        <div class={`sidebar-card ${methodsBgClass}`}>
           <h3>Other ways to reach me</h3>
 
           <div class="contact-methods">
@@ -149,7 +151,7 @@ const faqs = c.faqItems ?? [];
           <p class="sidebar-response">Typical response time: <strong>{c.responseTime}</strong></p>
         </div>
 
-        <div class="sidebar-card">
+        <div class={`sidebar-card ${faqBgClass}`}>
           <h3>Frequently Asked</h3>
           <div class="faqs">
             {faqs.map(item => (

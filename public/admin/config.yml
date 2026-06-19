@@ -397,6 +397,30 @@ collections:
               - { label: "Resin Amber", value: "resin-amber" }
               - { label: "Shell Pink", value: "shell-pink" }
               - { label: "Driftwood Gray", value: "driftwood" }
+          - label: "Contact Methods Card Background Colour"
+            name: "contactMethodsBg"
+            widget: "select"
+            required: false
+            hint: "Background colour of the \"Other ways to reach me\" sidebar card."
+            options:
+              - { label: "Site Default (White)", value: "" }
+              - { label: "Soft Shell White", value: "soft-shell" }
+              - { label: "Sea Glass Green", value: "sea-glass" }
+              - { label: "Resin Amber", value: "resin-amber" }
+              - { label: "Shell Pink", value: "shell-pink" }
+              - { label: "Driftwood Gray", value: "driftwood" }
+          - label: "FAQ Card Background Colour"
+            name: "contactFaqBg"
+            widget: "select"
+            required: false
+            hint: "Background colour of the Frequently Asked sidebar card."
+            options:
+              - { label: "Site Default (White)", value: "" }
+              - { label: "Soft Shell White", value: "soft-shell" }
+              - { label: "Sea Glass Green", value: "sea-glass" }
+              - { label: "Resin Amber", value: "resin-amber" }
+              - { label: "Shell Pink", value: "shell-pink" }
+              - { label: "Driftwood Gray", value: "driftwood" }
       - name: "shop"
         label: "Shop Page"
         file: "src/content/site/shop.md"

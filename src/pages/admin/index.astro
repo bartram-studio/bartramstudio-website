@@ -447,7 +447,7 @@
               );
             };
 
-            var contactCard = h('div', { style: cardStyle },
+            var contactCard = h('div', { style: Object.assign({}, cardStyle, { background: heroBgMap[entry.getIn(['data', 'contactMethodsBg']) || ''] || c.white }) },
               h('h3', { style: Object.assign({}, h2Style, { fontSize: '1.05rem', marginBottom: '1rem' }) }, 'Other ways to reach me'),
               contactMethodRow(
                 'M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z M22,6 12,13 2,6',
@@ -483,7 +483,7 @@
 
             // Sidebar — FAQ card
             var faqCard = faqItems.length > 0
-              ? h('div', { style: cardStyle },
+              ? h('div', { style: Object.assign({}, cardStyle, { background: heroBgMap[entry.getIn(['data', 'contactFaqBg']) || ''] || c.white }) },
                   h('h3', { style: Object.assign({}, h2Style, { fontSize: '1.05rem', marginBottom: '0.75rem' }) }, 'Frequently Asked'),
                   faqItems.map(function (item, i) {
                     var q = getField(item, 'question');

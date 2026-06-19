@@ -96,6 +96,8 @@ const site = defineCollection({
     aboutCtaBg:      bgEnum,   // about contact CTA strip
     contactMainBg:   bgEnum,   // contact main section
     contactAccentBg: bgEnum,   // contact custom orders sidebar card
+    contactMethodsBg:bgEnum,   // contact methods sidebar card
+    contactFaqBg:    bgEnum,   // contact FAQ sidebar card
     shopGridBg:      bgEnum,   // shop product grid section
     shopCtaBg:       bgEnum,   // shop custom order CTA section
 
