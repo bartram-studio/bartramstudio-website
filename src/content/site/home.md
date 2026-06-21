@@ -25,9 +25,9 @@ ctaText: Custom orders are one of my favorite parts of this work. Whether you’
   a specific space, I’d love to create something just for you.
 ctaButtonText: Start a Custom Order
 heroBg: soft-shell
-bandBg: soft-shell
-featuredBg: soft-shell
-categoriesBg: soft-shell
-aboutBg: soft-shell
+bandBg: ""
+featuredBg: ""
+categoriesBg: ""
+aboutBg: ""
 ctaBg: soft-shell
 ---
