@@ -13,6 +13,5 @@ category: Coastal Decor
 status: available
 featured: true
 customOrderAvailable: false
-images:
-  - /images/products/img_7101.jpeg
+images: []
 ---
