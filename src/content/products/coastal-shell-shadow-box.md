@@ -7,6 +7,7 @@ description: >-
   storage for rings, bracelets, earrings, and necklaces, while the sculptural
   shell centerpiece creates a stunning coastal display.
 
+
   Designed to be both functional and decorative, this organizer transforms everyday jewelry storage into a beautiful statement piece. The layered shell arrangement and vibrant coastal colors evoke treasures collected along the shoreline, making it a perfect addition to beach-inspired décor.
 
 
