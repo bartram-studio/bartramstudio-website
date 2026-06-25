@@ -1,12 +1,9 @@
 import { defineCollection, z } from 'astro:content';
 
-// Reusable: the five CMS-selectable background values
-const bgEnum = z.enum([
-  'soft-shell',
-  'sea-glass',
-  'resin-amber',
-  'shell-pink',
-  'driftwood',
+// Reusable: empty string (site default) or one of the five CMS-selectable background values
+const bgEnum = z.union([
+  z.literal(''),
+  z.enum(['soft-shell', 'sea-glass', 'resin-amber', 'shell-pink', 'driftwood']),
 ]).optional();
 
 // ── Products ────────────────────────────────────────────────────────────────
