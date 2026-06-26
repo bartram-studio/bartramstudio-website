@@ -43,6 +43,6 @@ status: available
 featured: true
 customOrderAvailable: false
 images:
-  - /images/products/chatgpt-image-jun-21-2026-at-07_48_55-pm.png
   - /images/products/chatgpt-image-jun-21-2026-at-07_20_43-pm.png
+  - /images/products/chatgpt-image-jun-21-2026-at-07_48_55-pm.png
 ---
