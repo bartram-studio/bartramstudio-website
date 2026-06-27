@@ -1110,6 +1110,12 @@
             var title               = entry.getIn(['data', 'title'])               || '';
             var category            = entry.getIn(['data', 'category'])            || '';
             var description         = entry.getIn(['data', 'description'])         || '';
+            var rawDescParas        = toArr(entry.getIn(['data', 'descriptionParagraphs']));
+            var descParas           = rawDescParas.length > 0
+              ? rawDescParas.map(function(p) { return typeof p === 'string' ? p : getField(p, 'paragraph'); }).filter(Boolean)
+              : description
+                ? description.split('\n').map(function(s) { return s.trim(); }).filter(function(s) { return s.length > 0; })
+                : [];
             var price               = entry.getIn(['data', 'price'])               || 0;
             var status              = entry.getIn(['data', 'status'])              || 'available';
             var quantity            = entry.getIn(['data', 'quantity'])            || 0;
@@ -1347,9 +1353,11 @@
               h('div', { style: { flex: '1', height: '1px', background: c.sandDark } })
             );
 
-            // Description
+            // Description — new list field takes priority; legacy string is the fallback
             var descSection = h('div', { style: { marginBottom: '1.25rem' } },
-              h('p', { style: pStyle }, description || '(No description yet)')
+              descParas.length > 0
+                ? descParas.map(function(p, i) { return h('p', { key: i, style: pStyle }, p); })
+                : h('p', { style: Object.assign({}, pStyle, { color: c.driftwood, fontStyle: 'italic' }) }, '(No description yet)')
             );
 
             // Custom order note
