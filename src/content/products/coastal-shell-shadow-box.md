@@ -16,7 +16,7 @@ descriptionParagraphs:
   - Each piece is individually handcrafted, ensuring that no two organizers are
     exactly alike.
   - |-
-    Details
+    Details:
 
     Handcrafted using real seashells
 
