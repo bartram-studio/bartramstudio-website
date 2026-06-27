@@ -149,6 +149,14 @@ collections:
           - { label: "Hero — Title", name: "heroTitle", widget: "string", hint: "First line of the main headline." }
           - { label: "Hero — Title Emphasis", name: "heroTitleEmphasis", widget: "string", hint: "Second line of the headline, shown in italic teal." }
           - { label: "Hero — Lead Text", name: "heroLead", widget: "text", hint: "Paragraph below the headline." }
+          - label: "Hero — Image"
+            name: "heroImage"
+            widget: "image"
+            required: false
+            allow_multiple: false
+            media_folder: "/public/images/site"
+            public_folder: "/images/site"
+            hint: "Optional. Upload an image to replace the decorative shell artwork on the right side of the homepage hero. Leave blank to keep the default artwork. Recommended: square or portrait, at least 600×600px."
           - { label: "Featured — Eyebrow", name: "featuredEyebrow", widget: "string" }
           - { label: "Featured — Title", name: "featuredTitle", widget: "string" }
           - { label: "Featured — Subtitle", name: "featuredText", widget: "string" }

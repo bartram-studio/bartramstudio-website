@@ -35,29 +35,37 @@ const featured = allProducts
         </div>
       </div>
       <div class="hero__visual" aria-hidden="true">
-        <div class="hero__shell hero__shell--1">
-          <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M60 10 Q90 30 90 60 Q90 90 60 110 Q30 90 30 60 Q30 30 60 10Z" fill="var(--tide-light)" opacity="0.4"/>
-            <path d="M60 20 Q80 38 80 60 Q80 82 60 100 Q40 82 40 60 Q40 38 60 20Z" fill="var(--tide)" opacity="0.3"/>
-            <path d="M60 10 Q60 60 60 110" stroke="var(--tide-dark)" stroke-width="1" opacity="0.4"/>
-            <path d="M30 60 Q60 60 90 60" stroke="var(--tide-dark)" stroke-width="1" opacity="0.4"/>
-            <path d="M35 40 Q60 55 85 40" stroke="var(--tide-dark)" stroke-width="0.8" opacity="0.3"/>
-            <path d="M35 80 Q60 65 85 80" stroke="var(--tide-dark)" stroke-width="0.8" opacity="0.3"/>
-          </svg>
-        </div>
-        <div class="hero__shell hero__shell--2">
-          <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <ellipse cx="40" cy="40" rx="30" ry="20" fill="var(--coral-light)" opacity="0.3" transform="rotate(-20 40 40)"/>
-            <ellipse cx="40" cy="40" rx="20" ry="12" fill="var(--coral)" opacity="0.2" transform="rotate(-20 40 40)"/>
-            <path d="M20 48 Q40 20 60 48" stroke="var(--coral)" stroke-width="1" opacity="0.5"/>
-          </svg>
-        </div>
-        <div class="hero__shell hero__shell--3">
-          <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M50 5 L61 35 L93 35 L68 56 L78 90 L50 70 L22 90 L32 56 L7 35 L39 35Z" fill="var(--sand-dark)" opacity="0.6"/>
-            <path d="M50 20 L57 40 L78 40 L63 52 L68 73 L50 62 L32 73 L37 52 L22 40 L43 40Z" fill="var(--driftwood)" opacity="0.2"/>
-          </svg>
-        </div>
+        {h.heroImage ? (
+          <div class="hero__uploaded-img">
+            <img src={h.heroImage} alt="" role="presentation" />
+          </div>
+        ) : (
+          <>
+            <div class="hero__shell hero__shell--1">
+              <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M60 10 Q90 30 90 60 Q90 90 60 110 Q30 90 30 60 Q30 30 60 10Z" fill="var(--tide-light)" opacity="0.4"/>
+                <path d="M60 20 Q80 38 80 60 Q80 82 60 100 Q40 82 40 60 Q40 38 60 20Z" fill="var(--tide)" opacity="0.3"/>
+                <path d="M60 10 Q60 60 60 110" stroke="var(--tide-dark)" stroke-width="1" opacity="0.4"/>
+                <path d="M30 60 Q60 60 90 60" stroke="var(--tide-dark)" stroke-width="1" opacity="0.4"/>
+                <path d="M35 40 Q60 55 85 40" stroke="var(--tide-dark)" stroke-width="0.8" opacity="0.3"/>
+                <path d="M35 80 Q60 65 85 80" stroke="var(--tide-dark)" stroke-width="0.8" opacity="0.3"/>
+              </svg>
+            </div>
+            <div class="hero__shell hero__shell--2">
+              <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="40" cy="40" rx="30" ry="20" fill="var(--coral-light)" opacity="0.3" transform="rotate(-20 40 40)"/>
+                <ellipse cx="40" cy="40" rx="20" ry="12" fill="var(--coral)" opacity="0.2" transform="rotate(-20 40 40)"/>
+                <path d="M20 48 Q40 20 60 48" stroke="var(--coral)" stroke-width="1" opacity="0.5"/>
+              </svg>
+            </div>
+            <div class="hero__shell hero__shell--3">
+              <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M50 5 L61 35 L93 35 L68 56 L78 90 L50 70 L22 90 L32 56 L7 35 L39 35Z" fill="var(--sand-dark)" opacity="0.6"/>
+                <path d="M50 20 L57 40 L78 40 L63 52 L68 73 L50 62 L32 73 L37 52 L22 40 L43 40Z" fill="var(--driftwood)" opacity="0.2"/>
+              </svg>
+            </div>
+          </>
+        )}
       </div>
     </div>
     <div class="hero__scroll-hint">
@@ -286,6 +294,23 @@ const featured = allProducts
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.hero__uploaded-img {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero__uploaded-img img {
+  max-width: 100%;
+  max-height: 420px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
 }
 
 .hero__shell {
