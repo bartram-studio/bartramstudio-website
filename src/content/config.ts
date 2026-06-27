@@ -34,6 +34,7 @@ const site = defineCollection({
     heroTitle:          z.string().optional(),
     heroTitleEmphasis:  z.string().optional(),
     heroLead:           z.string().optional(),
+    heroImage:          z.string().optional(),  // optional uploaded hero visual image
     featuredEyebrow:    z.string().optional(),
     featuredTitle:      z.string().optional(),
     featuredText:       z.string().optional(),
