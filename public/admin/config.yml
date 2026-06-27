@@ -56,9 +56,17 @@ collections:
           - "Custom Pieces"
 
       - label: "Description"
-        name: "description"
-        widget: "text"
-        hint: "A detailed description of the piece — materials, size, what makes it special."
+        name: "descriptionParagraphs"
+        widget: "list"
+        min: 0
+        allow_add: true
+        collapsed: false
+        label_singular: "Paragraph"
+        hint: "Add one paragraph per entry. Use the handles to reorder. Each paragraph renders separately on the product page."
+        field:
+          label: "Paragraph"
+          name: "paragraph"
+          widget: "text"
 
       - label: "Price (USD)"
         name: "price"

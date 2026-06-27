@@ -12,7 +12,8 @@ const products = defineCollection({
   schema: z.object({
     title: z.string(),
     category: z.enum(['Resin Art', 'Coastal Decor', 'Seasonal Crafts', 'Custom Pieces']),
-    description: z.string(),
+    description: z.string().optional(),                    // legacy — kept for backward compat
+    descriptionParagraphs: z.array(z.string()).optional(), // new list-widget field
     price: z.number(),
     status: z.enum(['available', 'pending', 'sold']),
     quantity: z.number().default(1),
