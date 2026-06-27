@@ -24,6 +24,14 @@ const subject = encodeURIComponent(`I'm interested in: ${data.title}`);
 const body = encodeURIComponent(`Hi Amanda,\n\nI saw "${data.title}" on your website and I'm interested in purchasing it.\n\nPlease let me know if it's still available and how to proceed.\n\nThank you!`);
 
 const videos = data.videos ?? [];
+
+// Split description on newlines so CMS-entered paragraph breaks render correctly.
+// YAML frontmatter may fold blank lines to spaces before Astro sees the string,
+// so white-space: pre-line alone is insufficient — we split here instead.
+const descParagraphs = data.description
+  .split('\n')
+  .map((s: string) => s.trim())
+  .filter((s: string) => s.length > 0);
 ---
 
 <Layout
@@ -140,7 +148,7 @@ const videos = data.videos ?? [];
         <div class="divider"><span>✦</span></div>
 
         <div class="product-info__desc">
-          <p>{data.description}</p>
+          {descParagraphs.map((p: string) => <p>{p}</p>)}
         </div>
 
         {data.customOrderAvailable && (
@@ -422,7 +430,6 @@ const videos = data.videos ?? [];
 .product-info__desc p {
   line-height: 1.8;
   max-width: 55ch;
-  white-space: pre-line;
 }
 
 .custom-note {
