@@ -5,7 +5,7 @@ heroTitleEmphasis: by the shoreline
 heroLead: Shell art, coastal decor, resin and one‑of‑a‑kind seasonal pieces —
   all shaped by shoreline walks, found materials, and a deep love for the
   natural world.
-heroImage: /images/site/bartram-studio-hero-image.png
+heroImage: ""
 featuredEyebrow: Selected Works
 featuredTitle: Featured Pieces
 featuredText: A few current favorites — each made by hand and ready to bring a
