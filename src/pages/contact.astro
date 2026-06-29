@@ -43,16 +43,11 @@ const faqs = c.faqItems ?? [];
 
         <form
           class="contact-form"
-          name="contact"
           method="POST"
-          data-netlify="true"
-          action="/contact/success"
+          action="https://formspree.io/f/mzdlvbjj"
           id="contact-form"
         >
-          <input type="hidden" name="form-name" value="contact" />
-          <p class="hidden-field" aria-hidden="true">
-            <label>Don't fill this out: <input name="bot-field" /></label>
-          </p>
+          <input type="hidden" name="_subject" value="New message — Bartram Studio" />
 
           <div class="form-row">
             <div class="form-group">
@@ -192,8 +187,6 @@ const faqs = c.faqItems ?? [];
   color: var(--driftwood-dk);
   margin-bottom: 0.5rem;
 }
-
-.hidden-field { display: none; }
 
 .req { color: var(--coral); }
 
