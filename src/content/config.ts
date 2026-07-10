@@ -56,6 +56,7 @@ const site = defineCollection({
     introTitle:             z.string().optional(),
     intraParagraphs:        z.array(z.string()).optional(),
     introParagraphs:        z.array(z.string()).optional(),
+    profileImage:           z.string().optional(),  // about page portrait photo
     craftEyebrow:           z.string().optional(),
     craftTitle:             z.string().optional(),
     craftText:              z.string().optional(),

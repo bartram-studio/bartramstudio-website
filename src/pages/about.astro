@@ -34,10 +34,18 @@ const values = a.valuesParagraphs ?? [];
     <div class="container about-intro">
       <div class="about-intro__image">
         <div class="about-frame">
-          <div class="about-img-placeholder">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            <span>A photo of Amanda</span>
-          </div>
+          {a.profileImage ? (
+            <img
+              src={a.profileImage}
+              alt="Amanda, maker behind Bartram Studio"
+              class="about-portrait"
+            />
+          ) : (
+            <div class="about-img-placeholder">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <span>A photo of Amanda</span>
+            </div>
+          )}
         </div>
         <div class="about-frame-accent"></div>
       </div>
@@ -136,6 +144,13 @@ const values = a.valuesParagraphs ?? [];
   aspect-ratio: 3/4;
   background: var(--sand);
   overflow: hidden;
+}
+
+.about-portrait {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .about-frame-accent {
