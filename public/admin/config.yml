@@ -259,6 +259,14 @@ collections:
             allow_add: true
             label_singular: "Paragraph"
             field: { label: "Paragraph", name: "paragraph", widget: "text" }
+          - label: "About Portrait"
+            name: "profileImage"
+            widget: "image"
+            required: false
+            allow_multiple: false
+            media_folder: "/public/images/site"
+            public_folder: "/images/site"
+            hint: "Upload a portrait photo of Amanda. Displays in the intro section. Recommended: portrait orientation (3:4 ratio), at least 600×800px."
           - { label: "Craft Section — Eyebrow", name: "craftEyebrow", widget: "string" }
           - { label: "Craft Section — Title", name: "craftTitle", widget: "string" }
           - { label: "Craft Section — Subtitle", name: "craftText", widget: "string" }
