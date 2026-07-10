@@ -28,7 +28,7 @@ featured: true
 customOrderAvailable: false
 images:
   - /images/products/bot-001-01-hero.png
-  - /images/products/bot-001-001-angle.png
+  - /images/products/bot-001-01-angle.png
   - /images/products/bot-001-01-detail.png
   - /images/products/bot-001-01-lifestyle.png
 description: Personalize your porch, dock, or beach house with a custom
