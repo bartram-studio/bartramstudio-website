@@ -113,6 +113,7 @@ const brand = defineCollection({
       'clean-modern',
       'soft-handmade',
     ]).default('coastal-serif'),
+    secondaryTextTone: z.enum(['soft', 'medium', 'dark']).default('soft'),
   }),
 });
 
