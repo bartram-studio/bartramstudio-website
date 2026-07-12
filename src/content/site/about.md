@@ -20,6 +20,7 @@ introParagraphs:
     Florida in the 1700s and recorded its wild beauty with such care. That same
     spirit of noticing, collecting, and honoring the natural world guides my
     work and shapes every piece that comes out of my studio.
+profileImage: /images/site/9502d81e-ce0c-42c4-8aec-9bd4c5f397a8.jpeg
 craftEyebrow: The Craft
 craftTitle: What goes into each piece
 craftText: "Every item is made by hand — no mass production, no shortcuts.            "
