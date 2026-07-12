@@ -1,4 +1,4 @@
 ---
 typographyTheme: coastal-serif
-secondaryTextTone: medium
+secondaryTextTone: dark
 ---
