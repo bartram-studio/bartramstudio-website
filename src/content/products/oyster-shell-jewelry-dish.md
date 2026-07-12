@@ -7,7 +7,10 @@ slug: oyster-shell-jewelry-dish
 status: available
 featured: false
 customOrderAvailable: false
-images: []
+images:
+  - /images/products/shr-002-02-hero.png
+  - /images/products/shr-002-02-angle.png
+  - /images/products/shr-002-02-lifestyle.png
 videos: []
 description: >-
   Bring the beauty of the shore and the elegance of a blooming garden to your
