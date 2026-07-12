@@ -509,3 +509,12 @@ collections:
               - { label: "Clean Modern (crisper & editorial)", value: "clean-modern" }
               - { label: "Soft Handmade (rounder & classic artisan)", value: "soft-handmade" }
             default: "coastal-serif"
+          - label: "Secondary Text Tone"
+            name: "secondaryTextTone"
+            widget: "select"
+            hint: "Controls the colour of helper text, labels, navigation links, footer links, and other low-emphasis text. Soft matches the current appearance."
+            options:
+              - { label: "Soft — current appearance", value: "soft" }
+              - { label: "Medium — easier to read", value: "medium" }
+              - { label: "Dark — highest contrast", value: "dark" }
+            default: "soft"

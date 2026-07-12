@@ -22,6 +22,19 @@ const brandEntries = await getCollection('brand');
 const brandSettings = brandEntries.find(e => e.id === 'settings.md')?.data;
 const typographyTheme = brandSettings?.typographyTheme ?? 'coastal-serif';
 
+// Secondary text tone — controls --secondary-text CSS variable used for
+// helper text, labels, nav links, footer links, and other low-emphasis text.
+// soft   #B7B1A6 — current appearance (identical to --driftwood)
+// medium #726C67 — passes WCAG AA normal (4.72:1) on --shell, AA large on --sand
+// dark   #5C5652 — passes WCAG AA normal on --shell and --sand
+const SECONDARY_TEXT: Record<string, string> = {
+  soft:   '#B7B1A6',
+  medium: '#726C67',
+  dark:   '#5C5652',
+};
+const secondaryTextTone = brandSettings?.secondaryTextTone ?? 'soft';
+const secondaryTextColor = SECONDARY_TEXT[secondaryTextTone] ?? '#B7B1A6';
+
 // Each theme defines:
 //   fontsUrl   — Google Fonts @import URL (the part inside url('...'))
 //   fontDisplay — value for --font-display CSS custom property
@@ -81,10 +94,11 @@ const theme = THEMES[typographyTheme] ?? THEMES['coastal-serif'];
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href={theme.fontsUrl} />
-  <style define:vars={{ fontDisplay: theme.fontDisplay, fontBody: theme.fontBody }}>
+  <style define:vars={{ fontDisplay: theme.fontDisplay, fontBody: theme.fontBody, secondaryTextColor }}>
     :root {
-      --font-display: var(--fontDisplay);
-      --font-body:    var(--fontBody);
+      --font-display:    var(--fontDisplay);
+      --font-body:       var(--fontBody);
+      --secondary-text:  var(--secondaryTextColor);
     }
   </style>
 </head>
@@ -231,7 +245,7 @@ const theme = THEMES[typographyTheme] ?? THEMES['coastal-serif'];
   font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--driftwood);
+  color: var(--secondary-text);
   transition: color 0.2s;
   position: relative;
   padding-bottom: 2px;
@@ -314,7 +328,7 @@ const theme = THEMES[typographyTheme] ?? THEMES['coastal-serif'];
   font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--driftwood);
+  color: var(--secondary-text);
   border-bottom: 1px solid var(--sand-dark);
   transition: color 0.2s;
 }
@@ -360,7 +374,7 @@ const theme = THEMES[typographyTheme] ?? THEMES['coastal-serif'];
 
 .footer-links a {
   font-size: 0.875rem;
-  color: var(--driftwood);
+  color: var(--secondary-text);
   transition: color 0.2s;
 }
 
@@ -381,7 +395,7 @@ const theme = THEMES[typographyTheme] ?? THEMES['coastal-serif'];
 
 .footer-bottom p {
   font-size: 0.78rem;
-  color: var(--driftwood);
+  color: var(--secondary-text);
   max-width: none;
 }
 
