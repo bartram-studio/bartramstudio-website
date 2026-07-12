@@ -46,6 +46,7 @@ featured: true
 customOrderAvailable: false
 images:
   - /images/products/shr-001-01-hero.png
+  - /images/products/shr-001-01-lifestyle.png
   - /images/products/shr-001-01-angle.png
 description: >-
   Handcrafted with natural seashells, iridescent shell accents, and gold
