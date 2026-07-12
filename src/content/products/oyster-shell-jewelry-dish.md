@@ -1,6 +1,14 @@
 ---
 title: Coastal Bloom Jewelry Organizer
 category: Coastal Decor
+price: 85
+quantity: 1
+slug: oyster-shell-jewelry-dish
+status: available
+featured: false
+customOrderAvailable: false
+images: []
+videos: []
 description: >-
   Bring the beauty of the shore and the elegance of a blooming garden to your
   vanity. This handcrafted jewelry organizer features genuine seashell elements,
@@ -19,14 +27,4 @@ description: >-
   Vanity organization
 
   Thoughtful gifts for beach lovers
-price: 85
-quantity: 1
-slug: oyster-shell-jewelry-dish
-status: available
-featured: false
-customOrderAvailable: false
-images:
-  - /images/products/chatgpt-image-jun-14-2026-at-04_07_51-pm.png
-  - /images/products/chatgpt-image-jun-14-2026-at-04_11_28-pm.png
-videos: []
 ---
