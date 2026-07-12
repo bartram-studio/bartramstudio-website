@@ -45,8 +45,8 @@ status: available
 featured: true
 customOrderAvailable: false
 images:
-  - /images/products/chatgpt-image-jun-21-2026-at-07_20_43-pm.png
-  - /images/products/chatgpt-image-jun-21-2026-at-07_48_55-pm.png
+  - /images/products/shr-001-01-hero.png
+  - /images/products/shr-001-01-angle.png
 description: >-
   Handcrafted with natural seashells, iridescent shell accents, and gold
   detailing, this one-of-a-kind jewelry organizer brings the beauty of the ocean
