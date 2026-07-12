@@ -1,4 +1,4 @@
 ---
-typographyTheme: "coastal-serif"
-secondaryTextTone: "soft"
+typographyTheme: coastal-serif
+secondaryTextTone: dark
 ---
