@@ -1,3 +1,4 @@
 ---
-typographyTheme: "coastal-serif"
+typographyTheme: coastal-serif
+secondaryTextTone: medium
 ---
