@@ -1,5 +1,5 @@
 ---
-category: Coastal Decor
+category: jewelry-organization
 descriptionParagraphs:
   - >+
     Handcrafted from natural seashells with luminous shell accents and delicate
