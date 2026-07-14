@@ -1,10 +1,10 @@
 ---
-name: "Coastal Keepsakes"
+name: Coastal Keepsakes
 description: ""
-categoryIcon: "🌊"
-categoryAccent: "deep-tide"
+categoryIcon: 🌊
+categoryAccent: deep-tide
 featuredImage: ""
 homepageOrder: 2
-showOnHomepage: false
+showOnHomepage: true
 active: true
 ---
