@@ -13,10 +13,28 @@ export async function getStaticPaths() {
 const { product } = Astro.props;
 const { data } = product;
 
-// Related products (same category, not self)
+// ── Category display-name resolution ────────────────────────────────────────
+// Products store either a new managed category's categoryId (e.g. "resin-art")
+// or a legacy display name (e.g. "Resin Art", "Coastal Decor") left over from
+// before the CMS Categories collection existed. This resolves either form to
+// the category's current, editable display name. If no managed category
+// matches (a legacy/orphan value), the raw stored value is shown as-is rather
+// than failing — existing products keep working until Amanda reassigns them.
+const categoryEntries = await getCollection('categories');
+const categoryNameById = new Map(categoryEntries.map(c => [c.data.categoryId, c.data.name]));
+const categoryNameByName = new Map(categoryEntries.map(c => [c.data.name, c.data.name]));
+function resolveCategoryName(raw: string): string {
+  if (!raw) return raw;
+  return categoryNameById.get(raw) ?? categoryNameByName.get(raw) ?? raw;
+}
+const categoryDisplay = resolveCategoryName(data.category);
+
+// Related products (same resolved category, not self) — compares normalized
+// display names rather than raw stored values, so a product stored with a new
+// categoryId and one stored with the equivalent legacy name are still matched.
 const allProducts = await getCollection('products');
 const related = allProducts
-  .filter(p => p.slug !== product.slug && p.data.category === data.category)
+  .filter(p => p.slug !== product.slug && resolveCategoryName(p.data.category) === categoryDisplay)
   .slice(0, 3);
 
 const isAvailable = data.status === 'available';
@@ -132,7 +150,7 @@ const descParagraphs: string[] = data.descriptionParagraphs && data.descriptionP
 
       <!-- Info (right column) — unchanged -->
       <div class="product-info">
-        <p class="product-info__category">{data.category}</p>
+        <p class="product-info__category">{categoryDisplay}</p>
         <h1 class="product-info__title">{data.title}</h1>
 
         <div class="product-info__meta">
@@ -191,7 +209,7 @@ const descParagraphs: string[] = data.descriptionParagraphs && data.descriptionP
           <dl>
             <div>
               <dt>Category</dt>
-              <dd>{data.category}</dd>
+              <dd>{categoryDisplay}</dd>
             </div>
             <div>
               <dt>Availability</dt>
@@ -218,7 +236,7 @@ const descParagraphs: string[] = data.descriptionParagraphs && data.descriptionP
   {related.length > 0 && (
     <section class="section--sm related-section">
       <div class="container">
-        <div class="divider"><span>More {data.category}</span></div>
+        <div class="divider"><span>More {categoryDisplay}</span></div>
         <div class="grid-3" style="margin-top: 2rem;">
           {related.map(p => (
             <a href={`/products/${p.slug}`} class="product-card" style="text-decoration:none;">
@@ -235,7 +253,7 @@ const descParagraphs: string[] = data.descriptionParagraphs && data.descriptionP
                 </span>
               </div>
               <div class="product-card__body">
-                <p class="product-card__category">{p.data.category}</p>
+                <p class="product-card__category">{resolveCategoryName(p.data.category)}</p>
                 <h3 class="product-card__title">{p.data.title}</h3>
                 <p class="product-card__price">${p.data.price}</p>
               </div>
