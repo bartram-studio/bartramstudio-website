@@ -1,6 +1,5 @@
 ---
 name: "Botanical Collection"
-categoryId: "botanical-collection"
 description: ""
 categoryIcon: "🌿"
 categoryAccent: "sea-glass"

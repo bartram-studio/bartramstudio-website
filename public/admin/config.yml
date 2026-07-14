@@ -52,7 +52,7 @@ collections:
         collection: "categories"
         search_fields: ["name"]
         display_fields: ["name"]
-        value_field: "categoryId"
+        value_field: "{{slug}}"
         hint: "Select a category managed under Categories. Existing products keep working even if their category is later marked inactive."
 
       - label: "Description"
@@ -141,7 +141,7 @@ collections:
     folder: "src/content/categories"
     create: true
     delete: false
-    identifier_field: categoryId
+    identifier_field: name
     slug: "{{slug}}"
     extension: "md"
     format: "frontmatter"
@@ -160,13 +160,7 @@ collections:
       - label: "Name"
         name: "name"
         widget: "string"
-        hint: "Displayed throughout the site."
-
-      - label: "Internal Category ID"
-        name: "categoryId"
-        widget: "string"
-        pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', "Use lowercase letters, numbers, and hyphens only."]
-        hint: "Set this once when creating the category. Use a short lowercase version of the name with hyphens, such as jewelry-organization. Do not change it after products have been assigned."
+        hint: "Displayed throughout the site. Used to generate the category's permanent internal identifier when first created — renaming Name later will not change that identifier."
 
       - label: "Description"
         name: "description"

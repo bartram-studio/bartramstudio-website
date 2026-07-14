@@ -1,6 +1,5 @@
 ---
 name: "Coastal Keepsakes"
-categoryId: "coastal-keepsakes"
 description: ""
 categoryIcon: "🌊"
 categoryAccent: "deep-tide"

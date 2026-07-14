@@ -1,6 +1,5 @@
 ---
 name: "Jewelry Organization"
-categoryId: "jewelry-organization"
 description: ""
 categoryIcon: "💍"
 categoryAccent: "resin-amber"

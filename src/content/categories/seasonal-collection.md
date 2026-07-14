@@ -1,6 +1,5 @@
 ---
 name: "Seasonal Collection"
-categoryId: "seasonal-collection"
 description: ""
 categoryIcon: "✨"
 categoryAccent: "driftwood"

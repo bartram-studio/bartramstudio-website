@@ -1,6 +1,5 @@
 ---
 name: "Gift Ideas"
-categoryId: "gift-ideas"
 description: ""
 categoryIcon: "🎁"
 categoryAccent: "deep-tide"

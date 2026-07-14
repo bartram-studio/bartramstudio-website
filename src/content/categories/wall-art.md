@@ -1,6 +1,5 @@
 ---
 name: "Wall Art"
-categoryId: "wall-art"
 description: ""
 categoryIcon: "🖼️"
 categoryAccent: "shell-pink"

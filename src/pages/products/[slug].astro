@@ -14,24 +14,25 @@ const { product } = Astro.props;
 const { data } = product;
 
 // ── Category display-name resolution ────────────────────────────────────────
-// Products store either a new managed category's categoryId (e.g. "resin-art")
-// or a legacy display name (e.g. "Resin Art", "Coastal Decor") left over from
-// before the CMS Categories collection existed. This resolves either form to
-// the category's current, editable display name. If no managed category
-// matches (a legacy/orphan value), the raw stored value is shown as-is rather
-// than failing — existing products keep working until Amanda reassigns them.
+// Products store either a new managed category's entry slug (e.g. "resin-art",
+// the category's filename) or a legacy display name (e.g. "Resin Art",
+// "Coastal Decor") left over from before the CMS Categories collection
+// existed. This resolves either form to the category's current, editable
+// display name. If no managed category matches (a legacy/orphan value), the
+// raw stored value is shown as-is rather than failing — existing products
+// keep working until Amanda reassigns them.
 const categoryEntries = await getCollection('categories');
-const categoryNameById = new Map(categoryEntries.map(c => [c.data.categoryId, c.data.name]));
+const categoryNameBySlug = new Map(categoryEntries.map(c => [c.slug, c.data.name]));
 const categoryNameByName = new Map(categoryEntries.map(c => [c.data.name, c.data.name]));
 function resolveCategoryName(raw: string): string {
   if (!raw) return raw;
-  return categoryNameById.get(raw) ?? categoryNameByName.get(raw) ?? raw;
+  return categoryNameBySlug.get(raw) ?? categoryNameByName.get(raw) ?? raw;
 }
 const categoryDisplay = resolveCategoryName(data.category);
 
 // Related products (same resolved category, not self) — compares normalized
 // display names rather than raw stored values, so a product stored with a new
-// categoryId and one stored with the equivalent legacy name are still matched.
+// category slug and one stored with the equivalent legacy name are still matched.
 const allProducts = await getCollection('products');
 const related = allProducts
   .filter(p => p.slug !== product.slug && resolveCategoryName(p.data.category) === categoryDisplay)

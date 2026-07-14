@@ -19,9 +19,9 @@ const categoryAccentEnum = z.enum([
 const categories = defineCollection({
   type: 'content',
   schema: z.object({
-    name: z.string(),                    // displayed throughout the site
-    categoryId: z.string(),              // stable identifier — products reference this; does NOT auto-update from name
-                                           // (named categoryId, not slug — Astro reserves `slug` in content collection schemas)
+    name: z.string(),                    // displayed throughout the site; also drives the entry filename
+                                           // via Decap's identifier_field, but renaming Name later does NOT
+                                           // rename the entry — the file/slug is only set once, at creation
     description: z.string().optional(),  // short description, used later on the homepage
     categoryIcon: z.string(), // curated emoji, chosen from a Decap select dropdown; kept as a plain
                                // string (not a strict enum) for backward compatibility and future flexibility
@@ -40,13 +40,13 @@ const products = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
-    // Stores a category's categoryId for newly-edited products (via the CMS relation widget).
-    // Kept as a plain string, NOT an enum or reference, so that legacy product files
-    // still containing old display-name values (e.g. "Resin Art", "Coastal Decor")
-    // continue to build successfully. Pages resolve this value (categoryId or legacy
-    // name) to a display name at render time — see resolveCategoryName() in the page files.
-    // Existing products keep working as-is until Amanda manually reassigns them
-    // to a managed category through the CMS.
+    // Stores a category's entry slug (the Markdown filename, e.g. "jewelry-organization")
+    // for newly-edited products (via the CMS relation widget). Kept as a plain string, NOT
+    // an enum or reference, so that legacy product files still containing old display-name
+    // values (e.g. "Resin Art", "Coastal Decor") continue to build successfully. Pages
+    // resolve this value (category slug or legacy name) to a display name at render time —
+    // see resolveCategoryName() in the page files. Existing products keep working as-is
+    // until Amanda manually reassigns them to a managed category through the CMS.
     category: z.string(),
     description: z.string().optional(),                    // legacy — kept for backward compat
     descriptionParagraphs: z.array(z.string()).optional(), // new list-widget field
