@@ -1,10 +1,10 @@
 ---
-name: "Wall Art"
+name: Wall Art
 description: ""
-categoryIcon: "🖼️"
-categoryAccent: "shell-pink"
+categoryIcon: 🖼️
+categoryAccent: shell-pink
 featuredImage: ""
-homepageOrder: 4
-showOnHomepage: false
+homepageOrder: 3
+showOnHomepage: true
 active: true
 ---
