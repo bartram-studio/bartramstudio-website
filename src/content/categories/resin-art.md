@@ -1,10 +1,10 @@
 ---
-name: "Resin Art"
+name: Resin Art
 description: ""
-categoryIcon: "🐚"
-categoryAccent: "sea-glass"
+categoryIcon: 🐚
+categoryAccent: sea-glass
 featuredImage: ""
-homepageOrder: 1
-showOnHomepage: false
+homepageOrder: 4
+showOnHomepage: true
 active: true
 ---
