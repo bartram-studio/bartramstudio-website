@@ -23,7 +23,8 @@ const categories = defineCollection({
     categoryId: z.string(),              // stable identifier — products reference this; does NOT auto-update from name
                                            // (named categoryId, not slug — Astro reserves `slug` in content collection schemas)
     description: z.string().optional(),  // short description, used later on the homepage
-    homepageIcon: z.string().optional(), // simple emoji/text for now; may become an uploaded asset later
+    categoryIcon: z.string(), // curated emoji, chosen from a Decap select dropdown; kept as a plain
+                               // string (not a strict enum) for backward compatibility and future flexibility
     categoryAccent: categoryAccentEnum,
     featuredImage: z.string().optional(), // not used yet — future category landing pages
     homepageOrder: z.number().default(0), // controls homepage ordering later

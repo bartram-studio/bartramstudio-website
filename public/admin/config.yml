@@ -162,11 +162,11 @@ collections:
         widget: "string"
         hint: "Displayed throughout the site."
 
-      - label: "Category ID"
+      - label: "Internal Category ID"
         name: "categoryId"
         widget: "string"
         pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', "Use lowercase letters, numbers, and hyphens only."]
-        hint: "Permanent identifier used by products and links. Use lowercase letters, numbers, and hyphens. Do not change after products have been assigned."
+        hint: "Set this once when creating the category. Use a short lowercase version of the name with hyphens, such as jewelry-organization. Do not change it after products have been assigned."
 
       - label: "Description"
         name: "description"
@@ -174,11 +174,27 @@ collections:
         required: false
         hint: "Short description. Not shown yet — reserved for a future homepage layout."
 
-      - label: "Homepage Icon"
-        name: "homepageIcon"
-        widget: "string"
-        required: false
-        hint: "A simple emoji or short text label (e.g. 🐚). This field may be replaced with an image upload in a future update."
+      - label: "Category Icon"
+        name: "categoryIcon"
+        widget: "select"
+        default: "✨"
+        hint: "Choose the symbol that best represents this category. It may be used on the homepage and in other category displays."
+        options:
+          - { label: "Seashell 🐚", value: "🐚" }
+          - { label: "Ocean Wave 🌊", value: "🌊" }
+          - { label: "Jewelry Ring 💍", value: "💍" }
+          - { label: "Framed Art 🖼️", value: "🖼️" }
+          - { label: "Flower 🌸", value: "🌸" }
+          - { label: "Leaf 🌿", value: "🌿" }
+          - { label: "Gift 🎁", value: "🎁" }
+          - { label: "Sparkles ✨", value: "✨" }
+          - { label: "Star ⭐", value: "⭐" }
+          - { label: "Coral 🪸", value: "🪸" }
+          - { label: "Oyster 🦪", value: "🦪" }
+          - { label: "Pearl / White Heart 🤍", value: "🤍" }
+          - { label: "Sun ☀️", value: "☀️" }
+          - { label: "Palm Tree 🌴", value: "🌴" }
+          - { label: "Anchor ⚓", value: "⚓" }
 
       - label: "Category Accent"
         name: "categoryAccent"

@@ -2,7 +2,7 @@
 name: "Gift Ideas"
 categoryId: "gift-ideas"
 description: ""
-homepageIcon: "🎁"
+categoryIcon: "🎁"
 categoryAccent: "deep-tide"
 featuredImage: ""
 homepageOrder: 7

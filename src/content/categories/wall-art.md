@@ -2,7 +2,7 @@
 name: "Wall Art"
 categoryId: "wall-art"
 description: ""
-homepageIcon: "🖼️"
+categoryIcon: "🖼️"
 categoryAccent: "shell-pink"
 featuredImage: ""
 homepageOrder: 4

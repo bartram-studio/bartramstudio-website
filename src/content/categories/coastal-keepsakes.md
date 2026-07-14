@@ -2,7 +2,7 @@
 name: "Coastal Keepsakes"
 categoryId: "coastal-keepsakes"
 description: ""
-homepageIcon: "🏖️"
+categoryIcon: "🌊"
 categoryAccent: "deep-tide"
 featuredImage: ""
 homepageOrder: 2

@@ -2,7 +2,7 @@
 name: "Jewelry Organization"
 categoryId: "jewelry-organization"
 description: ""
-homepageIcon: "💍"
+categoryIcon: "💍"
 categoryAccent: "resin-amber"
 featuredImage: ""
 homepageOrder: 3

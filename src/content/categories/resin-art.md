@@ -2,7 +2,7 @@
 name: "Resin Art"
 categoryId: "resin-art"
 description: ""
-homepageIcon: "🐚"
+categoryIcon: "🐚"
 categoryAccent: "sea-glass"
 featuredImage: ""
 homepageOrder: 1

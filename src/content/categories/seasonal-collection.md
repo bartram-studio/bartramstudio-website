@@ -2,7 +2,7 @@
 name: "Seasonal Collection"
 categoryId: "seasonal-collection"
 description: ""
-homepageIcon: "🍂"
+categoryIcon: "✨"
 categoryAccent: "driftwood"
 featuredImage: ""
 homepageOrder: 5

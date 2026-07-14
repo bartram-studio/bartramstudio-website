@@ -2,7 +2,7 @@
 name: "Botanical Collection"
 categoryId: "botanical-collection"
 description: ""
-homepageIcon: "🌿"
+categoryIcon: "🌿"
 categoryAccent: "sea-glass"
 featuredImage: ""
 homepageOrder: 6
