@@ -18,7 +18,24 @@ const sorted = [...allProducts].sort((a, b) => {
   return a.data.title.localeCompare(b.data.title);
 });
 
-const categories = [...new Set(allProducts.map(p => p.data.category))].sort();
+// ── Category display-name resolution ────────────────────────────────────────
+// Products store either a new managed category's entry slug (e.g. "resin-art",
+// the category's filename) or a legacy display name (e.g. "Resin Art",
+// "Coastal Decor") left over from before the CMS Categories collection
+// existed. This resolves either form to the category's current, editable
+// display name, so a slug-stored product and a legacy-name-stored product in
+// the same category group under one filter pill. If no managed category
+// matches (a legacy/orphan value), the raw stored value is used as its own
+// filter category rather than failing.
+const categoryEntries = await getCollection('categories');
+const categoryNameBySlug = new Map(categoryEntries.map(c => [c.slug, c.data.name]));
+const categoryNameByName = new Map(categoryEntries.map(c => [c.data.name, c.data.name]));
+function resolveCategoryName(raw: string): string {
+  if (!raw) return raw;
+  return categoryNameBySlug.get(raw) ?? categoryNameByName.get(raw) ?? raw;
+}
+
+const categories = [...new Set(allProducts.map(p => resolveCategoryName(p.data.category)))].sort();
 ---
 
 <Layout
@@ -57,7 +74,7 @@ const categories = [...new Set(allProducts.map(p => p.data.category))].sort();
           <a
             href={`/products/${product.slug}`}
             class="product-card"
-            data-category={product.data.category}
+            data-category={resolveCategoryName(product.data.category)}
             style="text-decoration:none;"
           >
             <div class="product-card__img-wrap">
@@ -81,7 +98,7 @@ const categories = [...new Set(allProducts.map(p => p.data.category))].sort();
               </span>
             </div>
             <div class="product-card__body">
-              <p class="product-card__category">{product.data.category}</p>
+              <p class="product-card__category">{resolveCategoryName(product.data.category)}</p>
               <h2 class="product-card__title">{product.data.title}</h2>
               <p class="product-card__price">${product.data.price}</p>
             </div>

@@ -48,12 +48,12 @@ collections:
 
       - label: "Category"
         name: "category"
-        widget: "select"
-        options:
-          - "Resin Art"
-          - "Coastal Decor"
-          - "Seasonal Crafts"
-          - "Custom Pieces"
+        widget: "relation"
+        collection: "categories"
+        search_fields: ["name"]
+        display_fields: ["name"]
+        value_field: "{{slug}}"
+        hint: "Select a category managed under Categories. Existing products keep working even if their category is later marked inactive."
 
       - label: "Description"
         name: "descriptionParagraphs"
@@ -134,6 +134,99 @@ collections:
           widget: "file"
           media_folder: "/public/videos/products"
           public_folder: "/videos/products"
+
+  - name: "categories"
+    label: "Categories"
+    label_singular: "Category"
+    folder: "src/content/categories"
+    create: true
+    delete: false
+    identifier_field: name
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    sortable_fields: ["name", "homepageOrder", "active"]
+    view_filters:
+      - label: "Active"
+        field: active
+        pattern: true
+      - label: "Inactive"
+        field: active
+        pattern: false
+      - label: "Shown on Homepage"
+        field: showOnHomepage
+        pattern: true
+    fields:
+      - label: "Name"
+        name: "name"
+        widget: "string"
+        hint: "Displayed throughout the site. Used to generate the category's permanent internal identifier when first created — renaming Name later will not change that identifier."
+
+      - label: "Description"
+        name: "description"
+        widget: "text"
+        required: false
+        hint: "Short description. Not shown yet — reserved for a future homepage layout."
+
+      - label: "Category Icon"
+        name: "categoryIcon"
+        widget: "select"
+        default: "✨"
+        hint: "Choose the symbol that best represents this category. It may be used on the homepage and in other category displays."
+        options:
+          - { label: "Seashell 🐚", value: "🐚" }
+          - { label: "Ocean Wave 🌊", value: "🌊" }
+          - { label: "Jewelry Ring 💍", value: "💍" }
+          - { label: "Framed Art 🖼️", value: "🖼️" }
+          - { label: "Flower 🌸", value: "🌸" }
+          - { label: "Leaf 🌿", value: "🌿" }
+          - { label: "Gift 🎁", value: "🎁" }
+          - { label: "Sparkles ✨", value: "✨" }
+          - { label: "Star ⭐", value: "⭐" }
+          - { label: "Coral 🪸", value: "🪸" }
+          - { label: "Oyster 🦪", value: "🦪" }
+          - { label: "Pearl / White Heart 🤍", value: "🤍" }
+          - { label: "Sun ☀️", value: "☀️" }
+          - { label: "Palm Tree 🌴", value: "🌴" }
+          - { label: "Anchor ⚓", value: "⚓" }
+
+      - label: "Category Accent"
+        name: "categoryAccent"
+        widget: "select"
+        hint: "Pick from the approved Bartram Studio palette. Custom colors are not supported."
+        options:
+          - { label: "Sea Glass", value: "sea-glass" }
+          - { label: "Deep Tide", value: "deep-tide" }
+          - { label: "Resin Amber", value: "resin-amber" }
+          - { label: "Shell Pink", value: "shell-pink" }
+          - { label: "Driftwood", value: "driftwood" }
+
+      - label: "Featured Image"
+        name: "featuredImage"
+        widget: "image"
+        required: false
+        media_folder: "/public/images/categories"
+        public_folder: "/images/categories"
+        hint: "Not used yet — reserved for future category landing pages."
+
+      - label: "Homepage Order"
+        name: "homepageOrder"
+        widget: "number"
+        value_type: "int"
+        default: 0
+        hint: "Controls ordering for a future homepage category display. Lower numbers appear first."
+
+      - label: "Show on Homepage"
+        name: "showOnHomepage"
+        widget: "boolean"
+        default: false
+        hint: "Reserved for future use — has no effect on the site yet."
+
+      - label: "Active"
+        name: "active"
+        widget: "boolean"
+        default: true
+        hint: "Turn this off to mark the category as retired. Existing products can continue using it. Inactive categories may still appear in the product category selector."
 
   - name: "site"
     label: "Site Content"

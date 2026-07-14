@@ -17,6 +17,41 @@ const allProducts = await getCollection('products');
 const featured = allProducts
   .filter(p => p.data.featured && p.data.status !== 'sold')
   .slice(0, 3);
+
+// ── Category display-name resolution ────────────────────────────────────────
+// Products store either a new managed category's entry slug (e.g. "resin-art",
+// the category's filename) or a legacy display name (e.g. "Resin Art",
+// "Coastal Decor") left over from before the CMS Categories collection
+// existed. This resolves either form to the category's current, editable
+// display name. If no managed category matches (a legacy/orphan value), the
+// raw stored value is shown as-is rather than failing — existing products
+// keep working until Amanda reassigns them.
+const categoryEntries = await getCollection('categories');
+const categoryNameBySlug = new Map(categoryEntries.map(c => [c.slug, c.data.name]));
+const categoryNameByName = new Map(categoryEntries.map(c => [c.data.name, c.data.name]));
+function resolveCategoryName(raw: string): string {
+  if (!raw) return raw;
+  return categoryNameBySlug.get(raw) ?? categoryNameByName.get(raw) ?? raw;
+}
+
+// ── Homepage category cards (Feature B) ─────────────────────────────────────
+// Qualifying = active and marked to show on the homepage; sorted by the
+// managed homepageOrder. Reuses the categoryEntries already loaded above.
+const homepageCategories = categoryEntries
+  .filter(c => c.data.active === true && c.data.showOnHomepage === true)
+  .sort((a, b) => a.data.homepageOrder - b.data.homepageOrder);
+
+// Maps the approved categoryAccent values to existing Bartram Studio CSS
+// variables (same palette already used for bg-* utility classes elsewhere).
+// Never lets category data inject arbitrary CSS — only ever selects one of
+// these five known variable names, falling back to an existing safe default.
+const categoryAccentVar: Record<string, string> = {
+  'sea-glass':   'var(--tide)',
+  'deep-tide':   'var(--tide-dark)',
+  'resin-amber': 'var(--sand-dark)',
+  'shell-pink':  'var(--coral)',
+  'driftwood':   'var(--driftwood)',
+};
 ---
 
 <Layout title="Bartram Studio">
@@ -131,7 +166,7 @@ const featured = allProducts
                 </span>
               </div>
               <div class="product-card__body">
-                <p class="product-card__category">{product.data.category}</p>
+                <p class="product-card__category">{resolveCategoryName(product.data.category)}</p>
                 <h3 class="product-card__title">{product.data.title}</h3>
                 <p class="product-card__price">${product.data.price}</p>
               </div>
@@ -162,32 +197,22 @@ const featured = allProducts
         <p class="section-eyebrow">{h.categoriesEyebrow}</p>
         <h2>{h.categoriesTitle}</h2>
       </div>
-      <div class="categories-grid">
-        <a href="/products?category=Resin+Art" class="cat-card cat-card--resin">
-          <div class="cat-card__icon">🐚</div>
-          <h3>Resin Art</h3>
-          <p>Trays, coasters, and decorative pieces cast in crystal-clear resin with real shells and sea glass.</p>
-          <span class="cat-card__link">Shop now →</span>
-        </a>
-        <a href="/products?category=Coastal+Decor" class="cat-card cat-card--decor">
-          <div class="cat-card__icon">🌊</div>
-          <h3>Coastal Decor</h3>
-          <p>Shadow boxes, shell arrangements, and wall art that bring the Florida coast into your home.</p>
-          <span class="cat-card__link">Shop now →</span>
-        </a>
-        <a href="/products?category=Seasonal+Crafts" class="cat-card cat-card--seasonal">
-          <div class="cat-card__icon">🍂</div>
-          <h3>Seasonal Crafts</h3>
-          <p>Wreaths, garlands, and holiday décor made with natural materials for every season.</p>
-          <span class="cat-card__link">Shop now →</span>
-        </a>
-        <a href="/products?category=Custom+Pieces" class="cat-card cat-card--custom">
-          <div class="cat-card__icon">✨</div>
-          <h3>Custom Pieces</h3>
-          <p>Have something specific in mind? I love bringing personal visions to life — let's chat.</p>
-          <span class="cat-card__link">Learn more →</span>
-        </a>
-      </div>
+      {homepageCategories.length > 0 && (
+        <div class="categories-grid">
+          {homepageCategories.map(category => (
+            <a
+              href={`/products?category=${encodeURIComponent(category.slug)}`}
+              class="cat-card"
+              style={`--cat-accent: ${categoryAccentVar[category.data.categoryAccent] ?? 'var(--tide)'};`}
+            >
+              <div class="cat-card__icon">{category.data.categoryIcon}</div>
+              <h3>{category.data.name}</h3>
+              {category.data.description && <p>{category.data.description}</p>}
+              <span class="cat-card__link">Shop now →</span>
+            </a>
+          ))}
+        </div>
+      )}
     </div>
   </section>
 
@@ -462,6 +487,7 @@ const featured = allProducts
   border-radius: var(--radius);
   text-decoration: none;
   border: 1.5px solid transparent;
+  border-top: 3px solid var(--cat-accent, var(--tide));
   transition: all 0.3s var(--ease);
   display: flex;
   flex-direction: column;
@@ -470,14 +496,10 @@ const featured = allProducts
 
 .cat-card:hover {
   border-color: var(--tide-light);
+  border-top-color: var(--cat-accent, var(--tide));
   transform: translateY(-3px);
   box-shadow: 0 8px 24px rgba(0,0,0,0.07);
 }
-
-.cat-card--resin   { border-top: 3px solid var(--tide); }
-.cat-card--decor   { border-top: 3px solid var(--tide-dark); }
-.cat-card--seasonal{ border-top: 3px solid var(--coral); }
-.cat-card--custom  { border-top: 3px solid var(--driftwood); }
 
 .cat-card__icon { font-size: 2rem; }
 

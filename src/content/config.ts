@@ -6,12 +6,48 @@ const bgEnum = z.union([
   z.enum(['soft-shell', 'sea-glass', 'resin-amber', 'shell-pink', 'driftwood']),
 ]).optional();
 
+// Approved Bartram Studio palette names selectable as a Category's accent colour
+const categoryAccentEnum = z.enum([
+  'sea-glass',
+  'deep-tide',
+  'resin-amber',
+  'shell-pink',
+  'driftwood',
+]);
+
+// ── Categories ────────────────────────────────────────────────────────────────
+const categories = defineCollection({
+  type: 'content',
+  schema: z.object({
+    name: z.string(),                    // displayed throughout the site; also drives the entry filename
+                                           // via Decap's identifier_field, but renaming Name later does NOT
+                                           // rename the entry — the file/slug is only set once, at creation
+    description: z.string().optional(),  // short description, used later on the homepage
+    categoryIcon: z.string(), // curated emoji, chosen from a Decap select dropdown; kept as a plain
+                               // string (not a strict enum) for backward compatibility and future flexibility
+    categoryAccent: categoryAccentEnum,
+    featuredImage: z.string().optional(), // not used yet — future category landing pages
+    homepageOrder: z.number().default(0), // controls homepage ordering later
+    showOnHomepage: z.boolean().default(false), // used later
+    active: z.boolean().default(true),    // marks a category as retired; existing products may keep
+                                           // referencing it, and it may still appear in the CMS picker
+                                           // (Decap's relation widget does not auto-filter by this field)
+  }),
+});
+
 // ── Products ────────────────────────────────────────────────────────────────
 const products = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
-    category: z.enum(['Resin Art', 'Coastal Decor', 'Seasonal Crafts', 'Custom Pieces']),
+    // Stores a category's entry slug (the Markdown filename, e.g. "jewelry-organization")
+    // for newly-edited products (via the CMS relation widget). Kept as a plain string, NOT
+    // an enum or reference, so that legacy product files still containing old display-name
+    // values (e.g. "Resin Art", "Coastal Decor") continue to build successfully. Pages
+    // resolve this value (category slug or legacy name) to a display name at render time —
+    // see resolveCategoryName() in the page files. Existing products keep working as-is
+    // until Amanda manually reassigns them to a managed category through the CMS.
+    category: z.string(),
     description: z.string().optional(),                    // legacy — kept for backward compat
     descriptionParagraphs: z.array(z.string()).optional(), // new list-widget field
     price: z.number(),
@@ -117,4 +153,4 @@ const brand = defineCollection({
   }),
 });
 
-export const collections = { products, site, brand };
+export const collections = { products, categories, site, brand };
