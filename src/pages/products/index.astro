@@ -35,7 +35,42 @@ function resolveCategoryName(raw: string): string {
   return categoryNameBySlug.get(raw) ?? categoryNameByName.get(raw) ?? raw;
 }
 
-const categories = [...new Set(allProducts.map(p => resolveCategoryName(p.data.category)))].sort();
+// ── Stable filter-key resolution ────────────────────────────────────────────
+// The Shop's filter pills and product cards need a stable key to match on
+// (independent of the display label), so a homepage link built from a
+// managed category's permanent slug always matches, even though the visible
+// pill text is the friendly display name. Reverse lookup: managed display
+// name -> managed slug, so legacy name-stored products resolve to the same
+// key as slug-stored products in the same category.
+const categorySlugByName = new Map(categoryEntries.map(c => [c.data.name, c.slug]));
+function resolveCategoryKey(raw: string): string {
+  if (!raw) return raw;
+  if (categoryNameBySlug.has(raw)) return raw; // already a managed slug
+  return categorySlugByName.get(raw) ?? raw;   // legacy display name -> managed slug, else orphan value stays its own key
+}
+
+// Filters carry both the stable key (for matching) and the friendly label
+// (for display). Two sources are combined:
+//  - every active managed category, so it has a pill even with zero products
+//    (e.g. a homepage link to a category that has no products yet still works)
+//  - every category actually represented by a product (covers inactive
+//    managed categories still in use, and unmatched legacy/orphan values)
+// Deduplicated by key and sorted alphabetically by label, preserving the
+// previous visible alphabetical ordering.
+const managedCategoryFilters = categoryEntries
+  .filter(c => c.data.active === true)
+  .map(c => ({ key: c.slug, label: c.data.name }));
+
+const productCategoryFilters = allProducts.map(p => {
+  const raw = p.data.category;
+  const key = resolveCategoryKey(raw);
+  const label = resolveCategoryName(raw);
+  return { key, label };
+});
+
+const filters = [...new Map(
+  [...managedCategoryFilters, ...productCategoryFilters].map(f => [f.key, f])
+).values()].sort((a, b) => a.label.localeCompare(b.label));
 ---
 
 <Layout
@@ -60,8 +95,8 @@ const categories = [...new Set(allProducts.map(p => resolveCategoryName(p.data.c
           <p class="filter-bar__label">Filter by:</p>
           <div class="filter-pills" id="filter-pills">
             <button class="pill pill--active" data-category="all">All</button>
-            {categories.map(cat => (
-              <button class="pill" data-category={cat}>{cat}</button>
+            {filters.map(category => (
+              <button class="pill" data-category={category.key}>{category.label}</button>
             ))}
           </div>
         </div>
@@ -74,7 +109,7 @@ const categories = [...new Set(allProducts.map(p => resolveCategoryName(p.data.c
           <a
             href={`/products/${product.slug}`}
             class="product-card"
-            data-category={resolveCategoryName(product.data.category)}
+            data-category={resolveCategoryKey(product.data.category)}
             style="text-decoration:none;"
           >
             <div class="product-card__img-wrap">
@@ -218,30 +253,38 @@ const cards = document.querySelectorAll<HTMLElement>('.product-card');
 const emptyState = document.getElementById('empty-state');
 const countLabel = document.getElementById('count-label');
 
-// Activate category from URL param on load
-const urlCat = new URLSearchParams(window.location.search).get('category');
-if (urlCat) {
-  pills.forEach(p => {
-    if (p.dataset.category === urlCat) p.click();
+// Single reusable filter routine: sets the active pill, shows/hides product
+// cards, and updates the count and empty-state display for a given category key.
+function applyFilter(categoryKey: string) {
+  pills.forEach(p => p.classList.toggle('pill--active', p.dataset.category === categoryKey));
+
+  let visible = 0;
+  cards.forEach(card => {
+    const match = categoryKey === 'all' || card.dataset.category === categoryKey;
+    card.toggleAttribute('data-hidden', !match);
+    if (match) visible++;
   });
+
+  if (countLabel) countLabel.textContent = `${visible} piece${visible !== 1 ? 's' : ''}`;
+  if (emptyState) emptyState.style.display = visible === 0 ? 'block' : 'none';
 }
 
+// Attach pill click listeners first so manual filtering keeps working exactly
+// as before. Clicking a pill never touches the URL.
 pills.forEach(pill => {
   pill.addEventListener('click', () => {
-    pills.forEach(p => p.classList.remove('pill--active'));
-    pill.classList.add('pill--active');
-
-    const cat = pill.dataset.category;
-    let visible = 0;
-
-    cards.forEach(card => {
-      const match = cat === 'all' || card.dataset.category === cat;
-      card.toggleAttribute('data-hidden', !match);
-      if (match) visible++;
-    });
-
-    if (countLabel) countLabel.textContent = `${visible} piece${visible !== 1 ? 's' : ''}`;
-    if (emptyState) emptyState.style.display = visible === 0 ? 'block' : 'none';
+    applyFilter(pill.dataset.category ?? 'all');
   });
 });
+
+// Only after listeners are attached, apply a category from the URL param.
+// If no pill matches, leave the default All state (already active in markup)
+// rather than showing an empty page for an invalid category.
+const urlCat = new URLSearchParams(window.location.search).get('category');
+if (urlCat) {
+  const matchingPill = Array.from(pills).find(p => p.dataset.category === urlCat);
+  if (matchingPill) {
+    applyFilter(urlCat);
+  }
+}
 </script>
