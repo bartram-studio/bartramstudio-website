@@ -5,6 +5,12 @@ import { getCollection } from 'astro:content';
 // Site content
 const siteEntries = await getCollection('site');
 const h = siteEntries.find(e => e.id === 'home.md')!.data;
+
+// About entry's profileImage, reused here so Amanda manages one portrait in
+// one place. No non-null assertion: the homepage must still build if the
+// About entry is missing or profileImage is absent/empty.
+const aboutEntry = siteEntries.find(e => e.id === 'about.md');
+const aboutProfileImage = aboutEntry?.data?.profileImage || '';
 const heroBgClass      = h.heroBg       ? `bg-${h.heroBg}`       : '';
 const bandBgClass      = h.bandBg       ? `bg-${h.bandBg}`       : '';
 const featuredBgClass  = h.featuredBg   ? `bg-${h.featuredBg}`   : '';
@@ -226,11 +232,19 @@ const categoryAccentVar: Record<string, string> = {
         <a href="/about" class="btn btn--outline" style="margin-top: 1.5rem;">Read My Story</a>
       </div>
       <div class="about-strip__visual">
-        <div class="about-strip__frame">
-          <div class="about-placeholder">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            <span>Amanda's photo</span>
-          </div>
+        <div class={`about-strip__frame ${aboutProfileImage ? 'about-strip__frame--portrait' : ''}`}>
+          {aboutProfileImage ? (
+            <img
+              src={aboutProfileImage}
+              alt="Amanda, maker behind Bartram Studio"
+              class="about-strip__portrait"
+            />
+          ) : (
+            <div class="about-placeholder">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <span>Amanda's photo</span>
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -565,6 +579,10 @@ const categoryAccentVar: Record<string, string> = {
   border: 1px solid var(--sand-dark);
 }
 
+.about-strip__frame--portrait::before {
+  display: none;
+}
+
 .about-placeholder {
   width: 100%;
   height: 100%;
@@ -587,6 +605,13 @@ const categoryAccentVar: Record<string, string> = {
   font-size: 0.75rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
+}
+
+.about-strip__portrait {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 /* ── CTA ── */
