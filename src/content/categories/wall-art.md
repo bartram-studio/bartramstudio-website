@@ -5,6 +5,6 @@ categoryIcon: 🖼️
 categoryAccent: shell-pink
 featuredImage: ""
 homepageOrder: 3
-showOnHomepage: true
-active: true
+showOnHomepage: false
+active: false
 ---
