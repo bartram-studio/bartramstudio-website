@@ -1,5 +1,5 @@
 ---
-category: Coastal Decor
+category: jewelry-organization
 descriptionParagraphs:
   - Bring the beauty of the shoreline and the charm of a blooming garden to your
     vanity. Handcrafted from genuine seashells, this one-of-a-kind jewelry
