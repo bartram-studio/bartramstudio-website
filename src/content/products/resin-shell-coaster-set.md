@@ -1,5 +1,5 @@
 ---
-category: Resin Art
+category: coastal-keepsakes
 descriptionParagraphs:
   - Inspired by the quiet beauty of the shoreline, this handcrafted shadow box
     transforms natural seashells into a blooming coastal sculpture. Carefully
@@ -25,13 +25,17 @@ descriptionParagraphs:
     * Beautiful for coastal, cottage, and beach-inspired homes
     * Handmade in Florida by Bartram Studio
 price: 55
-quantity: 3
+quantity: 1
 slug: resin-shell-coaster-set
 title: Sea Blossom Shadow Box
 status: available
-featured: false
+featured: true
 customOrderAvailable: true
-images: []
+images:
+  - /images/products/cpk-001-01-hero.png
+  - /images/products/cpk-001-01-angle.png
+  - /images/products/cpk-001-01-detail.png
+  - /images/products/cpk-001-01-hero.png
 description: "A set of four round resin coasters each uniquely embedded with
   whole shells, shell fragments, and iridescent glitter in ocean-inspired hues.
   No two coasters are identical — the shells shift and sparkle depending on the
