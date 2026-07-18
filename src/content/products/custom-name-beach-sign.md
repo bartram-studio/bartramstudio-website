@@ -1,5 +1,5 @@
 ---
-category: Coastal Decor
+category: coastal-keepsakes
 descriptionParagraphs:
   - Bring the quiet beauty of the shoreline and the garden into your home with
     this one-of-a-kind handcrafted keepsake dish. Each piece begins with a
