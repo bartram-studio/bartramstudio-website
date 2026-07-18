@@ -5,6 +5,6 @@ categoryIcon: 🌿
 categoryAccent: sea-glass
 featuredImage: ""
 homepageOrder: 6
-showOnHomepage: false
-active: false
+showOnHomepage: true
+active: true
 ---
