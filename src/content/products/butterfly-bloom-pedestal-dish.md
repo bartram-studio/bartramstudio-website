@@ -1,5 +1,5 @@
 ---
-title: Butterfly Bloom Pedestal Dish
+title: Butterfly Garden Pedestal Dish
 category: coastal-keepsakes
 descriptionParagraphs:
   - Delicate botanicals, shimmering shell, and graceful butterflies come
@@ -16,9 +16,29 @@ descriptionParagraphs:
   - Every Bartram Studio creation is handcrafted using natural materials, making
     each piece truly one of a kind. Variations in shells, textures, and handmade
     details are part of what makes every keepsake unique.
+  - |-
+    Perfect For
+
+    * Displaying rings and everyday jewelry
+    * Holding cherished keepsakes
+    * Styling a vanity or dresser
+    * Adding a botanical touch to a bookshelf or bedside table
+    * A thoughtful gift for birthdays, graduations, or special occasions
+  - |-
+    Handmade Details
+
+    * Crafted from natural shells
+    * Hand-finished with resin
+    * Hand-painted gold edging
+    * One of a kind
+    * Made in Florida
 price: 78
 status: available
 quantity: 1
-featured: false
+featured: true
 customOrderAvailable: false
+images:
+  - /images/products/cpk-004-04-lifestyle.png
+  - /images/products/cpk-004-01-hero.png
+  - /images/products/cpk-004-03-detail.png
 ---
