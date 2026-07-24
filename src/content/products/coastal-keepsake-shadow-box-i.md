@@ -1,6 +1,6 @@
 ---
 title: Coastal Keepsake Shadow Box I
-category: coastal-keepsakes
+category: Jewelry Organization
 descriptionParagraphs:
   - Handcrafted from a thoughtfully curated collection of natural seashells,
     this framed coastal keepsake celebrates the quiet beauty of the shoreline.
