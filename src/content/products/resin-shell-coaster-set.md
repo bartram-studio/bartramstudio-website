@@ -30,7 +30,7 @@ slug: resin-shell-coaster-set
 title: Sea Blossom Shadow Box
 status: available
 featured: true
-customOrderAvailable: true
+customOrderAvailable: false
 images:
   - /images/products/cpk-001-01-hero.png
   - /images/products/cpk-001-01-angle.png
