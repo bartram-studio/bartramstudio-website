@@ -13,14 +13,14 @@
 </head>
 <body>
   <!-- Decap CMS mounts here automatically -->
-  <script src="https://unpkg.com/decap-cms@3/dist/decap-cms.js"></script>
+  <script src="https://unpkg.com/decap-cms@3.14.1/dist/decap-cms.js"></script>
 
   <!-- Inline preview — Attempt #5 -->
   <!-- Targets: Site Content > About Page -->
   <!-- Renders: hero (with live heroBg colour), intro, craft section, contact CTA -->
   <!-- Fields:  heroBg, aboutIntroBg, aboutCraftBg, aboutCtaBg              -->
   <!-- Safe: try/catch preserved; diagnostic logging preserved; guards preserved -->
-  <script type="text/plain" id="disabled-custom-previews">
+  <script>
     (function () {
       // ── Diagnostic logging ────────────────────────────────────────────────
       console.log('[preview-poc] typeof window.CMS:', typeof window.CMS);
