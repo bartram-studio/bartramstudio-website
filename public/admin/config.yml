@@ -52,7 +52,7 @@ collections:
         collection: "categories"
         search_fields: ["name"]
         display_fields: ["name"]
-        value_field: "{{slug}}"
+        value_field: "name"
         hint: "Select a category managed under Categories. Existing products keep working even if their category is later marked inactive."
 
       - label: "Description"
