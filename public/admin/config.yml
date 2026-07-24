@@ -1,7 +1,7 @@
 backend:
   name: github
   repo: bartram-studio/bartramstudio-website
-  branch: main
+  branch: diagnostic/relation-value-field-name
   base_url: https://bartram-studio-oauth.netlify.app
   auth_endpoint: auth
 
