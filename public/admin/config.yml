@@ -48,12 +48,16 @@ collections:
 
       - label: "Category"
         name: "category"
-        widget: "relation"
-        collection: "categories"
-        search_fields: ["name"]
-        display_fields: ["name"]
-        value_field: "name"
-        hint: "Select a category managed under Categories. Existing products keep working even if their category is later marked inactive."
+        widget: "select"
+        options:
+          - "Resin Art"
+          - "Coastal Keepsakes"
+          - "Jewelry Organization"
+          - "Wall Art"
+          - "Seasonal Collection"
+          - "Botanical Collection"
+          - "Gift Ideas"
+        hint: "Diagnostic only — temporary hardcoded list, not the managed Categories collection."
 
       - label: "Description"
         name: "descriptionParagraphs"
