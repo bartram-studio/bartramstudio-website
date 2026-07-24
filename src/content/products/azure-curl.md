@@ -15,7 +15,7 @@ descriptionParagraphs:
 price: 139
 status: available
 quantity: 1
-featured: true
+featured: false
 customOrderAvailable: false
 images:
   - /images/products/cmc-001-01-hero.png
