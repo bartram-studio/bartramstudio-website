@@ -35,4 +35,5 @@ customOrderAvailable: false
 images:
   - /images/products/cpk-003-01-hero.png
   - /images/products/cpk-003-03-lifestyle.png
+  - /images/products/cpk-003-03-detail.png
 ---
