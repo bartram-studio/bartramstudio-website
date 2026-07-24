@@ -1,5 +1,5 @@
 ---
-category: jewelry-organization
+category: Jewelry Organization
 descriptionParagraphs:
   - >+
     Handcrafted from natural seashells with luminous shell accents and delicate
