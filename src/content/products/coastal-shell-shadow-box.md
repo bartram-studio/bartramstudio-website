@@ -1,5 +1,5 @@
 ---
-category: Jewelry Organization
+category: Resin Art
 descriptionParagraphs:
   - >+
     Handcrafted from natural seashells with luminous shell accents and delicate
