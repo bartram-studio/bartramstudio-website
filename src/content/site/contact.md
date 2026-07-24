@@ -6,7 +6,7 @@ pageIntro: Questions, custom orders, or just want to say hello — I'd love to
 formTitle: Send a Message
 formIntro: Fill out the form below and I'll get back to you as soon as I can —
   usually within a day or two.
-email: hello@bartramstudio.com
+email: hello@bartramstudioco.com
 instagramHandle: "@bartramstudio"
 instagramUrl: https://instagram.com/bartramstudio
 location: St. Johns, Florida
