@@ -1,6 +1,6 @@
 ---
 title: test2
-category: jewelry-organization
+category: resin-art
 descriptionParagraphs:
   - "1"
 price: 1
