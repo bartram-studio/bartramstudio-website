@@ -11,8 +11,8 @@ descriptionParagraphs:
   - Whether displayed on its own or grouped with other Bartram Studio creations,
     this piece offers a timeless reminder of the sea and the memories it
     inspires.
-  - |
-    Details
+  - |-
+    **Details**
 
     * Dimensions: Approximately 5” × 5”
     * Frame Color: Sage Green
