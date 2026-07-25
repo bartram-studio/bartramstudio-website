@@ -19,15 +19,20 @@ descriptionParagraphs:
     ensuring that no two creations are ever exactly alike. Natural variations in
     every shell are celebrated as part of its unique character and charm.
   - >-
-    Details
-    	•	Handcrafted using real seashells
-    	•	Hand-painted gold edging and accents
-    	•	Multi-level design for organizing rings, earrings, bracelets, and necklaces
-    	•	Functional jewelry organizer and decorative coastal display
-    	•	Ocean-inspired blue shell accents
-    	•	One-of-a-kind artisan creation
-    	•	Beautiful for vanities, dressers, and bedside tables
-    	•	Handmade in Florida by Bartram Studio
+    **Details**
+
+
+    * Handcrafted using real seashells
+
+    * Hand-painted gold edging and accents	
+
+    * Multi-level design for organizing rings, earrings, bracelets, and necklaces	Functional jewelry organizer and decorative coastal display	
+
+    * Ocean-inspired blue shell accents	
+
+    * One-of-a-kind artisan creation	
+
+    * Beautiful for vanities, dressers, and bedside tables	Handmade in Florida by Bartram Studio
   - Beautiful enough to display on its own, yet thoughtfully designed to keep
     your favorite jewelry close at hand.
 price: 129
