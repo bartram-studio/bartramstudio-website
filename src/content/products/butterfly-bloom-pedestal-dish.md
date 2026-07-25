@@ -17,7 +17,7 @@ descriptionParagraphs:
     each piece truly one of a kind. Variations in shells, textures, and handmade
     details are part of what makes every keepsake unique.
   - |-
-    Perfect For
+    **Perfect For**
 
     * Displaying rings and everyday jewelry
     * Holding cherished keepsakes
@@ -25,7 +25,7 @@ descriptionParagraphs:
     * Adding a botanical touch to a bookshelf or bedside table
     * A thoughtful gift for birthdays, graduations, or special occasions
   - |-
-    Handmade Details
+    **Handmade Details**
 
     * Crafted from natural shells
     * Hand-finished with resin
