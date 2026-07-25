@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
+import { renderMarkdown } from '../../lib/richText';
 
 export async function getStaticPaths() {
   const products = await getCollection('products');
@@ -167,7 +168,7 @@ const descParagraphs: string[] = data.descriptionParagraphs && data.descriptionP
         <div class="divider"><span>✦</span></div>
 
         <div class="product-info__desc">
-          {descParagraphs.map((p: string) => <p>{p}</p>)}
+          {descParagraphs.map((p: string) => <div class="rich-text" set:html={renderMarkdown(p)} />)}
         </div>
 
         {data.customOrderAvailable && (
@@ -268,6 +269,28 @@ const descParagraphs: string[] = data.descriptionParagraphs && data.descriptionP
 </Layout>
 
 <style>
+/* ── Rich text (Markdown-rendered fields) ────────────────────────────────
+   Content here is injected via set:html and is NOT covered by Astro's
+   automatic style scoping, so these selectors use :global() deliberately —
+   without it, none of them would match the rendered output. Colours are
+   inherited so this drops into any existing text container unchanged.
+   Paragraph spacing/colour for .product-info__desc specifically is
+   overridden further down to match this page's existing rhythm. */
+.rich-text :global(strong) { font-weight: 600; }
+.rich-text :global(em) { font-style: italic; }
+.rich-text :global(ul),
+.rich-text :global(ol) {
+  margin: 0 0 0.6em 1.25em;
+  padding: 0;
+}
+.rich-text :global(li) { margin-bottom: 0.3em; }
+.rich-text :global(li:last-child) { margin-bottom: 0; }
+.rich-text :global(a) {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
 .breadcrumb {
   padding-block: 1rem;
   background: var(--sand);
@@ -446,12 +469,18 @@ const descParagraphs: string[] = data.descriptionParagraphs && data.descriptionP
   letter-spacing: 0.08em;
 }
 
-.product-info__desc p {
+/* descriptionParagraphs (and the legacy description fallback) are now
+   Markdown-rendered and injected via set:html, so the <p> is not subject to
+   Astro's scoped-style attribute — :global() is required here or this rule
+   silently stops matching. The wrapping .rich-text div IS a template
+   element, so the sibling-spacing rule below does not need :global(). */
+.product-info__desc :global(p) {
   line-height: 1.8;
   max-width: 55ch;
+  margin: 0;
 }
 
-.product-info__desc p + p {
+.product-info__desc .rich-text + .rich-text {
   margin-top: 1rem;
 }
 

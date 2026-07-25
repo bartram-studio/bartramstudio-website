@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
+import { renderMarkdown } from '../../lib/richText';
 
 const siteEntries = await getCollection('site');
 const shop = siteEntries.find(e => e.id === 'shop.md')!.data;
@@ -82,7 +83,7 @@ const filters = [...new Map(
     <div class="container">
       <p class="page-hero__eyebrow">{shop.pageEyebrow}</p>
       <h1>{shop.pageTitle}</h1>
-      <p>{shop.pageIntro}</p>
+      <div class="rich-text" set:html={renderMarkdown(shop.pageIntro)} />
     </div>
   </section>
 
@@ -171,6 +172,31 @@ const filters = [...new Map(
 </Layout>
 
 <style>
+/* ── Rich text (Markdown-rendered fields) ────────────────────────────────
+   Content here is injected via set:html and is NOT covered by Astro's
+   automatic style scoping, so these selectors use :global() deliberately —
+   without it, none of them would match the rendered output. Colours are
+   inherited so this drops into any existing text container unchanged.
+   pageIntro sits inside .page-hero, whose own paragraph styling (if any)
+   lives in global.css rather than this page's scoped block, so it already
+   applies to injected content without needing a :global() fix here. */
+.rich-text :global(p) { margin: 0 0 0.6em; }
+.rich-text :global(p:last-child) { margin-bottom: 0; }
+.rich-text :global(strong) { font-weight: 600; }
+.rich-text :global(em) { font-style: italic; }
+.rich-text :global(ul),
+.rich-text :global(ol) {
+  margin: 0 0 0.6em 1.25em;
+  padding: 0;
+}
+.rich-text :global(li) { margin-bottom: 0.3em; }
+.rich-text :global(li:last-child) { margin-bottom: 0; }
+.rich-text :global(a) {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
 .filter-bar {
   display: flex;
   align-items: center;

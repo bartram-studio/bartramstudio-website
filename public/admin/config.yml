@@ -1,7 +1,7 @@
 backend:
   name: github
   repo: bartram-studio/bartramstudio-website
-  branch: main
+  branch: feature/rich-text-content-formatting
   base_url: https://bartram-studio-oauth.netlify.app
   auth_endpoint: auth
 
@@ -66,7 +66,9 @@ collections:
         field:
           label: "Paragraph"
           name: "paragraph"
-          widget: "text"
+          widget: "markdown"
+          buttons: ["bold", "italic", "link", "bulleted-list", "numbered-list"]
+          editor_components: []
 
       - label: "Price (USD)"
         name: "price"
@@ -164,9 +166,11 @@ collections:
 
       - label: "Description"
         name: "description"
-        widget: "text"
+        widget: "markdown"
+        buttons: ["bold", "italic", "link", "bulleted-list", "numbered-list"]
+        editor_components: []
         required: false
-        hint: "Short description. Not shown yet — reserved for a future homepage layout."
+        hint: "A short description displayed on the homepage category card. Supports basic formatting."
 
       - label: "Category Icon"
         name: "categoryIcon"
@@ -241,7 +245,7 @@ collections:
           - { label: "Hero — Eyebrow", name: "heroEyebrow", widget: "string", hint: "Small uppercase label above the main headline." }
           - { label: "Hero — Title", name: "heroTitle", widget: "string", hint: "First line of the main headline." }
           - { label: "Hero — Title Emphasis", name: "heroTitleEmphasis", widget: "string", hint: "Second line of the headline, shown in italic teal." }
-          - { label: "Hero — Lead Text", name: "heroLead", widget: "text", hint: "Paragraph below the headline." }
+          - { label: "Hero — Lead Text", name: "heroLead", widget: "markdown", hint: "Paragraph below the headline. Supports basic formatting.", buttons: ["bold", "italic", "link", "bulleted-list", "numbered-list"], editor_components: [] }
           - label: "Hero — Image"
             name: "heroImage"
             widget: "image"
@@ -252,15 +256,15 @@ collections:
             hint: "Optional. Upload an image to replace the decorative shell artwork on the right side of the homepage hero. Leave blank to keep the default artwork. Recommended: square or portrait, at least 600×600px."
           - { label: "Featured — Eyebrow", name: "featuredEyebrow", widget: "string" }
           - { label: "Featured — Title", name: "featuredTitle", widget: "string" }
-          - { label: "Featured — Subtitle", name: "featuredText", widget: "string" }
+          - { label: "Featured — Subtitle", name: "featuredText", widget: "markdown", hint: "Supports basic formatting.", buttons: ["bold", "italic", "link", "bulleted-list", "numbered-list"], editor_components: [] }
           - { label: "Categories — Eyebrow", name: "categoriesEyebrow", widget: "string" }
           - { label: "Categories — Title", name: "categoriesTitle", widget: "string" }
           - { label: "About Strip — Eyebrow", name: "aboutEyebrow", widget: "string" }
           - { label: "About Strip — Title", name: "aboutTitle", widget: "string" }
-          - { label: "About Strip — Text", name: "aboutText", widget: "text" }
+          - { label: "About Strip — Text", name: "aboutText", widget: "markdown", hint: "Supports basic formatting.", buttons: ["bold", "italic", "link", "bulleted-list", "numbered-list"], editor_components: [] }
           - { label: "CTA — Title", name: "ctaTitle", widget: "string", hint: "First line, plain text." }
           - { label: "CTA — Title Emphasis", name: "ctaTitleEmphasis", widget: "string", hint: "Second line, shown in italic coral." }
-          - { label: "CTA — Body Text", name: "ctaText", widget: "text" }
+          - { label: "CTA — Body Text", name: "ctaText", widget: "markdown", hint: "Supports basic formatting.", buttons: ["bold", "italic", "link", "bulleted-list", "numbered-list"], editor_components: [] }
           - { label: "CTA — Button Text", name: "ctaButtonText", widget: "string" }
 
           # ── Homepage background colours ──
@@ -343,7 +347,7 @@ collections:
         fields:
           - { label: "Page Hero — Eyebrow", name: "pageEyebrow", widget: "string" }
           - { label: "Page Hero — Title", name: "pageTitle", widget: "string" }
-          - { label: "Page Hero — Intro", name: "pageIntro", widget: "string" }
+          - { label: "Page Hero — Intro", name: "pageIntro", widget: "markdown", hint: "Supports basic formatting.", buttons: ["bold", "italic", "link", "bulleted-list", "numbered-list"], editor_components: [] }
           - { label: "Intro Section — Eyebrow", name: "introEyebrow", widget: "string" }
           - { label: "Intro Section — Title", name: "introTitle", widget: "string" }
           - label: "Intro Section — Paragraphs"
@@ -351,7 +355,8 @@ collections:
             widget: "list"
             allow_add: true
             label_singular: "Paragraph"
-            field: { label: "Paragraph", name: "paragraph", widget: "text" }
+            hint: "Each paragraph supports basic formatting."
+            field: { label: "Paragraph", name: "paragraph", widget: "markdown", buttons: ["bold", "italic", "link", "bulleted-list", "numbered-list"], editor_components: [] }
           - label: "About Portrait"
             name: "profileImage"
             widget: "image"
@@ -362,7 +367,7 @@ collections:
             hint: "Upload a portrait photo of Amanda. Displays in the intro section. Recommended: portrait orientation (3:4 ratio), at least 600×800px."
           - { label: "Craft Section — Eyebrow", name: "craftEyebrow", widget: "string" }
           - { label: "Craft Section — Title", name: "craftTitle", widget: "string" }
-          - { label: "Craft Section — Subtitle", name: "craftText", widget: "string" }
+          - { label: "Craft Section — Subtitle", name: "craftText", widget: "markdown", hint: "Supports basic formatting.", buttons: ["bold", "italic", "link", "bulleted-list", "numbered-list"], editor_components: [] }
           - label: "Process Steps"
             name: "processSteps"
             widget: "list"
@@ -370,7 +375,7 @@ collections:
             label_singular: "Step"
             fields:
               - { label: "Step Title", name: "title", widget: "string" }
-              - { label: "Step Description", name: "body", widget: "text" }
+              - { label: "Step Description", name: "body", widget: "markdown", buttons: ["bold", "italic", "link", "bulleted-list", "numbered-list"], editor_components: [] }
           - { label: "Values — Eyebrow", name: "valuesEyebrow", widget: "string" }
           - { label: "Values — Title", name: "valuesTitle", widget: "string" }
           - label: "Values — Paragraphs"
@@ -378,11 +383,12 @@ collections:
             widget: "list"
             allow_add: true
             label_singular: "Paragraph"
-            field: { label: "Paragraph", name: "paragraph", widget: "text" }
-          - { label: "Quote — Text", name: "quoteText", widget: "text", hint: "Do not include quotation marks — they are added automatically." }
+            hint: "Each paragraph supports basic formatting."
+            field: { label: "Paragraph", name: "paragraph", widget: "markdown", buttons: ["bold", "italic", "link", "bulleted-list", "numbered-list"], editor_components: [] }
+          - { label: "Quote — Text", name: "quoteText", widget: "markdown", hint: "Do not include quotation marks — they are added automatically. Supports basic formatting.", buttons: ["bold", "italic", "link", "bulleted-list", "numbered-list"], editor_components: [] }
           - { label: "Quote — Citation", name: "quoteCitation", widget: "string" }
           - { label: "Contact CTA — Title", name: "contactCtaTitle", widget: "string" }
-          - { label: "Contact CTA — Body Text", name: "contactCtaText", widget: "text" }
+          - { label: "Contact CTA — Body Text", name: "contactCtaText", widget: "markdown", hint: "Supports basic formatting.", buttons: ["bold", "italic", "link", "bulleted-list", "numbered-list"], editor_components: [] }
           - { label: "Contact CTA — Button Text", name: "contactCtaButtonText", widget: "string" }
 
           # ── About page background colours ──
@@ -453,9 +459,9 @@ collections:
         fields:
           - { label: "Page Hero — Eyebrow", name: "pageEyebrow", widget: "string" }
           - { label: "Page Hero — Title", name: "pageTitle", widget: "string" }
-          - { label: "Page Hero — Intro", name: "pageIntro", widget: "string" }
+          - { label: "Page Hero — Intro", name: "pageIntro", widget: "markdown", hint: "Supports basic formatting.", buttons: ["bold", "italic", "link", "bulleted-list", "numbered-list"], editor_components: [] }
           - { label: "Form — Title", name: "formTitle", widget: "string" }
-          - { label: "Form — Intro", name: "formIntro", widget: "string" }
+          - { label: "Form — Intro", name: "formIntro", widget: "markdown", hint: "Supports basic formatting.", buttons: ["bold", "italic", "link", "bulleted-list", "numbered-list"], editor_components: [] }
           - { label: "Email Address", name: "email", widget: "string", hint: "Shown as a clickable mailto link in the sidebar." }
           - { label: "Instagram Handle", name: "instagramHandle", widget: "string", hint: "Include the @ symbol, e.g. @bartramstudio" }
           - { label: "Instagram URL", name: "instagramUrl", widget: "string" }
@@ -466,7 +472,8 @@ collections:
             widget: "list"
             allow_add: true
             label_singular: "Paragraph"
-            field: { label: "Paragraph", name: "paragraph", widget: "text" }
+            hint: "Each paragraph supports basic formatting."
+            field: { label: "Paragraph", name: "paragraph", widget: "markdown", buttons: ["bold", "italic", "link", "bulleted-list", "numbered-list"], editor_components: [] }
           - { label: "Response Time", name: "responseTime", widget: "string", hint: "e.g. 1–2 business days" }
           - label: "FAQ Items"
             name: "faqItems"
@@ -475,7 +482,7 @@ collections:
             label_singular: "FAQ"
             fields:
               - { label: "Question", name: "question", widget: "string" }
-              - { label: "Answer", name: "answer", widget: "text" }
+              - { label: "Answer", name: "answer", widget: "markdown", hint: "Supports basic formatting.", buttons: ["bold", "italic", "link", "bulleted-list", "numbered-list"], editor_components: [] }
 
           # ── Contact page background colours ──
           - label: "Hero Background Colour"
@@ -544,7 +551,7 @@ collections:
         fields:
           - { label: "Page Hero — Eyebrow", name: "pageEyebrow", widget: "string" }
           - { label: "Page Hero — Title", name: "pageTitle", widget: "string" }
-          - { label: "Page Hero — Intro", name: "pageIntro", widget: "string" }
+          - { label: "Page Hero — Intro", name: "pageIntro", widget: "markdown", hint: "Supports basic formatting.", buttons: ["bold", "italic", "link", "bulleted-list", "numbered-list"], editor_components: [] }
 
           # ── Shop page background colours ──
           - label: "Hero Background Colour"
