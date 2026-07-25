@@ -3,7 +3,7 @@ name: Botanical Collection
 description: ""
 categoryIcon: 🌿
 categoryAccent: sea-glass
-featuredImage: /images/categories/cmc-001-01-hero.png
+featuredImage: ""
 homepageOrder: 6
 showOnHomepage: true
 active: true
