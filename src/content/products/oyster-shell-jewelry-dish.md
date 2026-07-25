@@ -18,21 +18,30 @@ descriptionParagraphs:
     making every organizer a truly one-of-a-kind keepsake.
   - >-
     **Details**
-    	•	Handcrafted using genuine seashells
-    	•	Preserved botanical artwork sealed beneath glossy resin
-    	•	Sculpted starfish centerpiece
-    	•	Hand-painted gold edging and accents
-    	•	Multiple shell dishes for organizing rings, earrings, bracelets, and necklaces
-    	•	Functional jewelry organizer and decorative coastal display
-    	•	One-of-a-kind artisan creation
-    	•	Beautiful for vanities, dressers, and bedside tables
-    	•	Handmade in Florida by Bartram Studio
-  - |-
+
+
+    * Handcrafted using genuine seashells
+
+    * Preserved botanical artwork sealed beneath glossy resin
+
+    * Sculpted starfish centerpiece	
+
+    * Hand-painted gold edging and accents	
+
+    * Multiple shell dishes for organizing rings, earrings, bracelets, and necklaces	Functional jewelry organizer and decorative coastal display	
+
+    * One-of-a-kind artisan creation	
+
+    * Beautiful for vanities, dressers, and bedside tables	Handmade in Florida by Bartram Studio
+  - >-
     **Beautiful For**
-    	•	Organizing your everyday jewelry
-    	•	Styling a vanity or bedside table
-    	•	Adding a touch of coastal elegance to your home
-    	•	Thoughtful gifts for birthdays, weddings, housewarmings, and beach lovers
+
+
+    * Organizing your everyday jewelry
+
+    * Styling a vanity or bedside table	Adding a touch of coastal elegance to your home	
+
+    * Thoughtful gifts for birthdays, weddings, housewarmings, and beach lovers
 price: 85
 quantity: 1
 slug: oyster-shell-jewelry-dish
