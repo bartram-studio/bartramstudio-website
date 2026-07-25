@@ -18,7 +18,7 @@ descriptionParagraphs:
     slight variations in color, shell shape, and texture are part of what makes
     each creation uniquely yours.
   - |-
-    Handmade Details
+    **Handmade Details**
 
     * Crafted from a natural shell
     * Hand-finished resin artwork
