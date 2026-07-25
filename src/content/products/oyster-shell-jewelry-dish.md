@@ -16,8 +16,8 @@ descriptionParagraphs:
   - Each Bartram Studio creation is individually handcrafted using real
     seashells and natural materials. No two pieces are ever exactly alike,
     making every organizer a truly one-of-a-kind keepsake.
-  - >
-    Details
+  - >-
+    **Details**
     	•	Handcrafted using genuine seashells
     	•	Preserved botanical artwork sealed beneath glossy resin
     	•	Sculpted starfish centerpiece
