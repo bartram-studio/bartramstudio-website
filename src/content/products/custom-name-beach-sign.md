@@ -18,7 +18,7 @@ descriptionParagraphs:
   - Because every shell and every pressed flower is naturally unique, no two
     dishes are ever exactly alike. Your piece is individually handcrafted in
     Florida and created to celebrate the beauty found along the shoreline.
-  - Art shaped by the shoreline.
+  - "***Art shaped by the shoreline.***"
 price: 89
 quantity: 1
 slug: custom-name-beach-sign
