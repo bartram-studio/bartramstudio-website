@@ -27,8 +27,8 @@ descriptionParagraphs:
     	•	One-of-a-kind artisan creation
     	•	Beautiful for vanities, dressers, and bedside tables
     	•	Handmade in Florida by Bartram Studio
-  - |
-    Beautiful For:
+  - |-
+    **Beautiful For**
     	•	Organizing your everyday jewelry
     	•	Styling a vanity or bedside table
     	•	Adding a touch of coastal elegance to your home
