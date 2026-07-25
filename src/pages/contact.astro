@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
+import { renderMarkdown } from '../lib/richText';
 
 // Pre-fill from URL params (set by product pages) — unchanged
 const url = Astro.url;
@@ -29,7 +30,7 @@ const faqs = c.faqItems ?? [];
     <div class="container">
       <p class="page-hero__eyebrow">{c.pageEyebrow}</p>
       <h1>{c.pageTitle}</h1>
-      <p>{c.pageIntro}</p>
+      <div class="rich-text" set:html={renderMarkdown(c.pageIntro)} />
     </div>
   </section>
 
@@ -39,7 +40,7 @@ const faqs = c.faqItems ?? [];
       <!-- Form — Netlify attributes and URL-prefill behaviour unchanged -->
       <div class="contact-form-wrap">
         <h2>{c.formTitle}</h2>
-        <p style="margin-bottom: 2rem;">{c.formIntro}</p>
+        <div class="rich-text" style="margin-bottom: 2rem;" set:html={renderMarkdown(c.formIntro)} />
 
         <form
           class="contact-form"
@@ -142,7 +143,7 @@ const faqs = c.faqItems ?? [];
 
         <div class={`sidebar-card sidebar-card--accent ${accentBgClass}`}>
           <h3>{c.customOrdersTitle}</h3>
-          {customParas.map(para => <p>{para}</p>)}
+          {customParas.map(para => <div class="rich-text" set:html={renderMarkdown(para)} />)}
           <p class="sidebar-response">Typical response time: <strong>{c.responseTime}</strong></p>
         </div>
 
@@ -152,7 +153,7 @@ const faqs = c.faqItems ?? [];
             {faqs.map(item => (
               <details class="faq">
                 <summary>{item.question}</summary>
-                <p>{item.answer}</p>
+                <div class="rich-text faq-answer" set:html={renderMarkdown(item.answer)} />
               </details>
             ))}
           </div>
@@ -165,6 +166,28 @@ const faqs = c.faqItems ?? [];
 </Layout>
 
 <style>
+/* ── Rich text (Markdown-rendered fields) ────────────────────────────────
+   Content here is injected via set:html and is NOT covered by Astro's
+   automatic style scoping, so these selectors use :global() deliberately —
+   without it, none of them would match the rendered output. Colours are
+   inherited so this drops into any existing text container unchanged. */
+.rich-text :global(p) { margin: 0 0 0.6em; }
+.rich-text :global(p:last-child) { margin-bottom: 0; }
+.rich-text :global(strong) { font-weight: 600; }
+.rich-text :global(em) { font-style: italic; }
+.rich-text :global(ul),
+.rich-text :global(ol) {
+  margin: 0 0 0.6em 1.25em;
+  padding: 0;
+}
+.rich-text :global(li) { margin-bottom: 0.3em; }
+.rich-text :global(li:last-child) { margin-bottom: 0; }
+.rich-text :global(a) {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
 .section-eyebrow {
   font-size: 0.7rem;
   font-weight: 500;
@@ -331,10 +354,14 @@ a.contact-method__value:hover { color: var(--tide-dark); }
   transform: rotate(45deg);
 }
 
-.faq p {
+/* faqItems[].answer is now Markdown-rendered and injected via set:html, so
+   its <p> is not subject to Astro's scoped-style attribute — :global() is
+   required here or this rule silently stops matching. */
+.faq-answer :global(p) {
   padding-bottom: 1rem;
   font-size: 0.875rem;
   line-height: 1.7;
+  margin: 0;
 }
 
 @media (max-width: 900px) {

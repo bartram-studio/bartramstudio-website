@@ -21,6 +21,11 @@
   <!-- Fields:  heroBg, aboutIntroBg, aboutCraftBg, aboutCtaBg              -->
   <!-- Safe: try/catch preserved; diagnostic logging preserved; guards preserved -->
   <script>
+    // Shared with the live Astro pages (src/lib/richText.ts) so the CMS
+    // preview renders long-form fields identically to the live site. See
+    // that file for why this must not be forked into a second implementation.
+    import { renderMarkdown } from '../../lib/richText';
+
     (function () {
       // ── Diagnostic logging ────────────────────────────────────────────────
       console.log('[preview-poc] typeof window.CMS:', typeof window.CMS);
@@ -86,6 +91,18 @@
         if (!item) return '';
         if (typeof item.get === 'function') return item.get(key) || '';
         return item[key] || '';
+      }
+
+      // ── Helper: Markdown → HTML for rich-text preview fields ──────────────
+      // Wraps the shared renderMarkdown() (see src/lib/richText.ts) so a
+      // malformed value can never crash a preview component's render().
+      function renderRichTextPreview(text) {
+        try {
+          return renderMarkdown(text);
+        } catch (err) {
+          console.error('[preview-poc] renderRichTextPreview failed:', err);
+          return (text || '').toString();
+        }
       }
 
       // ── Preview component ─────────────────────────────────────────────────
@@ -165,18 +182,18 @@
             },
               h('p',  { style: eyebrowStyle }, get('pageEyebrow')),
               h('h1', { style: Object.assign({}, h1Style, { marginBottom: '0.75rem' }) }, get('pageTitle')),
-              h('p',  { style: {
+              h('div',  { style: {
                 fontFamily: fonts.display,
                 fontStyle:  'italic',
                 fontSize:   '1.1rem',
                 color:      c.driftwood,
-              }}, get('pageIntro'))
+              }, dangerouslySetInnerHTML: { __html: renderRichTextPreview(get('pageIntro')) } })
             );
 
             // ── Intro section ───────────────────────────────────────────────
             var introParaNodes = intraParagraphs.map(function (para, i) {
               var text = typeof para === 'string' ? para : getField(para, 'paragraph');
-              return h('p', { style: pStyle, key: i }, text);
+              return h('div', { style: pStyle, key: i, dangerouslySetInnerHTML: { __html: renderRichTextPreview(text) } });
             });
 
             var intro = h('section', { style: Object.assign({}, sectionStyle, { background: heroBgMap[entry.getIn(['data', 'aboutIntroBg']) || ''] || c.shell }) },
@@ -224,7 +241,7 @@
               h('div', { style: { maxWidth: '900px', margin: '0 auto' } },
                 h('p',  { style: eyebrowStyle }, get('craftEyebrow')),
                 h('h2', { style: h2Style },      get('craftTitle')),
-                h('p',  { style: Object.assign({}, pStyle, { marginBottom: '2rem' }) }, get('craftText')),
+                h('div', { style: Object.assign({}, pStyle, { marginBottom: '2rem' }), dangerouslySetInnerHTML: { __html: renderRichTextPreview(get('craftText')) } }),
                 stepNodes.length > 0
                   ? h('div', { style: {
                       display:             'grid',
@@ -258,8 +275,7 @@
                   color:        ctaIsLight ? c.ink : c.white,
                   marginBottom: '0.4rem',
                 }}, get('contactCtaTitle')),
-                h('p', { style: Object.assign({}, pStyle, { color: ctaIsLight ? c.driftwoodDk : c.tide, maxWidth: '50ch' }) },
-                  get('contactCtaText'))
+                h('div', { style: Object.assign({}, pStyle, { color: ctaIsLight ? c.driftwoodDk : c.tide, maxWidth: '50ch' }), dangerouslySetInnerHTML: { __html: renderRichTextPreview(get('contactCtaText')) } })
               ),
               h('span', { style: {
                 display:       'inline-block',
@@ -360,12 +376,12 @@
             },
               h('p',  { style: eyebrowStyle }, get('pageEyebrow')),
               h('h1', { style: Object.assign({}, h1Style, { marginBottom: '0.75rem' }) }, get('pageTitle')),
-              h('p',  { style: {
+              h('div',  { style: {
                 fontFamily: fonts.display,
                 fontStyle:  'italic',
                 fontSize:   '1.1rem',
                 color:      c.driftwood,
-              }}, get('pageIntro'))
+              }, dangerouslySetInnerHTML: { __html: renderRichTextPreview(get('pageIntro')) } })
             );
 
             // ── Two-column layout ─────────────────────────────────────────
@@ -374,7 +390,7 @@
             // Form column
             var formCol = h('div', { style: { flex: '1.3', minWidth: '0' } },
               h('h2', { style: h2Style }, get('formTitle')),
-              h('p',  { style: Object.assign({}, pStyle, { marginBottom: '1.5rem' }) }, get('formIntro')),
+              h('div',  { style: Object.assign({}, pStyle, { marginBottom: '1.5rem' }), dangerouslySetInnerHTML: { __html: renderRichTextPreview(get('formIntro')) } }),
               // Placeholder form fields
               h('div', { style: { display: 'flex', flexDirection: 'column', gap: '0.75rem' } },
                 ['Your Name', 'Email Address', 'Subject'].map(function (lbl, i) {
@@ -473,7 +489,7 @@
                 get('customOrdersTitle')),
               customParas.map(function (p, i) {
                 var text = typeof p === 'string' ? p : getField(p, 'paragraph');
-                return h('p', { key: i, style: pStyle }, text);
+                return h('div', { key: i, style: pStyle, dangerouslySetInnerHTML: { __html: renderRichTextPreview(text) } });
               }),
               get('responseTime') && h('p', { style: { fontSize: '0.82rem', color: c.driftwood, marginTop: '0.5rem' } },
                 'Response time: ',
@@ -490,7 +506,7 @@
                     var a = getField(item, 'answer');
                     return h('div', { key: i, style: { borderBottom: '1px solid ' + c.sandDark, paddingBlock: '0.6rem' } },
                       h('p', { style: { fontSize: '0.875rem', fontWeight: '500', color: c.driftwoodDk, marginBottom: '0.25rem' } }, q),
-                      h('p', { style: { fontSize: '0.85rem', color: c.driftwood } }, a)
+                      h('div', { style: { fontSize: '0.85rem', color: c.driftwood }, dangerouslySetInnerHTML: { __html: renderRichTextPreview(a) } })
                     );
                   })
                 )
@@ -603,14 +619,14 @@
                 lineHeight:   '1.15',
                 marginBottom: '1rem',
               }}, h1Content),
-              h('p', { style: {
+              h('div', { style: {
                 fontFamily:   fonts.display,
                 fontStyle:    'italic',
                 fontSize:     'clamp(1rem, 1.8vw, 1.2rem)',
                 color:        c.driftwood,
                 marginInline: 'auto',
                 maxWidth:     '60ch',
-              }}, get('heroLead'))
+              }, dangerouslySetInnerHTML: { __html: renderRichTextPreview(get('heroLead')) } })
             );
 
             // ── Featured Products section ─────────────────────────────────
@@ -638,7 +654,7 @@
                     marginBottom: '0.35rem',
                     marginTop:    '0.25rem',
                   }}, get('featuredTitle')),
-                  h('p', { style: pStyle }, get('featuredText'))
+                  h('div', { style: pStyle, dangerouslySetInnerHTML: { __html: renderRichTextPreview(get('featuredText')) } })
                 ),
                 // Placeholder product card grid — three cards
                 h('div', { style: {
@@ -786,8 +802,7 @@
                     marginBottom: '1rem',
                     marginTop:    '0.25rem',
                   }}, get('aboutTitle')),
-                  h('p', { style: Object.assign({}, pStyle, { maxWidth: '52ch' }) },
-                    get('aboutText')),
+                  h('div', { style: Object.assign({}, pStyle, { maxWidth: '52ch' }), dangerouslySetInnerHTML: { __html: renderRichTextPreview(get('aboutText')) } }),
                   h('span', { style: {
                     display:       'inline-block',
                     marginTop:     '1.25rem',
@@ -875,8 +890,7 @@
                   lineHeight:   '1.2',
                   marginBottom: '0.75rem',
                 }}, ctaH2Content),
-                h('p', { style: Object.assign({}, pStyle, { marginInline: 'auto', marginBottom: '1.5rem' }) },
-                  get('ctaText')),
+                h('div', { style: Object.assign({}, pStyle, { marginInline: 'auto', marginBottom: '1.5rem' }), dangerouslySetInnerHTML: { __html: renderRichTextPreview(get('ctaText')) } }),
                 h('span', { style: {
                   display:       'inline-block',
                   padding:       '0.75rem 2rem',
@@ -952,14 +966,14 @@
                 lineHeight:   '1.15',
                 marginBottom: '0.75rem',
               }}, get('pageTitle')),
-              h('p', { style: {
+              h('div', { style: {
                 fontFamily:   fonts.display,
                 fontStyle:    'italic',
                 fontSize:     'clamp(1rem, 1.8vw, 1.2rem)',
                 color:        c.driftwood,
                 marginInline: 'auto',
                 maxWidth:     '60ch',
-              }}, get('pageIntro'))
+              }, dangerouslySetInnerHTML: { __html: renderRichTextPreview(get('pageIntro')) } })
             );
 
             // ── Product grid notice ───────────────────────────────────────
@@ -1382,7 +1396,7 @@
             // Description — new list field takes priority; legacy string is the fallback
             var descSection = h('div', { style: { marginBottom: '1.25rem' } },
               descParas.length > 0
-                ? descParas.map(function(p, i) { return h('p', { key: i, style: pStyle }, p); })
+                ? descParas.map(function(p, i) { return h('div', { key: i, style: pStyle, dangerouslySetInnerHTML: { __html: renderRichTextPreview(p) } }); })
                 : h('p', { style: Object.assign({}, pStyle, { color: c.driftwood, fontStyle: 'italic' }) }, '(No description yet)')
             );
 

@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
+import { renderMarkdown } from '../lib/richText';
 
 // Site content
 const siteEntries = await getCollection('site');
@@ -69,7 +70,7 @@ const categoryAccentVar: Record<string, string> = {
       <div class="hero__text">
         <p class="hero__eyebrow">{h.heroEyebrow}</p>
         <h1>{h.heroTitle}<br><em>{h.heroTitleEmphasis}</em></h1>
-        <p class="hero__lead">{h.heroLead}</p>
+        <div class="hero__lead rich-text" set:html={renderMarkdown(h.heroLead)} />
         <div class="hero__actions">
           <a href="/products" class="btn btn--primary">Browse the Shop</a>
           <a href="/about" class="btn btn--outline">Our Story</a>
@@ -147,7 +148,7 @@ const categoryAccentVar: Record<string, string> = {
         <div class="section-head">
           <p class="section-eyebrow">{h.featuredEyebrow}</p>
           <h2>{h.featuredTitle}</h2>
-          <p>{h.featuredText}</p>
+          <div class="rich-text" set:html={renderMarkdown(h.featuredText)} />
         </div>
 
         <div class="grid-3" style="margin-top: 3rem;">
@@ -213,7 +214,7 @@ const categoryAccentVar: Record<string, string> = {
             >
               <div class="cat-card__icon">{category.data.categoryIcon}</div>
               <h3>{category.data.name}</h3>
-              {category.data.description && <p>{category.data.description}</p>}
+              {category.data.description && <div class="rich-text" set:html={renderMarkdown(category.data.description)} />}
               <span class="cat-card__link">Shop now →</span>
             </a>
           ))}
@@ -228,7 +229,7 @@ const categoryAccentVar: Record<string, string> = {
       <div class="about-strip__text">
         <p class="section-eyebrow">{h.aboutEyebrow}</p>
         <h2>{h.aboutTitle}</h2>
-        <p>{h.aboutText}</p>
+        <div class="rich-text" set:html={renderMarkdown(h.aboutText)} />
         <a href="/about" class="btn btn--outline" style="margin-top: 1.5rem;">Read My Story</a>
       </div>
       <div class="about-strip__visual">
@@ -256,7 +257,7 @@ const categoryAccentVar: Record<string, string> = {
       <div class="cta-box">
         <div class="cta-box__decor" aria-hidden="true">✦ ✦ ✦</div>
         <h2>{h.ctaTitle}<br><em>{h.ctaTitleEmphasis}</em></h2>
-        <p>{h.ctaText}</p>
+        <div class="rich-text" set:html={renderMarkdown(h.ctaText)} />
         <a href="/contact" class="btn btn--coral">{h.ctaButtonText}</a>
       </div>
     </div>
@@ -265,6 +266,32 @@ const categoryAccentVar: Record<string, string> = {
 </Layout>
 
 <style>
+/* ── Rich text (Markdown-rendered fields) ────────────────────────────────
+   Content here is injected via set:html and is NOT covered by Astro's
+   automatic style scoping, so these selectors use :global() deliberately —
+   without it, none of them would match the rendered output. Colours are
+   inherited so this drops into any existing text container unchanged.
+   Paragraph-level spacing/centering for specific containers (hero, section
+   headers, category cards, CTA box) is handled by each container's own
+   existing rules further down, several of which were updated to use
+   :global() for the same reason. */
+.rich-text :global(p) { margin: 0 0 0.6em; }
+.rich-text :global(p:last-child) { margin-bottom: 0; }
+.rich-text :global(strong) { font-weight: 600; }
+.rich-text :global(em) { font-style: italic; }
+.rich-text :global(ul),
+.rich-text :global(ol) {
+  margin: 0 0 0.6em 1.25em;
+  padding: 0;
+}
+.rich-text :global(li) { margin-bottom: 0.3em; }
+.rich-text :global(li:last-child) { margin-bottom: 0; }
+.rich-text :global(a) {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
 /* ── Hero ── */
 .hero {
   position: relative;
@@ -483,7 +510,13 @@ const categoryAccentVar: Record<string, string> = {
   margin-bottom: 0.75rem;
 }
 
-.section-head p {
+/* featuredText is now Markdown-rendered and injected via set:html, so its
+   <p> is not subject to Astro's scoped-style attribute — :global() is
+   required here or this rule silently stops matching. Still matches the
+   template-rendered .section-eyebrow <p> too, which is harmless (that
+   element already sets max-width: none, making margin-inline: auto a
+   no-op there). */
+.section-head :global(p) {
   margin-inline: auto;
 }
 
@@ -522,7 +555,10 @@ const categoryAccentVar: Record<string, string> = {
   color: var(--driftwood-dk);
 }
 
-.cat-card p {
+/* category description is now Markdown-rendered and injected via set:html,
+   so its <p> is not subject to Astro's scoped-style attribute — :global()
+   is required here or this rule silently stops matching. */
+.cat-card :global(p) {
   font-size: 0.875rem;
   line-height: 1.6;
 }
@@ -642,7 +678,10 @@ const categoryAccentVar: Record<string, string> = {
   font-style: italic;
 }
 
-.cta-box p {
+/* ctaText is now Markdown-rendered and injected via set:html, so its <p> is
+   not subject to Astro's scoped-style attribute — :global() is required
+   here or this rule silently stops matching. */
+.cta-box :global(p) {
   margin-inline: auto;
   margin-bottom: 2rem;
 }
