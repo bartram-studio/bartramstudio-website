@@ -56,8 +56,8 @@ valuesParagraphs:
     inspires me. I collect thoughtfully, create carefully, and aim to make
     pieces that bring a sense of calm, presence, and natural beauty into
     everyday spaces.
-quoteText: The naturalist who goes to Florida expecting to find it a land of
-  mere vegetation and torpid animal life, will find he has much to learn.
+quoteText: "*The naturalist who goes to Florida expecting to find it a land of
+  mere vegetation and torpid animal life, will find he has much to learn.*"
 quoteCitation: — William Bartram, Travels, 1791
 contactCtaTitle: Have a question or a custom idea?
 contactCtaText: I love hearing from people. Whether you’re curious about a
