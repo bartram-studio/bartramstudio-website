@@ -2,9 +2,20 @@
 title: Butterfly Garden Pedestal Dish
 category: coastal-keepsakes
 descriptionParagraphs:
-  - Delicate botanicals, shimmering shell, and graceful butterflies come
+  - >-
+    D**elicate botanical**s, shimmerin*g shell, and grace*ful butterflies come
     together in this one-of-a-kind pedestal dish, handcrafted to bring a touch
     of natural beauty to your home.
+
+
+    * test
+
+    * test2
+
+
+    1. test
+
+    2. test
   - A scallop shell featuring soft blush and coral florals is carefully finished
     with hand-painted gold edging and raised upon an iridescent shell base,
     creating an elegant sculptural display. Two butterfly embellishments add a
