@@ -15,7 +15,7 @@ descriptionParagraphs:
     seashells. Natural variations in color, shape, and texture ensure that every
     creation is truly one of a kind.
   - |-
-    Details
+    **Details**
 
     * Handcrafted using genuine seashells
     * Three-dimensional floral shell sculpture
