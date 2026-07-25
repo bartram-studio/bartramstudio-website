@@ -1,7 +1,7 @@
 backend:
   name: github
   repo: bartram-studio/bartramstudio-website
-  branch: feature/rich-text-content-formatting
+  branch: main
   base_url: https://bartram-studio-oauth.netlify.app
   auth_endpoint: auth
 
