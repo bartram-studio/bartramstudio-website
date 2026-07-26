@@ -166,27 +166,9 @@ const faqs = c.faqItems ?? [];
 </Layout>
 
 <style>
-/* ── Rich text (Markdown-rendered fields) ────────────────────────────────
-   Content here is injected via set:html and is NOT covered by Astro's
-   automatic style scoping, so these selectors use :global() deliberately —
-   without it, none of them would match the rendered output. Colours are
-   inherited so this drops into any existing text container unchanged. */
-.rich-text :global(p) { margin: 0 0 0.6em; }
-.rich-text :global(p:last-child) { margin-bottom: 0; }
-.rich-text :global(strong) { font-weight: 600; }
-.rich-text :global(em) { font-style: italic; }
-.rich-text :global(ul),
-.rich-text :global(ol) {
-  margin: 0 0 0.6em 1.25em;
-  padding: 0;
-}
-.rich-text :global(li) { margin-bottom: 0.3em; }
-.rich-text :global(li:last-child) { margin-bottom: 0; }
-.rich-text :global(a) {
-  color: inherit;
-  text-decoration: underline;
-  text-underline-offset: 0.15em;
-}
+/* Base .rich-text (p/strong/em/ul/ol/li/a) styling is centralized in
+   src/styles/global.css — see the "Rich Text" section there for why. Only
+   this page's own contextual rich-text override lives below (.faq-answer). */
 
 .section-eyebrow {
   font-size: 0.7rem;

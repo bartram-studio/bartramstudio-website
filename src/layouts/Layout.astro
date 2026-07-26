@@ -349,6 +349,18 @@ const theme = THEMES[typographyTheme] ?? THEMES['coastal-serif'];
   padding-block: 3rem 2.5rem;
 }
 
+/* Centers the logo and the text beneath it as one unit — the <img> and <p>
+   were both plain block elements aligned to the column's left edge, which
+   is why the two-line text looked shifted relative to the logo. This only
+   affects horizontal alignment within .footer-brand; it does not touch
+   .footer-inner's column layout, font size, spacing, or colors. */
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
 .footer-brand p {
   margin-top: 0.75rem;
   font-size: 0.875rem;

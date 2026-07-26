@@ -269,27 +269,13 @@ const descParagraphs: string[] = data.descriptionParagraphs && data.descriptionP
 </Layout>
 
 <style>
-/* ── Rich text (Markdown-rendered fields) ────────────────────────────────
-   Content here is injected via set:html and is NOT covered by Astro's
-   automatic style scoping, so these selectors use :global() deliberately —
-   without it, none of them would match the rendered output. Colours are
-   inherited so this drops into any existing text container unchanged.
-   Paragraph spacing/colour for .product-info__desc specifically is
-   overridden further down to match this page's existing rhythm. */
-.rich-text :global(strong) { font-weight: 600; }
-.rich-text :global(em) { font-style: italic; }
-.rich-text :global(ul),
-.rich-text :global(ol) {
-  margin: 0 0 0.6em 1.25em;
-  padding: 0;
-}
-.rich-text :global(li) { margin-bottom: 0.3em; }
-.rich-text :global(li:last-child) { margin-bottom: 0; }
-.rich-text :global(a) {
-  color: inherit;
-  text-decoration: underline;
-  text-underline-offset: 0.15em;
-}
+/* Base .rich-text (strong/em/ul/ol/li/a) styling is centralized in
+   src/styles/global.css — see the "Rich Text" section there for why. This
+   page never had its own base .rich-text p rule (paragraph spacing/colour
+   for .product-info__desc is fully contextual, defined further down), so
+   there is nothing to remove there — global.css's base .rich-text p rule
+   (margin-bottom only) simply has no effect here since .product-info__desc
+   :global(p) below sets its own margin: 0 at higher specificity anyway. */
 
 .breadcrumb {
   padding-block: 1rem;
