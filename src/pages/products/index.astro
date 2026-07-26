@@ -197,6 +197,14 @@ const filters = [...new Map(
   text-underline-offset: 0.15em;
 }
 
+/* Hero subtitle (shop.pageIntro) was rendering left-aligned — .page-hero's
+   own centering (in global.css) applies to specific known children like
+   .page-hero__eyebrow and h1, but not to this rich-text wrapper, which
+   didn't exist until the Markdown-rendering feature added it. */
+.page-hero .rich-text {
+  text-align: center;
+}
+
 .filter-bar {
   display: flex;
   align-items: center;
@@ -270,6 +278,15 @@ const filters = [...new Map(
 .shop-cta {
   background: var(--sand);
   padding-block: 3rem;
+}
+
+/* The CTA paragraphs above already center correctly via the existing
+   inline text-align: center on .shop-cta .container. margin-inline: auto
+   is a no-op on an inline-level element (the likely case here, matching
+   other .btn usage sitewide), so this only takes effect — centering the
+   button — if .btn ever renders as a block-level box. */
+.shop-cta a.btn {
+  margin-inline: auto;
 }
 </style>
 

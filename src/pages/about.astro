@@ -336,8 +336,16 @@ const values = a.valuesParagraphs ?? [];
   margin-bottom: 0.5rem;
 }
 
-.contact-strip p {
-  color: var(--tide-light);
+/* This paragraph is Markdown-rendered and injected via set:html (see
+   contactCtaText above), so it's not subject to Astro's scoped-style
+   attribute — the previous plain ".contact-strip p" selector compiled to
+   require that attribute on both segments and so never actually matched
+   this paragraph; it was silently falling through to the sitewide default
+   paragraph colour, reading as too dark against this section's dark
+   background. :global() here is the actual fix — the requested colour
+   change alone would not have taken effect without it. */
+.contact-strip :global(p) {
+  color: var(--white);
   max-width: 55ch;
 }
 
