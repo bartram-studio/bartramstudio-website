@@ -84,6 +84,52 @@ img {
   height: auto;
 }
 
+/* ── Rich Text (Markdown-rendered fields) ──────────────────────────────────
+   Centralized base styling for content rendered via renderMarkdown() (see
+   src/lib/richText.ts) and injected on every page through
+   <div class="rich-text" set:html={...} />. That injected markup is never
+   compiled by Astro, so it never receives a component's scoped-style
+   attribute — these rules must live in a genuinely global stylesheet (this
+   file was never scoped to begin with) rather than being duplicated in
+   each page's own <style> block, which is how they previously drifted out
+   of sync and required a `:global()` escape hatch per page anyway.
+
+   IMPORTANT — margin-bottom only, never the `margin` shorthand: every page
+   used to duplicate `.rich-text p { margin: 0 0 0.6em; }` (via :global())
+   in its own scoped <style>. Because :global() strips Astro's scoping
+   attribute, that rule ended up unscoped at the same specificity as
+   contextual single-class rules like `.page-hero p { margin-inline: auto }`
+   below, and the shorthand's implicit margin-left/margin-right: 0 silently
+   overrode that centering — breaking the Shop, About, and Contact hero
+   subtitles. (The homepage's contextual rules happened to use two classes,
+   e.g. `.section-head p`, which outranks the old one-class base rule by
+   specificity — pure luck, not a design that should be relied on elsewhere.)
+   Do not reintroduce the shorthand here; a page needing different vertical
+   rhythm should add a more specific contextual override instead (see
+   .quote-text below, or [slug].astro's .product-info__desc).
+
+   Colour, font-size, and alignment are deliberately NOT set here — those
+   stay contextual, defined per page/component (e.g. .page-hero p,
+   .contact-strip :global(p), .faq-answer :global(p)), since a hero
+   subtitle and a CTA-strip line have different presentation needs even
+   though both are rich-text paragraphs. */
+.rich-text p { margin-bottom: 0.6em; }
+.rich-text p:last-child { margin-bottom: 0; }
+.rich-text strong { font-weight: 600; }
+.rich-text em { font-style: italic; }
+.rich-text ul,
+.rich-text ol {
+  margin: 0 0 0.6em 1.25em;
+  padding: 0;
+}
+.rich-text li { margin-bottom: 0.3em; }
+.rich-text li:last-child { margin-bottom: 0; }
+.rich-text a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
 /* ── Layout Utilities ── */
 
 .container {

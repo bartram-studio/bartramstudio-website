@@ -114,27 +114,10 @@ const values = a.valuesParagraphs ?? [];
 </Layout>
 
 <style>
-/* ── Rich text (Markdown-rendered fields) ────────────────────────────────
-   Content here is injected via set:html and is NOT covered by Astro's
-   automatic style scoping, so these selectors use :global() deliberately —
-   without it, none of them would match the rendered output. Colours are
-   inherited so this drops into any existing text container unchanged. */
-.rich-text :global(p) { margin: 0 0 0.6em; }
-.rich-text :global(p:last-child) { margin-bottom: 0; }
-.rich-text :global(strong) { font-weight: 600; }
-.rich-text :global(em) { font-style: italic; }
-.rich-text :global(ul),
-.rich-text :global(ol) {
-  margin: 0 0 0.6em 1.25em;
-  padding: 0;
-}
-.rich-text :global(li) { margin-bottom: 0.3em; }
-.rich-text :global(li:last-child) { margin-bottom: 0; }
-.rich-text :global(a) {
-  color: inherit;
-  text-decoration: underline;
-  text-underline-offset: 0.15em;
-}
+/* Base .rich-text (p/strong/em/ul/ol/li/a) styling is centralized in
+   src/styles/global.css — see the "Rich Text" section there for why. Only
+   this page's own contextual rich-text overrides live below
+   (.quote-text, .contact-strip). */
 
 .section-eyebrow {
   font-size: 0.7rem;
@@ -336,7 +319,11 @@ const values = a.valuesParagraphs ?? [];
   margin-bottom: 0.5rem;
 }
 
-.contact-strip p {
+/* contactCtaText is Markdown-rendered and injected via set:html, so its <p>
+   is not subject to Astro's scoped-style attribute — :global() is required
+   here or this rule silently stops matching (the regression this file
+   previously shipped with). */
+.contact-strip :global(p) {
   color: var(--tide-light);
   max-width: 55ch;
 }
@@ -400,11 +387,11 @@ const values = a.valuesParagraphs ?? [];
   color: var(--ink);
 }
 
-.contact-strip.bg-soft-shell p,
-.contact-strip.bg-sea-glass  p,
-.contact-strip.bg-resin-amber p,
-.contact-strip.bg-shell-pink  p,
-.contact-strip.bg-driftwood   p {
+.contact-strip.bg-soft-shell :global(p),
+.contact-strip.bg-sea-glass  :global(p),
+.contact-strip.bg-resin-amber :global(p),
+.contact-strip.bg-shell-pink  :global(p),
+.contact-strip.bg-driftwood   :global(p) {
   color: var(--ink);
 }
 
