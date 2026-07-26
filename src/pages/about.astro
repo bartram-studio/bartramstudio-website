@@ -357,7 +357,25 @@ const values = a.valuesParagraphs ?? [];
     grid-template-columns: 1fr;
     gap: 2.5rem;
   }
-  .about-intro__image { display: none; }
+  /* Previously hidden entirely (display: none). The portrait now shows on
+     mobile, centered and constrained well below the width it would
+     otherwise stretch to as a full-width single grid column. The 3:4 ratio
+     is untouched (.about-frame's own aspect-ratio: 3/4 rule, unchanged,
+     still applies). width: min(...) rather than a bare max-width avoids
+     any horizontal-overflow risk regardless of exact container padding.
+
+     Desktop's padding-right: 1.5rem exists to offset .about-frame from the
+     adjacent text column, revealing the .about-frame-accent decorative
+     border behind it — with no adjacent column on mobile, that much
+     right-side padding would just push the now-centered frame off-centre.
+     Rebalancing both to a smaller, equal 0.75rem keeps the same
+     bottom-and-right decorative reveal, just narrower and symmetric. */
+  .about-intro__image {
+    width: min(100%, 280px);
+    margin-inline: auto;
+    padding-right: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
   .contact-strip__inner { flex-direction: column; align-items: flex-start; }
 }
 

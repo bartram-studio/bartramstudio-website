@@ -694,9 +694,56 @@ const categoryAccentVar: Record<string, string> = {
   }
   .hero__lead { margin-inline: auto; }
   .hero__actions { justify-content: center; }
-  .hero__visual { display: none; }
-  .about-strip__inner { grid-template-columns: 1fr; }
-  .about-strip__visual { display: none; }
+
+  /* Previously hidden entirely (display: none). The hero visual — either
+     the uploaded image or the decorative fallback shells — now shows on
+     mobile instead, but the desktop height: 630px is dropped in favour of
+     a much shorter, content-sized box so it doesn't create a huge section.
+     min-height (not a fixed height) gives the absolutely-positioned
+     fallback shells a floor to position against, while still letting the
+     box grow to fit a real uploaded image without clipping it. */
+  .hero__visual {
+    height: auto;
+    min-height: 260px;
+    max-width: min(100%, 480px);
+    margin-inline: auto;
+  }
+  /* Caps how tall an uploaded image can render at mobile widths (desktop
+     allows up to 630px). max-width/object-fit: contain on the image itself
+     already prevent distortion and overflow — this just keeps the box from
+     growing back toward the desktop size. */
+  .hero__uploaded-img img {
+    max-height: 320px;
+  }
+  /* The fallback shells are fixed-size decorative SVGs (220px/150px/100px)
+     tuned for the 630px desktop box. Left at that size inside the much
+     shorter mobile box above, the largest shells would overlap each other.
+     Scaled down here — intentionally a bit larger than strict proportional
+     scaling (which would shrink the smallest shell to ~40px) so the
+     linework stays legible on a phone screen. */
+  .hero__shell--1 { width: 130px; }
+  .hero__shell--2 { width: 90px; }
+  .hero__shell--3 { width: 60px; }
+
+  .about-strip__inner {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  /* Previously hidden entirely (display: none). Amanda's portrait now shows
+     on mobile, centered (via the parent .about-strip__visual's existing
+     justify-content: center, unchanged) and constrained well below its
+     fixed 340×400 desktop size so it complements rather than dominates the
+     text above it. width: min(...) — rather than a bare max-width — plus
+     aspect-ratio in place of the desktop fixed height keeps the same
+     visual proportions at any width down to the narrowest supported
+     screens without risking horizontal overflow. */
+  .about-strip__frame {
+    width: min(100%, 280px);
+    height: auto;
+    aspect-ratio: 340 / 400;
+    margin-inline: auto;
+  }
+
   .band__inner { gap: 1.25rem; }
   .band__divider { display: none; }
 }
