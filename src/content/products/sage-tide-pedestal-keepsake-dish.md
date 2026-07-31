@@ -1,6 +1,6 @@
 ---
 title: Sage Tide Pedestal Keepsake Dish
-category: coastal-mosaics
+category: coastal-display-sculptures
 descriptionParagraphs:
   - Inspired by the quiet beauty of the shoreline, the Sage Tide Pedestal
     Keepsake Dish combines natural textures with intricate botanical artwork to
