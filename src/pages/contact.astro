@@ -3,11 +3,6 @@ import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import { renderMarkdown } from '../lib/richText';
 
-// Pre-fill from URL params (set by product pages) — unchanged
-const url = Astro.url;
-const preSubject = url.searchParams.get('subject') || '';
-const preBody = url.searchParams.get('body') || '';
-
 // Site content
 const siteEntries = await getCollection('site');
 const c = siteEntries.find(e => e.id === 'contact.md')!.data;
@@ -45,10 +40,9 @@ const faqs = c.faqItems ?? [];
         <form
           class="contact-form"
           method="POST"
-          action="https://formspree.io/f/mzdlvbjj"
+          action="https://formspree.io/f/xbgjzbwp"
           id="contact-form"
         >
-          <input type="hidden" name="_subject" value="New message — Bartram Studio" />
 
           <div class="form-row">
             <div class="form-group">
@@ -68,7 +62,6 @@ const faqs = c.faqItems ?? [];
               id="subject"
               name="subject"
               placeholder="What's on your mind?"
-              value={preSubject}
             />
           </div>
 
@@ -91,16 +84,26 @@ const faqs = c.faqItems ?? [];
               name="message"
               required
               placeholder="Tell me what you're looking for, or ask any questions you have…"
-            >{preBody}</textarea>
+            ></textarea>
           </div>
 
-          <button type="submit" class="btn btn--primary btn--submit">
-            Send Message
+          <div id="form-error" class="form-error" role="alert" hidden></div>
+
+          <button type="submit" class="btn btn--primary btn--submit" id="contact-submit">
+            <span class="btn-label">Send Message</span>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
           </button>
 
           <p class="form-note">* Required fields. I'll never share your information.</p>
         </form>
+
+        <div id="form-success" class="form-success" role="status" tabindex="-1" hidden>
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="8 12 11 15 16 9"/></svg>
+          <div>
+            <p class="form-success__title">Thank you for reaching out.</p>
+            <p class="form-success__body">Your message has been sent. I'll be in touch soon.</p>
+          </div>
+        </div>
       </div>
 
       <!-- Sidebar -->
@@ -165,7 +168,111 @@ const faqs = c.faqItems ?? [];
 
 </Layout>
 
+<script define:vars={{ contactEmail: c.email }}>
+  // Pre-fill the contact form from runtime query params (?subject=&body=),
+  // set by product pages' "I'm Interested" links. This must run client-side
+  // because the site is statically generated (output: 'static') — there is
+  // no per-visitor request at build time for Astro.url.searchParams to read.
+  // Direct visits to /contact/ (no matching params) are left untouched.
+  //
+  // Note: because this script uses define:vars, Astro treats it as
+  // is:inline and does not process/strip TypeScript — so this file is
+  // intentionally plain JavaScript throughout, not TS-annotated.
+  const params = new URLSearchParams(window.location.search);
+  const subject = params.get('subject');
+  const body = params.get('body');
+
+  if (subject) {
+    const subjectField = document.getElementById('subject');
+    if (subjectField) subjectField.value = subject;
+  }
+
+  if (body) {
+    const messageField = document.getElementById('message');
+    if (messageField) messageField.value = body;
+  }
+
+  if (subject || body) {
+    const interestField = document.getElementById('interest');
+    if (interestField) interestField.value = 'existing-piece';
+  }
+
+  // Branded AJAX submission — keeps visitors on the Bartram Studio contact
+  // page instead of redirecting to Formspree's hosted thank-you page (a
+  // paid Formspree feature we're avoiding). Runs entirely client-side,
+  // which fits the site's static output the same way the prefill logic above does.
+  const form = document.getElementById('contact-form');
+  const submitBtn = document.getElementById('contact-submit');
+  const btnLabel = submitBtn ? submitBtn.querySelector('.btn-label') : null;
+  const errorEl = document.getElementById('form-error');
+  const successEl = document.getElementById('form-success');
+
+  if (form && submitBtn && btnLabel) {
+    let submitting = false;
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (submitting) return;
+      submitting = true;
+
+      if (errorEl) {
+        errorEl.hidden = true;
+        errorEl.textContent = '';
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.setAttribute('aria-busy', 'true');
+      btnLabel.textContent = 'Sending…';
+
+      try {
+        const formData = new FormData(form);
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: formData,
+          headers: { Accept: 'application/json' },
+        });
+
+        let result = null;
+        try {
+          result = await response.json();
+        } catch (_) {
+          // Formspree normally returns JSON when Accept: application/json is sent;
+          // fall back to the HTTP status alone if the body isn't parseable.
+        }
+
+        if (response.ok && !(result && result.ok === false)) {
+          submitBtn.removeAttribute('aria-busy');
+          btnLabel.textContent = 'Sent ✓';
+          if (successEl) {
+            successEl.hidden = false;
+            successEl.focus();
+          }
+        } else {
+          const message =
+            result && Array.isArray(result.errors)
+              ? result.errors.map((e) => e && e.message).filter(Boolean).join(', ')
+              : '';
+          throw new Error(message || 'Submission failed');
+        }
+      } catch (_) {
+        if (errorEl) {
+          errorEl.textContent = `Something went wrong while sending your message. Please try again, or email me directly at ${contactEmail}.`;
+          errorEl.hidden = false;
+        }
+        submitBtn.disabled = false;
+        submitBtn.removeAttribute('aria-busy');
+        btnLabel.textContent = 'Send Message';
+        submitting = false;
+      }
+    });
+  }
+</script>
+
 <style>
+[hidden] {
+  display: none !important;
+}
+
 /* Base .rich-text (p/strong/em/ul/ol/li/a) styling is centralized in
    src/styles/global.css — see the "Rich Text" section there for why. Only
    this page's own contextual rich-text override lives below (.faq-answer). */
@@ -210,6 +317,51 @@ const faqs = c.faqItems ?? [];
 .btn--submit {
   align-self: flex-start;
   gap: 0.6rem;
+}
+
+.btn--submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.form-error {
+  font-size: 0.85rem;
+  color: var(--coral);
+  background: color-mix(in srgb, var(--coral) 10%, transparent);
+  border: 1px solid var(--coral);
+  border-radius: var(--radius);
+  padding: 0.75rem 1rem;
+  max-width: none;
+}
+
+.form-success {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+  margin-top: 0.5rem;
+  padding: 1.5rem;
+  background: var(--sand);
+  border: 1.5px solid var(--tide-light);
+  border-radius: var(--radius);
+  color: var(--driftwood-dk);
+}
+
+.form-success svg {
+  flex-shrink: 0;
+  color: var(--tide-dark);
+  margin-top: 0.15rem;
+}
+
+.form-success__title {
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  max-width: none;
+}
+
+.form-success__body {
+  font-size: 0.92rem;
+  color: var(--secondary-text);
+  max-width: none;
 }
 
 .form-note {

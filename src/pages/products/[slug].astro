@@ -41,7 +41,7 @@ const related = allProducts
 
 const isAvailable = data.status === 'available';
 const subject = encodeURIComponent(`I'm interested in: ${data.title}`);
-const body = encodeURIComponent(`Hi Amanda,\n\nI saw "${data.title}" on your website and I'm interested in purchasing it.\n\nPlease let me know if it's still available and how to proceed.\n\nThank you!`);
+const body = encodeURIComponent(`Hi Amanda,\nI saw "${data.title}" on your website and I'm interested in purchasing it.\nPlease let me know if it's still available and how to proceed.\nThank you!`);
 
 const videos = data.videos ?? [];
 
