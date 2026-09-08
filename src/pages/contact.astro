@@ -241,7 +241,8 @@ const faqs = c.faqItems ?? [];
         }
 
         if (response.ok && !(result && result.ok === false)) {
-          form.hidden = true;
+          submitBtn.removeAttribute('aria-busy');
+          btnLabel.textContent = 'Sent ✓';
           if (successEl) {
             successEl.hidden = false;
             successEl.focus();
