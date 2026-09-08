@@ -3,11 +3,6 @@ import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import { renderMarkdown } from '../lib/richText';
 
-// Pre-fill from URL params (set by product pages) — unchanged
-const url = Astro.url;
-const preSubject = url.searchParams.get('subject') || '';
-const preBody = url.searchParams.get('body') || '';
-
 // Site content
 const siteEntries = await getCollection('site');
 const c = siteEntries.find(e => e.id === 'contact.md')!.data;
@@ -68,7 +63,6 @@ const faqs = c.faqItems ?? [];
               id="subject"
               name="subject"
               placeholder="What's on your mind?"
-              value={preSubject}
             />
           </div>
 
@@ -91,7 +85,7 @@ const faqs = c.faqItems ?? [];
               name="message"
               required
               placeholder="Tell me what you're looking for, or ask any questions you have…"
-            >{preBody}</textarea>
+            ></textarea>
           </div>
 
           <button type="submit" class="btn btn--primary btn--submit">
@@ -164,6 +158,32 @@ const faqs = c.faqItems ?? [];
   </section>
 
 </Layout>
+
+<script>
+  // Pre-fill the contact form from runtime query params (?subject=&body=),
+  // set by product pages' "I'm Interested" links. This must run client-side
+  // because the site is statically generated (output: 'static') — there is
+  // no per-visitor request at build time for Astro.url.searchParams to read.
+  // Direct visits to /contact/ (no matching params) are left untouched.
+  const params = new URLSearchParams(window.location.search);
+  const subject = params.get('subject');
+  const body = params.get('body');
+
+  if (subject) {
+    const subjectField = document.getElementById('subject') as HTMLInputElement | null;
+    if (subjectField) subjectField.value = subject;
+  }
+
+  if (body) {
+    const messageField = document.getElementById('message') as HTMLTextAreaElement | null;
+    if (messageField) messageField.value = body;
+  }
+
+  if (subject || body) {
+    const interestField = document.getElementById('interest') as HTMLSelectElement | null;
+    if (interestField) interestField.value = 'existing-piece';
+  }
+</script>
 
 <style>
 /* Base .rich-text (p/strong/em/ul/ol/li/a) styling is centralized in
