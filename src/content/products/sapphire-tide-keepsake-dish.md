@@ -1,5 +1,5 @@
 ---
-title: "    Sapphire Tide Keepsake Dish"
+title: "Sapphire Tide Keepsake Dish"
 category: coastal-keepsakes
 descriptionParagraphs:
   - Inspired by the timeless beauty of the sea, the Sapphire Tide Keepsake Dish
