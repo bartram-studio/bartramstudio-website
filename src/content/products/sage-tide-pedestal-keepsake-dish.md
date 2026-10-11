@@ -36,7 +36,7 @@ descriptionParagraphs:
 
 
     Wipe gently with a soft, dry cloth. Avoid prolonged exposure to direct sunlight, moisture, or abrasive cleaners. Handle with care to preserve the handmade finish and natural shell details.
-price: 64
+price: 60
 status: available
 quantity: 1
 featured: true
