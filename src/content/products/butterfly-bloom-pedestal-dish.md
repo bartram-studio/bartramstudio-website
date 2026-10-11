@@ -32,7 +32,7 @@ descriptionParagraphs:
     * Hand-painted gold edging
     * One of a kind
     * Made in Florida
-price: 78
+price: 60
 status: available
 quantity: 1
 featured: true
