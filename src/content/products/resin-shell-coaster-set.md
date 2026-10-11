@@ -24,7 +24,7 @@ descriptionParagraphs:
     * Compact artwork ideal for shelves or gallery walls
     * Beautiful for coastal, cottage, and beach-inspired homes
     * Handmade in Florida by Bartram Studio
-price: 55
+price: 50
 quantity: 1
 slug: resin-shell-coaster-set
 title: Sea Blossom Shadow Box
