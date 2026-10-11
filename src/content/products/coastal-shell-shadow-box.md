@@ -35,7 +35,7 @@ descriptionParagraphs:
     * Beautiful for vanities, dressers, and bedside tables	Handmade in Florida by Bartram Studio
   - Beautiful enough to display on its own, yet thoughtfully designed to keep
     your favorite jewelry close at hand.
-price: 129
+price: 80
 quantity: 1
 slug: coastal-shell-shadow-box
 title: Ocean's Treasure Jewelry Organizer
