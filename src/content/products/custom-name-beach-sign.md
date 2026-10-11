@@ -19,7 +19,7 @@ descriptionParagraphs:
     dishes are ever exactly alike. Your piece is individually handcrafted in
     Florida and created to celebrate the beauty found along the shoreline.
   - "***Art shaped by the shoreline.***"
-price: 89
+price: 60
 quantity: 1
 slug: custom-name-beach-sign
 title: Pressed Botanical Scallop Shell Keepsake Dish
