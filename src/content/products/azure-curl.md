@@ -12,7 +12,7 @@ descriptionParagraphs:
     presence to shelves, desks, bookcases, or gallery walls.
   - No two mosaics are ever alike.
   - "Approximate Size: 5” × 5”"
-price: 139
+price: 70
 status: available
 quantity: 1
 featured: false
